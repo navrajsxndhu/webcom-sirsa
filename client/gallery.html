@@ -187,11 +187,11 @@
         <div class="container">
             
             <!-- GALLERY FILTER BAR -->
-            <div class="d-flex justify-content-center flex-wrap gap-2 mb-5 reveal reveal-delay-3">
-                <button class="btn btn-primary rounded-pill px-4 fw-bold" style="box-shadow: 0 5px 15px rgba(14, 165, 233, 0.4);">All Photos</button>
-                <button class="btn rounded-pill px-4 fw-bold filter-btn" style="background: rgba(255,255,255,0.05); color: #fff; border: 1px solid rgba(255,255,255,0.1); transition: all 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='rgba(255,255,255,0.05)'">Events</button>
-                <button class="btn rounded-pill px-4 fw-bold filter-btn" style="background: rgba(255,255,255,0.05); color: #fff; border: 1px solid rgba(255,255,255,0.1); transition: all 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='rgba(255,255,255,0.05)'">Seminars</button>
-                <button class="btn rounded-pill px-4 fw-bold filter-btn" style="background: rgba(255,255,255,0.05); color: #fff; border: 1px solid rgba(255,255,255,0.1); transition: all 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='rgba(255,255,255,0.05)'">Classes</button>
+            <div class="d-flex justify-content-center flex-wrap gap-2 mb-5 reveal reveal-delay-3" id="galleryFilters">
+                <button class="btn btn-primary rounded-pill px-4 fw-bold filter-btn active" data-filter="all" style="box-shadow: 0 5px 15px rgba(14, 165, 233, 0.4);">All</button>
+                <button class="btn rounded-pill px-4 fw-bold filter-btn" data-filter="building" style="background: rgba(255,255,255,0.05); color: #fff; border: 1px solid rgba(255,255,255,0.1); transition: all 0.3s;">Building</button>
+                <button class="btn rounded-pill px-4 fw-bold filter-btn" data-filter="student" style="background: rgba(255,255,255,0.05); color: #fff; border: 1px solid rgba(255,255,255,0.1); transition: all 0.3s;">Student</button>
+                <button class="btn rounded-pill px-4 fw-bold filter-btn" data-filter="classroom" style="background: rgba(255,255,255,0.05); color: #fff; border: 1px solid rgba(255,255,255,0.1); transition: all 0.3s;">Classroom</button>
             </div>
             <div id="loadingIndicator" class="text-center text-muted py-5">
                 <i class="fa-solid fa-circle-notch fa-spin fs-2 mb-3"></i>
@@ -263,8 +263,9 @@
                     const delay = (index % 5) + 1; // max delay 5 for reveal
                     const BACKEND_URL = API_BASE.replace('/api', '');
                     const photoUrl = imgObj.url ? (imgObj.url.startsWith('http') ? imgObj.url : BACKEND_URL + imgObj.url) : '';
+                    const category = imgObj.category || 'other';
                     const itemHtml = `
-                        <div class="masonry-item reveal reveal-delay-${delay}" data-img="${photoUrl}">
+                        <div class="masonry-item reveal reveal-delay-${delay} gallery-item" data-img="${photoUrl}" data-category="${category}">
                             <img src="${photoUrl}" alt="Gallery Image ${imgObj.id}">
                             <div class="masonry-overlay">
                                 <div class="masonry-icon">
@@ -274,6 +275,38 @@
                         </div>
                     `;
                     container.innerHTML += itemHtml;
+                });
+
+                // 3. Attach Filter Logic
+                const filterBtns = document.querySelectorAll('.filter-btn');
+                const galleryItems = document.querySelectorAll('.gallery-item');
+
+                filterBtns.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        // Reset all buttons styling
+                        filterBtns.forEach(b => {
+                            b.classList.remove('btn-primary', 'active');
+                            b.style.boxShadow = 'none';
+                            b.style.background = 'rgba(255,255,255,0.05)';
+                        });
+                        
+                        // Set active styling to clicked button
+                        btn.classList.add('btn-primary', 'active');
+                        btn.style.boxShadow = '0 5px 15px rgba(14, 165, 233, 0.4)';
+                        btn.style.background = '';
+
+                        const filterValue = btn.getAttribute('data-filter');
+
+                        galleryItems.forEach(item => {
+                            if(filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
+                                item.style.display = 'block';
+                                setTimeout(() => item.style.opacity = '1', 50);
+                            } else {
+                                item.style.opacity = '0';
+                                setTimeout(() => item.style.display = 'none', 300);
+                            }
+                        });
+                    });
                 });
 
                 // 3. Attach Lightbox Events

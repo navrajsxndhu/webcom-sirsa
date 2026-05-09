@@ -8,6 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     
     <style>
@@ -101,6 +102,24 @@
         .table-dark th { color: #94a3b8; font-weight: 600; text-transform: uppercase; font-size: 12px; letter-spacing: 1px;}
         
         .badge-course { background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 6px 12px; border-radius: 8px; font-weight: 600; font-size: 13px; }
+        
+        /* Cropper Modal */
+        #cropperModal {
+            position: fixed; inset: 0; background: rgba(2, 6, 23, 0.95);
+            backdrop-filter: blur(20px); z-index: 99999; display: none;
+            align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s;
+        }
+        #cropperModal.active { display: flex; opacity: 1; }
+        .cropper-container-wrapper {
+            background: #0f172a; padding: 20px; border-radius: 20px;
+            max-width: 90%; width: 800px; max-height: 90vh;
+            display: flex; flex-direction: column; gap: 20px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .cropper-area { width: 100%; height: 500px; background: #020617; border-radius: 12px; overflow: hidden; }
+        .cropper-area img { max-width: 100%; display: block; }
+        .cropper-actions { display: flex; justify-content: flex-end; gap: 15px; }
     </style>
 </head>
 <body>
@@ -371,6 +390,21 @@
             setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 400); }, 4000);
         }
     </script>
+    <!-- CROPPER MODAL -->
+    <div id="cropperModal">
+        <div class="cropper-container-wrapper">
+            <h3 class="fw-bold mb-0 text-white">Crop Image</h3>
+            <div class="cropper-area">
+                <img id="cropperImage" src="" alt="Image to crop">
+            </div>
+            <div class="cropper-actions">
+                <button type="button" class="btn btn-outline-light" id="btnCancelCrop">Cancel</button>
+                <button type="button" class="btn btn-primary fw-bold" id="btnConfirmCrop">Confirm Crop</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
     <script src="admin.js"></script>
 </body>
 </html>

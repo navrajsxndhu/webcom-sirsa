@@ -214,14 +214,100 @@ document.addEventListener('DOMContentLoaded', () => {
         finally { btn.innerHTML = originalHtml; btn.disabled = false; }
     });
 
-    // Upload Photo Mock (Phase 3 next steps)
-    document.getElementById('uploadForm').addEventListener('submit', (e) => {
+    // --- CROPPER LOGIC ---
+    let cropper;
+    let currentFileInput;
+    let croppedBlobMap = new Map(); // Store blob mapped by input element id
+    
+    const cropperModal = document.getElementById('cropperModal');
+    const cropperImage = document.getElementById('cropperImage');
+    
+    function initCropper(fileInput, aspectRatio = 1) {
+        if(fileInput.files && fileInput.files[0]) {
+            currentFileInput = fileInput;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                cropperImage.src = e.target.result;
+                cropperModal.classList.add('active');
+                
+                if(cropper) cropper.destroy();
+                cropper = new Cropper(cropperImage, {
+                    aspectRatio: aspectRatio,
+                    viewMode: 1,
+                    background: false
+                });
+            };
+            reader.readAsDataURL(fileInput.files[0]);
+        }
+    }
+
+    document.getElementById('btnCancelCrop').addEventListener('click', () => {
+        cropperModal.classList.remove('active');
+        if(currentFileInput) currentFileInput.value = ''; // Reset input
+        if(cropper) { cropper.destroy(); cropper = null; }
+    });
+
+    document.getElementById('btnConfirmCrop').addEventListener('click', () => {
+        if(cropper) {
+            // For free-form gallery, we might not want to force 800x800 if it's rectangular
+            // But getCroppedCanvas() without params gives original resolution which is fine
+            cropper.getCroppedCanvas({
+                maxWidth: 1600,
+                maxHeight: 1600
+            }).toBlob((blob) => {
+                croppedBlobMap.set(currentFileInput.id, blob);
+                cropperModal.classList.remove('active');
+                cropper.destroy();
+                cropper = null;
+                showToast('Success', 'Image cropped successfully!', 'success');
+            }, 'image/jpeg', 0.9);
+        }
+    });
+
+    document.getElementById('newStaffPhoto').addEventListener('change', function() { initCropper(this, 1); });
+    document.getElementById('newTestPhoto').addEventListener('change', function() { initCropper(this, 1); });
+    document.getElementById('fileInput').addEventListener('change', function() { initCropper(this, NaN); }); // NaN for free-form gallery images
+
+    // --- UPLOAD GALLERY PHOTO ---
+    document.getElementById('uploadForm').addEventListener('submit', async (e) => {
         e.preventDefault();
-        showToast('Uploading...', 'Processing image to cloud storage...', 'success');
-        setTimeout(() => {
-            document.getElementById('uploadForm').reset();
-            showToast('Success', 'Photo added to Gallery!', 'success');
-        }, 1500);
+        const btn = document.querySelector('#uploadForm button');
+        const originalHtml = btn.innerHTML;
+        btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin me-2"></i>Uploading...';
+        btn.disabled = true;
+
+        const fileInput = document.getElementById('fileInput');
+        const fileBlob = croppedBlobMap.get('fileInput') || fileInput.files[0];
+        const formData = new FormData();
+        formData.append('file', fileBlob, 'gallery.jpg');
+
+        try {
+            const uploadRes = await fetch(`${API_BASE}/upload`, { method: 'POST', body: formData });
+            const uploadData = await uploadRes.json();
+            if(!uploadRes.ok) throw new Error(uploadData.error || 'Upload failed');
+
+            const newImg = { id: Date.now(), url: uploadData.url };
+            globalData.gallery.push(newImg);
+
+            const saveRes = await fetch(`${API_BASE}/gallery`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                body: JSON.stringify({ gallery: globalData.gallery })
+            });
+
+            if(saveRes.ok) {
+                showToast('Success', 'Photo added to Gallery!', 'success');
+                document.getElementById('uploadForm').reset();
+                croppedBlobMap.delete('fileInput');
+                renderDashboard();
+            } else throw new Error('Failed to save gallery');
+        } catch(err) {
+            console.error(err);
+            showToast('Error', err.message, 'error');
+        } finally {
+            btn.innerHTML = originalHtml;
+            btn.disabled = false;
+        }
     });
 
     // --- ADD NEW STAFF & UPLOAD PHOTO ---
@@ -232,8 +318,9 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.disabled = true;
 
         const fileInput = document.getElementById('newStaffPhoto');
+        const fileBlob = croppedBlobMap.get('newStaffPhoto') || fileInput.files[0];
         const formData = new FormData();
-        formData.append('file', fileInput.files[0]);
+        formData.append('file', fileBlob, 'staff.jpg');
 
         try {
             // 1. Upload Photo
@@ -266,6 +353,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if(saveRes.ok) {
                 showToast('Success', 'New staff member added!', 'success');
                 document.getElementById('addStaffForm').reset();
+                croppedBlobMap.delete('newStaffPhoto');
                 renderDashboard();
             } else {
                 throw new Error('Failed to save staff data');
@@ -287,8 +375,9 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.disabled = true;
 
         const fileInput = document.getElementById('newTestPhoto');
+        const fileBlob = croppedBlobMap.get('newTestPhoto') || fileInput.files[0];
         const formData = new FormData();
-        formData.append('file', fileInput.files[0]);
+        formData.append('file', fileBlob, 'testimonial.jpg');
 
         try {
             // 1. Upload Photo
@@ -321,6 +410,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if(saveRes.ok) {
                 showToast('Success', 'Testimonial added with photo!', 'success');
                 document.getElementById('addTestimonialForm').reset();
+                croppedBlobMap.delete('newTestPhoto');
                 renderDashboard();
             } else {
                 throw new Error('Failed to save testimonial data');

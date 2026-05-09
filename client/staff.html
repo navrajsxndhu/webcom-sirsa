@@ -132,11 +132,13 @@
                 
                 data.staff.forEach((member, index) => {
                     const delay = (index % 4) + 1;
+                    const BACKEND_URL = API_BASE.replace('/api', '');
+                    const photoUrl = member.photo ? (member.photo.startsWith('http') ? member.photo : BACKEND_URL + member.photo) : '';
                     const html = `
                         <div class="col-md-6 col-lg-4">
                             <div class="staff-card reveal reveal-delay-${delay} active">
                                 <div class="staff-photo-container">
-                                    <img src="${member.photo}" alt="${member.name}">
+                                    <img src="${photoUrl}" alt="${member.name}">
                                 </div>
                                 <div class="staff-details">
                                     <div class="staff-role-badge">${member.role}</div>

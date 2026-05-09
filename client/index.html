@@ -641,7 +641,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         container.innerHTML = '';
         data.testimonials.forEach((test, index) => {
             const delay = index + 1;
-            const photoHtml = test.photo ? `<img src="${test.photo}" alt="${test.student}" class="testimonial-photo mb-3">` : '';
+            const BACKEND_URL = API_BASE.replace('/api', '');
+            const photoUrl = test.photo ? (test.photo.startsWith('http') ? test.photo : BACKEND_URL + test.photo) : null;
+            const photoHtml = photoUrl ? `<img src="${photoUrl}" alt="${test.student}" class="testimonial-photo mb-3">` : '';
             container.innerHTML += `
             <div class="col-md-4">
                 <div class="testimonial-card reveal reveal-delay-${delay} active text-center">

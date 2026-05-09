@@ -197,9 +197,11 @@
                 // 2. Render Masonry Grid
                 data.gallery.forEach((imgObj, index) => {
                     const delay = (index % 5) + 1; // max delay 5 for reveal
+                    const BACKEND_URL = API_BASE.replace('/api', '');
+                    const photoUrl = imgObj.url ? (imgObj.url.startsWith('http') ? imgObj.url : BACKEND_URL + imgObj.url) : '';
                     const itemHtml = `
-                        <div class="masonry-item reveal reveal-delay-${delay}" data-img="${imgObj.url}">
-                            <img src="${imgObj.url}" alt="Gallery Image ${imgObj.id}">
+                        <div class="masonry-item reveal reveal-delay-${delay}" data-img="${photoUrl}">
+                            <img src="${photoUrl}" alt="Gallery Image ${imgObj.id}">
                             <div class="masonry-overlay">
                                 <h5 class="text-white m-0 fw-bold"><i class="fa-solid fa-expand me-2 text-info"></i>View Image</h5>
                             </div>

@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Determine API URL (localhost for testing, relative or vercel url later)
                 const apiUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
                                 ? 'http://localhost:5000/api/contact' 
-                                : 'https://your-render-app.onrender.com/api/contact'; // Replace with actual Render URL later
+                                : 'https://webcom-sirsa.onrender.com/api/contact';
 
                 const response = await fetch(apiUrl, {
                     method: 'POST',

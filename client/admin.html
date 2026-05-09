@@ -231,14 +231,37 @@
                     <button class="btn btn-primary" id="saveStaffBtn" style="border-radius: 12px; font-weight: 600;"><i class="fa-solid fa-cloud-arrow-up me-2"></i>Publish Changes</button>
                 </div>
 
+                <!-- ADD NEW STAFF FORM -->
+                <div class="admin-card mb-4" style="background: rgba(37, 99, 235, 0.1); border-color: rgba(37, 99, 235, 0.3);">
+                    <h4 class="mb-3"><i class="fa-solid fa-user-plus text-primary me-2"></i>Hire New Staff</h4>
+                    <form id="addStaffForm" class="row g-3">
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" id="newStaffName" placeholder="Full Name" required>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" id="newStaffRole" placeholder="Role (e.g. PTE Expert)" required>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" id="newStaffBio" placeholder="Short Bio" required>
+                        </div>
+                        <div class="col-md-2">
+                            <input type="file" class="form-control" id="newStaffPhoto" accept="image/*" required>
+                        </div>
+                        <div class="col-12 mt-3">
+                            <button type="submit" class="btn btn-primary w-100 fw-bold" id="addStaffSubmitBtn">Add Staff Member</button>
+                        </div>
+                    </form>
+                </div>
+
                 <div class="admin-card">
                     <div class="table-responsive">
                         <table class="table table-dark mb-0">
                             <thead>
                                 <tr>
                                     <th width="20%">Name</th>
-                                    <th width="25%">Role</th>
-                                    <th width="55%">Bio</th>
+                                    <th width="20%">Role</th>
+                                    <th width="50%">Bio</th>
+                                    <th width="10%">Action</th>
                                 </tr>
                             </thead>
                             <tbody id="staffTableBody">
@@ -256,6 +279,25 @@
                     <button class="btn btn-primary" id="saveTestimonialsBtn" style="border-radius: 12px; font-weight: 600;"><i class="fa-solid fa-cloud-arrow-up me-2"></i>Publish Changes</button>
                 </div>
 
+                <!-- ADD NEW TESTIMONIAL FORM -->
+                <div class="admin-card mb-4" style="background: rgba(192, 132, 252, 0.1); border-color: rgba(192, 132, 252, 0.3);">
+                    <h4 class="mb-3"><i class="fa-solid fa-star text-warning me-2"></i>Add New Testimonial</h4>
+                    <form id="addTestimonialForm" class="row g-3">
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" id="newTestStudent" placeholder="Student Name" required>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" id="newTestScore" placeholder="Score (e.g. 8 Bands)" required>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" id="newTestReview" placeholder="Student Review Quote" required>
+                        </div>
+                        <div class="col-12 mt-3">
+                            <button type="submit" class="btn btn-warning w-100 fw-bold" id="addTestSubmitBtn">Add Testimonial</button>
+                        </div>
+                    </form>
+                </div>
+
                 <div class="admin-card">
                     <div class="table-responsive">
                         <table class="table table-dark mb-0">
@@ -263,7 +305,8 @@
                                 <tr>
                                     <th width="20%">Student Name</th>
                                     <th width="20%">Score/Result</th>
-                                    <th width="60%">Review Quote</th>
+                                    <th width="50%">Review Quote</th>
+                                    <th width="10%">Action</th>
                                 </tr>
                             </thead>
                             <tbody id="testimonialsTableBody">

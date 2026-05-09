@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 const apiUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
                                 ? 'http://localhost:5000/api/login' 
-                                : '/api/login'; // In production on Replit/Render, adjust if needed
+                                : 'https://webcom-sirsa.onrender.com/api/login';
 
                 const response = await fetch(apiUrl, {
                     method: 'POST',

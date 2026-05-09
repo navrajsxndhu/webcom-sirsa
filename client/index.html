@@ -631,7 +631,7 @@ class="whatsapp-btn">
 <script>
 document.addEventListener('DOMContentLoaded', async () => {
     const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
-                    ? 'http://localhost:5000/api' : '/api';
+                    ? 'http://localhost:5000/api' : 'https://webcom-sirsa.onrender.com/api';
     
     try {
         const res = await fetch(`${API_BASE}/data`);

@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if(!token) return;
 
     const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
-                    ? 'http://localhost:5000/api' : '/api';
+                    ? 'http://localhost:5000/api' : 'https://webcom-sirsa.onrender.com/api';
 
     // --- NAVIGATION LOGIC ---
     const navBtns = document.querySelectorAll('.nav-btn[data-target]');
@@ -105,6 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <td><input type="text" class="form-control mb-0 staff-name" data-index="${index}" value="${member.name}"></td>
                     <td><input type="text" class="form-control mb-0 staff-role" data-index="${index}" value="${member.role}"></td>
                     <td><input type="text" class="form-control mb-0 staff-bio" data-index="${index}" value="${member.bio}"></td>
+                    <td><button class="btn btn-outline-danger btn-sm delete-staff-btn" data-index="${index}"><i class="fa-solid fa-trash"></i></button></td>
                 </tr>
             `;
         });
@@ -118,6 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <td><input type="text" class="form-control mb-0 t-student" data-index="${index}" value="${testimonial.student}"></td>
                     <td><input type="text" class="form-control mb-0 t-score" data-index="${index}" value="${testimonial.score}"></td>
                     <td><input type="text" class="form-control mb-0 t-review" data-index="${index}" value="${testimonial.review}"></td>
+                    <td><button class="btn btn-outline-danger btn-sm delete-test-btn" data-index="${index}"><i class="fa-solid fa-trash"></i></button></td>
                 </tr>
             `;
         });
@@ -220,6 +222,136 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('uploadForm').reset();
             showToast('Success', 'Photo added to Gallery!', 'success');
         }, 1500);
+    });
+
+    // --- ADD NEW STAFF & UPLOAD PHOTO ---
+    document.getElementById('addStaffForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById('addStaffSubmitBtn');
+        btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin me-2"></i>Uploading...';
+        btn.disabled = true;
+
+        const fileInput = document.getElementById('newStaffPhoto');
+        const formData = new FormData();
+        formData.append('file', fileInput.files[0]);
+
+        try {
+            // 1. Upload Photo
+            const uploadRes = await fetch(`${API_BASE}/upload`, {
+                method: 'POST',
+                body: formData
+            });
+            const uploadData = await uploadRes.json();
+            
+            if(!uploadRes.ok) throw new Error(uploadData.error || 'Upload failed');
+
+            // 2. Push new staff to array
+            const newStaff = {
+                id: Date.now(),
+                name: document.getElementById('newStaffName').value,
+                role: document.getElementById('newStaffRole').value,
+                bio: document.getElementById('newStaffBio').value,
+                photo: uploadData.url // Use the returned URL
+            };
+
+            globalData.staff.push(newStaff);
+
+            // 3. Save to backend
+            const saveRes = await fetch(`${API_BASE}/staff`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                body: JSON.stringify({ staff: globalData.staff })
+            });
+
+            if(saveRes.ok) {
+                showToast('Success', 'New staff member added!', 'success');
+                document.getElementById('addStaffForm').reset();
+                renderDashboard();
+            } else {
+                throw new Error('Failed to save staff data');
+            }
+        } catch(err) {
+            console.error(err);
+            showToast('Error', err.message, 'error');
+        } finally {
+            btn.innerHTML = 'Add Staff Member';
+            btn.disabled = false;
+        }
+    });
+
+    // --- ADD NEW TESTIMONIAL ---
+    document.getElementById('addTestimonialForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById('addTestSubmitBtn');
+        btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin me-2"></i>Adding...';
+        btn.disabled = true;
+
+        const newTest = {
+            id: Date.now(),
+            student: document.getElementById('newTestStudent').value,
+            score: document.getElementById('newTestScore').value,
+            review: document.getElementById('newTestReview').value
+        };
+
+        globalData.testimonials.push(newTest);
+
+        try {
+            const saveRes = await fetch(`${API_BASE}/testimonials`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                body: JSON.stringify({ testimonials: globalData.testimonials })
+            });
+
+            if(saveRes.ok) {
+                showToast('Success', 'Testimonial added!', 'success');
+                document.getElementById('addTestimonialForm').reset();
+                renderDashboard();
+            } else {
+                showToast('Error', 'Failed to save testimonial.', 'error');
+            }
+        } catch(err) {
+            showToast('Error', 'Network error.', 'error');
+        } finally {
+            btn.innerHTML = 'Add Testimonial';
+            btn.disabled = false;
+        }
+    });
+
+    // --- DELETE LOGIC (Event Delegation) ---
+    document.addEventListener('click', async (e) => {
+        // Delete Staff
+        const staffBtn = e.target.closest('.delete-staff-btn');
+        if(staffBtn) {
+            const idx = staffBtn.getAttribute('data-index');
+            globalData.staff.splice(idx, 1);
+            
+            try {
+                await fetch(`${API_BASE}/staff`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                    body: JSON.stringify({ staff: globalData.staff })
+                });
+                showToast('Success', 'Staff member removed.', 'success');
+                renderDashboard();
+            } catch(err) { showToast('Error', 'Failed to remove staff.', 'error'); }
+        }
+
+        // Delete Testimonial
+        const testBtn = e.target.closest('.delete-test-btn');
+        if(testBtn) {
+            const idx = testBtn.getAttribute('data-index');
+            globalData.testimonials.splice(idx, 1);
+            
+            try {
+                await fetch(`${API_BASE}/testimonials`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                    body: JSON.stringify({ testimonials: globalData.testimonials })
+                });
+                showToast('Success', 'Testimonial removed.', 'success');
+                renderDashboard();
+            } catch(err) { showToast('Error', 'Failed to remove testimonial.', 'error'); }
+        }
     });
 
     // Init

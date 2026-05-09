@@ -9,14 +9,29 @@ document.addEventListener('DOMContentLoaded', () => {
     const navBtns = document.querySelectorAll('.nav-btn[data-target]');
     const panels = document.querySelectorAll('.panel');
 
+    // Restore active tab
+    const savedTab = sessionStorage.getItem('adminActiveTab') || 'overview-panel';
+
     navBtns.forEach(btn => {
+        // Initialize the correct tab
+        if (btn.getAttribute('data-target') === savedTab) {
+            navBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            panels.forEach(p => p.classList.remove('active'));
+            const targetPanel = document.getElementById(savedTab);
+            if(targetPanel) targetPanel.classList.add('active');
+        }
+
         btn.addEventListener('click', () => {
             navBtns.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             
             const target = btn.getAttribute('data-target');
+            sessionStorage.setItem('adminActiveTab', target);
+
             panels.forEach(p => p.classList.remove('active'));
-            document.getElementById(target).classList.add('active');
+            const targetPanel = document.getElementById(target);
+            if(targetPanel) targetPanel.classList.add('active');
         });
     });
 

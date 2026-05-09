@@ -36,40 +36,6 @@
       "url": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop"
     }
   ],
-  "staff": [
-    {
-      "id": 1778300392637,
-      "name": "sandhu",
-      "role": "pte expert",
-      "bio": "jfgergjregre",
-      "photo": "/uploads/1778300392632-logo,png.png"
-    }
-  ],
-  "testimonials": [
-    {
-      "id": 1,
-      "score": "8 Bands IELTS",
-      "review": "The 1-on-1 speaking sessions completely changed my approach. Scored 8 bands on my first try!",
-      "student": "Amanpreet Singh"
-    },
-    {
-      "id": 2,
-      "score": "79+ PTE",
-      "review": "Their AI software mimics the actual PTE exam perfectly. I got my 79+ easily!",
-      "student": "Simran Kaur"
-    },
-    {
-      "id": 3,
-      "score": "Canada Visa Approved",
-      "review": "From university selection to the embassy interview prep, they handled everything flawlessly.",
-      "student": "Gurleen Brar"
-    },
-    {
-      "id": 1778300795467,
-      "student": "dwd",
-      "score": "8",
-      "review": "vdvgg",
-      "photo": "/uploads/1778300795446-pexels-pavel-danilyuk-8423416.jpg"
-    }
-  ]
+  "staff": [],
+  "testimonials": []
 }

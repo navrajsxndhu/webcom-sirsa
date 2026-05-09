@@ -47,27 +47,31 @@ document.addEventListener('DOMContentLoaded', () => {
     scrollBar.id = 'scrollProgress';
     body.prepend(scrollBar);
 
-    // Custom Cursor
-    const cursor = document.createElement('div');
-    cursor.className = 'custom-cursor';
-    body.appendChild(cursor);
-    body.style.cursor = 'none'; // Only hide default cursor here
+    // Check if it's a touch device
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
-    // 2. Cursor Movement Logic
-    document.addEventListener('mousemove', (e) => {
-        cursor.style.left = e.clientX + 'px';
-        cursor.style.top = e.clientY + 'px';
-    });
+    if (!isTouchDevice) {
+        // Custom Cursor
+        const cursor = document.createElement('div');
+        cursor.className = 'custom-cursor';
+        body.appendChild(cursor);
+        body.style.cursor = 'none'; // Only hide default cursor here
 
-    // 3. Cursor Hover Effect on links/buttons
-    // Wait a brief moment to ensure dynamic elements (like API fetched courses) are in DOM
-    setTimeout(() => {
-        const interactiveElements = document.querySelectorAll('a, button, input, select, textarea, .course-card, .gallery-card, .feature-card');
-        interactiveElements.forEach(el => {
-            el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
-            el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+        // 2. Cursor Movement Logic
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
         });
-    }, 1000);
+
+        // 3. Cursor Hover Effect on links/buttons
+        setTimeout(() => {
+            const interactiveElements = document.querySelectorAll('a, button, input, select, textarea, .course-card, .gallery-card, .feature-card');
+            interactiveElements.forEach(el => {
+                el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+                el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+            });
+        }, 1000);
+    }
 
     // 4. Scroll Progress Logic
     window.addEventListener('scroll', () => {

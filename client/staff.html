@@ -12,53 +12,152 @@
     
     <style>
         .staff-card {
-            background: rgba(15, 23, 42, 0.4);
-            backdrop-filter: blur(20px) saturate(150%);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 24px;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(25px) saturate(200%);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 28px;
             overflow: hidden;
             text-align: center;
-            transition: all 0.4s var(--apple-spring);
+            transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+            position: relative;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .staff-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 28px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.5s;
+            pointer-events: none;
+            z-index: 10;
         }
 
         .staff-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(56, 189, 248, 0.15);
-            border-color: rgba(56, 189, 248, 0.3);
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), 0 0 40px rgba(56, 189, 248, 0.2);
+            border-color: rgba(56, 189, 248, 0.4);
+        }
+
+        .staff-card:hover::before {
+            opacity: 1;
         }
 
         .staff-photo-container {
             width: 100%;
-            height: 250px;
+            height: 320px;
+            position: relative;
             overflow: hidden;
+        }
+
+        .staff-photo-container::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: linear-gradient(to top, rgba(15, 23, 42, 1), transparent);
+            z-index: 1;
         }
 
         .staff-photo-container img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.6s var(--apple-ease);
+            object-position: center top;
+            transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
         .staff-card:hover .staff-photo-container img {
-            transform: scale(1.08);
+            transform: scale(1.1) translateY(-5px);
+        }
+
+        .staff-social {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            z-index: 2;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s var(--apple-spring);
+        }
+
+        .staff-card:hover .staff-social {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .staff-social a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .staff-social a:hover {
+            background: #38bdf8;
+            color: #0f172a;
+            transform: scale(1.15);
         }
 
         .staff-details {
-            padding: 30px 20px;
+            padding: 0 30px 40px 30px;
+            position: relative;
+            z-index: 2;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
         }
 
         .staff-role-badge {
-            background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(129, 140, 248, 0.2));
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.15), rgba(129, 140, 248, 0.15));
             color: #38bdf8;
-            padding: 6px 16px;
+            padding: 8px 20px;
             border-radius: 999px;
             font-size: 13px;
-            font-weight: 700;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
             display: inline-block;
-            margin-bottom: 16px;
+            margin-top: -20px;
+            margin-bottom: 20px;
             border: 1px solid rgba(56, 189, 248, 0.3);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            position: relative;
+        }
+
+        .staff-details h3 {
+            font-weight: 800;
+            font-size: 24px;
+            margin-bottom: 12px;
+            color: #f8fafc;
+        }
+        
+        .staff-details p {
+            color: #cbd5e1;
+            font-size: 15px;
+            line-height: 1.7;
+            font-weight: 300;
+            margin: 0;
         }
     </style>
 </head>
@@ -136,17 +235,27 @@
                 data.staff.forEach((member, index) => {
                     const delay = (index % 4) + 1;
                     const BACKEND_URL = API_BASE.replace('/api', '');
-                    const photoUrl = member.photo ? (member.photo.startsWith('http') ? member.photo : BACKEND_URL + member.photo) : '';
+                    
+                    let photoUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=1e293b&color=38bdf8&size=512`;
+                    if (member.photo) {
+                        photoUrl = member.photo.startsWith('http') ? member.photo : BACKEND_URL + member.photo;
+                    }
+
                     const html = `
-                        <div class="col-md-6 col-lg-4">
-                            <div class="staff-card reveal reveal-delay-${delay} active">
+                        <div class="col-md-6 col-lg-4 d-flex align-items-stretch">
+                            <div class="staff-card reveal reveal-delay-${delay} active w-100">
                                 <div class="staff-photo-container">
                                     <img src="${photoUrl}" alt="${member.name}">
+                                    <div class="staff-social">
+                                        <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+                                        <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                                        <a href="mailto:contact@webcomsirsa.com"><i class="fa-solid fa-envelope"></i></a>
+                                    </div>
                                 </div>
                                 <div class="staff-details">
-                                    <div class="staff-role-badge">${member.role}</div>
-                                    <h3 class="fw-bold mb-3">${member.name}</h3>
-                                    <p class="text-muted" style="font-size: 15px; line-height: 1.6;">${member.bio}</p>
+                                    <div><span class="staff-role-badge">${member.role}</span></div>
+                                    <h3>${member.name}</h3>
+                                    <p>${member.bio}</p>
                                 </div>
                             </div>
                         </div>

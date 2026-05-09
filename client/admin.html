@@ -124,6 +124,12 @@
             <button class="nav-btn" data-target="courses-panel">
                 <i class="fa-solid fa-graduation-cap"></i> Edit Courses
             </button>
+            <button class="nav-btn" data-target="staff-panel">
+                <i class="fa-solid fa-users"></i> Manage Staff
+            </button>
+            <button class="nav-btn" data-target="testimonials-panel">
+                <i class="fa-solid fa-star"></i> Edit Testimonials
+            </button>
             <button class="nav-btn" data-target="gallery-panel">
                 <i class="fa-solid fa-image"></i> Manage Gallery
             </button>
@@ -211,6 +217,56 @@
                                 </tr>
                             </thead>
                             <tbody id="coursesTableBody">
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STAFF PANEL -->
+            <div id="staff-panel" class="panel">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="fw-bold m-0">Manage Staff</h2>
+                    <button class="btn btn-primary" id="saveStaffBtn" style="border-radius: 12px; font-weight: 600;"><i class="fa-solid fa-cloud-arrow-up me-2"></i>Publish Changes</button>
+                </div>
+
+                <div class="admin-card">
+                    <div class="table-responsive">
+                        <table class="table table-dark mb-0">
+                            <thead>
+                                <tr>
+                                    <th width="20%">Name</th>
+                                    <th width="25%">Role</th>
+                                    <th width="55%">Bio</th>
+                                </tr>
+                            </thead>
+                            <tbody id="staffTableBody">
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TESTIMONIALS PANEL -->
+            <div id="testimonials-panel" class="panel">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="fw-bold m-0">Edit Testimonials</h2>
+                    <button class="btn btn-primary" id="saveTestimonialsBtn" style="border-radius: 12px; font-weight: 600;"><i class="fa-solid fa-cloud-arrow-up me-2"></i>Publish Changes</button>
+                </div>
+
+                <div class="admin-card">
+                    <div class="table-responsive">
+                        <table class="table table-dark mb-0">
+                            <thead>
+                                <tr>
+                                    <th width="20%">Student Name</th>
+                                    <th width="20%">Score/Result</th>
+                                    <th width="60%">Review Quote</th>
+                                </tr>
+                            </thead>
+                            <tbody id="testimonialsTableBody">
                                 <!-- Populated by JS -->
                             </tbody>
                         </table>

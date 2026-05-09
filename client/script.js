@@ -51,6 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const cursor = document.createElement('div');
     cursor.className = 'custom-cursor';
     body.appendChild(cursor);
+    body.style.cursor = 'none'; // Only hide default cursor here
 
     // 2. Cursor Movement Logic
     document.addEventListener('mousemove', (e) => {

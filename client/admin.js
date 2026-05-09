@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // --- FETCH DATA ---
-    let globalData = { courses: [], gallery: [] };
+    let globalData = { courses: [], gallery: [], staff: [], testimonials: [] };
     let globalInquiries = [];
 
     async function fetchDashboardData() {
@@ -95,6 +95,32 @@ document.addEventListener('DOMContentLoaded', () => {
                 </tr>
             `;
         });
+
+        // Render Staff Table
+        const staffBody = document.getElementById('staffTableBody');
+        staffBody.innerHTML = '';
+        globalData.staff.forEach((member, index) => {
+            staffBody.innerHTML += `
+                <tr>
+                    <td><input type="text" class="form-control mb-0 staff-name" data-index="${index}" value="${member.name}"></td>
+                    <td><input type="text" class="form-control mb-0 staff-role" data-index="${index}" value="${member.role}"></td>
+                    <td><input type="text" class="form-control mb-0 staff-bio" data-index="${index}" value="${member.bio}"></td>
+                </tr>
+            `;
+        });
+
+        // Render Testimonials Table
+        const testimonialsBody = document.getElementById('testimonialsTableBody');
+        testimonialsBody.innerHTML = '';
+        globalData.testimonials.forEach((testimonial, index) => {
+            testimonialsBody.innerHTML += `
+                <tr>
+                    <td><input type="text" class="form-control mb-0 t-student" data-index="${index}" value="${testimonial.student}"></td>
+                    <td><input type="text" class="form-control mb-0 t-score" data-index="${index}" value="${testimonial.score}"></td>
+                    <td><input type="text" class="form-control mb-0 t-review" data-index="${index}" value="${testimonial.review}"></td>
+                </tr>
+            `;
+        });
     }
 
     // --- UPDATE COURSES ---
@@ -138,6 +164,52 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.innerHTML = originalHtml;
             btn.disabled = false;
         }
+    });
+
+    // --- UPDATE STAFF ---
+    document.getElementById('saveStaffBtn').addEventListener('click', async (e) => {
+        const btn = e.target;
+        const originalHtml = btn.innerHTML;
+        btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin me-2"></i>Publishing...';
+        btn.disabled = true;
+
+        document.querySelectorAll('.staff-name').forEach(input => globalData.staff[input.getAttribute('data-index')].name = input.value);
+        document.querySelectorAll('.staff-role').forEach(input => globalData.staff[input.getAttribute('data-index')].role = input.value);
+        document.querySelectorAll('.staff-bio').forEach(input => globalData.staff[input.getAttribute('data-index')].bio = input.value);
+
+        try {
+            const res = await fetch(`${API_BASE}/staff`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                body: JSON.stringify({ staff: globalData.staff })
+            });
+            if(res.ok) showToast('Success', 'Staff updated instantly!', 'success');
+            else showToast('Error', 'Failed to publish changes.', 'error');
+        } catch(e) { showToast('Error', 'Network connection failed.', 'error'); }
+        finally { btn.innerHTML = originalHtml; btn.disabled = false; }
+    });
+
+    // --- UPDATE TESTIMONIALS ---
+    document.getElementById('saveTestimonialsBtn').addEventListener('click', async (e) => {
+        const btn = e.target;
+        const originalHtml = btn.innerHTML;
+        btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin me-2"></i>Publishing...';
+        btn.disabled = true;
+
+        document.querySelectorAll('.t-student').forEach(input => globalData.testimonials[input.getAttribute('data-index')].student = input.value);
+        document.querySelectorAll('.t-score').forEach(input => globalData.testimonials[input.getAttribute('data-index')].score = input.value);
+        document.querySelectorAll('.t-review').forEach(input => globalData.testimonials[input.getAttribute('data-index')].review = input.value);
+
+        try {
+            const res = await fetch(`${API_BASE}/testimonials`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                body: JSON.stringify({ testimonials: globalData.testimonials })
+            });
+            if(res.ok) showToast('Success', 'Testimonials updated instantly!', 'success');
+            else showToast('Error', 'Failed to publish changes.', 'error');
+        } catch(e) { showToast('Error', 'Network connection failed.', 'error'); }
+        finally { btn.innerHTML = originalHtml; btn.disabled = false; }
     });
 
     // Upload Photo Mock (Phase 3 next steps)

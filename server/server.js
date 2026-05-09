@@ -107,7 +107,7 @@ const readData = () => {
         return JSON.parse(rawData);
     } catch (error) {
         console.error("Error reading database:", error);
-        return { courses: [], gallery: [] };
+        return { courses: [], gallery: [], staff: [], testimonials: [] };
     }
 };
 
@@ -130,6 +130,30 @@ app.post('/api/courses', authenticateToken, (req, res) => {
     writeData(data);
 
     res.json({ success: true, message: 'Courses updated successfully' });
+});
+
+// Protected Route: Update Staff
+app.post('/api/staff', authenticateToken, (req, res) => {
+    const { staff } = req.body;
+    if(!staff || !Array.isArray(staff)) return res.status(400).json({ error: 'Invalid staff data' });
+
+    const data = readData();
+    data.staff = staff;
+    writeData(data);
+
+    res.json({ success: true, message: 'Staff updated successfully' });
+});
+
+// Protected Route: Update Testimonials
+app.post('/api/testimonials', authenticateToken, (req, res) => {
+    const { testimonials } = req.body;
+    if(!testimonials || !Array.isArray(testimonials)) return res.status(400).json({ error: 'Invalid testimonials data' });
+
+    const data = readData();
+    data.testimonials = testimonials;
+    writeData(data);
+
+    res.json({ success: true, message: 'Testimonials updated successfully' });
 });
 
 const port = process.env.PORT || 5000;

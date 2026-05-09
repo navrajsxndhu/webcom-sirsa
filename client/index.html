@@ -646,7 +646,16 @@ document.addEventListener('DOMContentLoaded', async () => {
         data.testimonials.forEach((test, index) => {
             const delay = index + 1;
             const BACKEND_URL = API_BASE.replace('/api', '');
-            const photoUrl = test.photo ? (test.photo.startsWith('http') ? test.photo : BACKEND_URL + test.photo) : null;
+            let photoUrl = null;
+            if (test.photo) {
+                if (test.photo.includes('placehold.co') || test.photo.includes('fakeimg.pl')) {
+                    photoUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(test.student)}&background=random&color=fff&size=150`;
+                } else if (test.photo.startsWith('http')) {
+                    photoUrl = test.photo;
+                } else {
+                    photoUrl = BACKEND_URL + test.photo;
+                }
+            }
             const photoHtml = photoUrl ? `<img src="${photoUrl}" alt="${test.student}" class="testimonial-photo mb-3">` : '';
             container.innerHTML += `
             <div class="col-md-4">

@@ -152,6 +152,9 @@
             <button class="nav-btn" data-target="gallery-panel">
                 <i class="fa-solid fa-image"></i> Manage Gallery
             </button>
+            <button class="nav-btn" data-target="settings-panel">
+                <i class="fa-solid fa-gear"></i> Contact Settings
+            </button>
             
             <div style="margin-top: auto;">
                 <button class="nav-btn text-danger w-100" id="logoutBtn" style="background: rgba(239, 68, 68, 0.1);">
@@ -365,6 +368,43 @@
                     </div>
                 </div>
             </div>
+
+            <!-- SETTINGS PANEL -->
+            <div id="settings-panel" class="panel">
+                <h2 class="fw-bold mb-4">Contact Settings</h2>
+                <div class="admin-card">
+                    <form id="settingsForm">
+                        <div class="row g-4 mb-4">
+                            <div class="col-md-6">
+                                <label class="text-muted mb-2 text-uppercase" style="font-size: 12px; font-weight:600;">Phone Number</label>
+                                <input type="text" id="setPhone" class="form-control" placeholder="+91 90507 00577" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="text-muted mb-2 text-uppercase" style="font-size: 12px; font-weight:600;">WhatsApp Number (No +)</label>
+                                <input type="text" id="setWhatsapp" class="form-control" placeholder="919050700577" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="text-muted mb-2 text-uppercase" style="font-size: 12px; font-weight:600;">Email Address</label>
+                                <input type="email" id="setEmail" class="form-control" placeholder="contact@webcomsirsa.com">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="text-muted mb-2 text-uppercase" style="font-size: 12px; font-weight:600;">Physical Address</label>
+                                <input type="text" id="setAddress" class="form-control" placeholder="Opp. Town Park Road, Sirsa" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="text-muted mb-2 text-uppercase" style="font-size: 12px; font-weight:600;">Instagram Link</label>
+                                <input type="url" id="setInstagram" class="form-control" placeholder="https://instagram.com/webcomsirsa">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="text-muted mb-2 text-uppercase" style="font-size: 12px; font-weight:600;">YouTube Link</label>
+                                <input type="url" id="setYoutube" class="form-control" placeholder="https://youtube.com/webcomsirsa">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary px-4 fw-bold" id="saveSettingsBtn">Save Settings</button>
+                    </form>
+                </div>
+            </div>
+
 
         </div>
     </div>

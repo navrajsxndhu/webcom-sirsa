@@ -123,7 +123,7 @@ const readData = () => {
         return JSON.parse(rawData);
     } catch (error) {
         console.error("Error reading database:", error);
-        return { courses: [], gallery: [], staff: [], testimonials: [] };
+        return { settings: {}, courses: [], gallery: [], staff: [], testimonials: [] };
     }
 };
 
@@ -134,6 +134,18 @@ const writeData = (data) => {
 // Public Route: Fetch all dynamic data
 app.get('/api/data', (req, res) => {
     res.json(readData());
+});
+
+// Protected Route: Update Settings
+app.post('/api/settings', authenticateToken, (req, res) => {
+    const { settings } = req.body;
+    if(!settings || typeof settings !== 'object') return res.status(400).json({ error: 'Invalid settings data' });
+
+    const data = readData();
+    data.settings = { ...data.settings, ...settings };
+    writeData(data);
+
+    res.json({ success: true, message: 'Settings updated successfully' });
 });
 
 // Protected Route: Update Courses

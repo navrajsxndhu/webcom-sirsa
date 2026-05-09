@@ -1,4 +1,12 @@
 {
+  "settings": {
+    "phone": "+91 90507 00577",
+    "whatsapp": "919050700577",
+    "address": "Opp. Town Park Road, Sirsa",
+    "email": "contact@webcomsirsa.com",
+    "instagram": "https://instagram.com/webcomsirsa",
+    "youtube": "https://youtube.com/webcomsirsa"
+  },
   "courses": [
     {
       "id": 1,

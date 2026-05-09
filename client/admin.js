@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // --- FETCH DATA ---
-    let globalData = { courses: [], gallery: [], staff: [], testimonials: [] };
+    let globalData = { settings: {}, courses: [], gallery: [], staff: [], testimonials: [] };
     let globalInquiries = [];
 
     async function fetchDashboardData() {
@@ -77,6 +77,16 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('statCourses').innerText = globalData.courses.length;
         document.getElementById('statGallery').innerText = globalData.gallery.length;
         document.getElementById('statInquiries').innerText = globalInquiries.length;
+
+        // Render Settings
+        if (globalData.settings) {
+            if(document.getElementById('setPhone')) document.getElementById('setPhone').value = globalData.settings.phone || '';
+            if(document.getElementById('setWhatsapp')) document.getElementById('setWhatsapp').value = globalData.settings.whatsapp || '';
+            if(document.getElementById('setEmail')) document.getElementById('setEmail').value = globalData.settings.email || '';
+            if(document.getElementById('setAddress')) document.getElementById('setAddress').value = globalData.settings.address || '';
+            if(document.getElementById('setInstagram')) document.getElementById('setInstagram').value = globalData.settings.instagram || '';
+            if(document.getElementById('setYoutube')) document.getElementById('setYoutube').value = globalData.settings.youtube || '';
+        }
 
         // Render Inquiries Table
         const inqBody = document.getElementById('inquiriesTableBody');
@@ -182,6 +192,47 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.disabled = false;
         }
     });
+
+    // --- UPDATE SETTINGS ---
+    const settingsForm = document.getElementById('settingsForm');
+    if (settingsForm) {
+        settingsForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('saveSettingsBtn');
+            const originalHtml = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin me-2"></i>Saving...';
+            btn.disabled = true;
+
+            const newSettings = {
+                phone: document.getElementById('setPhone').value,
+                whatsapp: document.getElementById('setWhatsapp').value,
+                email: document.getElementById('setEmail').value,
+                address: document.getElementById('setAddress').value,
+                instagram: document.getElementById('setInstagram').value,
+                youtube: document.getElementById('setYoutube').value
+            };
+
+            try {
+                const res = await fetch(`${API_BASE}/settings`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                    body: JSON.stringify({ settings: newSettings })
+                });
+
+                if(res.ok) {
+                    globalData.settings = newSettings;
+                    showToast('Success', 'Contact Settings updated globally!', 'success');
+                } else {
+                    showToast('Error', 'Failed to save settings.', 'error');
+                }
+            } catch(err) {
+                showToast('Error', 'Network connection failed.', 'error');
+            } finally {
+                btn.innerHTML = originalHtml;
+                btn.disabled = false;
+            }
+        });
+    }
 
     // --- UPDATE STAFF ---
     document.getElementById('saveStaffBtn').addEventListener('click', async (e) => {

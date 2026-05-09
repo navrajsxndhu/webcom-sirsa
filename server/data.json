@@ -37,5 +37,216 @@
     }
   ],
   "staff": [],
-  "testimonials": []
+  "testimonials": [
+    {
+      "student": "Diya Verma",
+      "score": "IELTS 8.5 Bands",
+      "review": "Achieved my dream score on the first attempt thanks to the personalized coaching.",
+      "photo": "https://fakeimg.pl/600x800/18181b/38bdf8/?text=IELTS+8.5+Bands&font=bebas"
+    },
+    {
+      "student": "Pooja Sharma",
+      "score": "IELTS 7.5 Bands",
+      "review": "Webcom Sirsa completely transformed my speaking confidence. Highly recommended!",
+      "photo": "https://fakeimg.pl/600x800/111827/34d399/?text=IELTS+7.5+Bands&font=bebas"
+    },
+    {
+      "student": "Kavya Kaur",
+      "score": "PTE 79+",
+      "review": "I struggled with reading, but their techniques made it so easy. Got my desired score!",
+      "photo": "https://fakeimg.pl/600x800/111827/34d399/?text=PTE+79+&font=bebas"
+    },
+    {
+      "student": "Nikhil Singh",
+      "score": "PTE 85+",
+      "review": "I struggled with reading, but their techniques made it so easy. Got my desired score!",
+      "photo": "https://fakeimg.pl/600x800/18181b/fbbf24/?text=PTE+85+&font=bebas"
+    },
+    {
+      "student": "Maya Gill",
+      "score": "IELTS 8.5 Bands",
+      "review": "Visa process was smooth sailing after I got my scores. Thank you Webcom!",
+      "photo": "https://fakeimg.pl/600x800/111827/f472b6/?text=IELTS+8.5+Bands&font=bebas"
+    },
+    {
+      "student": "Roshni Gill",
+      "score": "IELTS 7.5 Bands",
+      "review": "Best institute in Sirsa! The faculty is incredibly supportive and knowledgeable.",
+      "photo": "https://fakeimg.pl/600x800/111827/818cf8/?text=IELTS+7.5+Bands&font=bebas"
+    },
+    {
+      "student": "Ishita Kaur",
+      "score": "IELTS 7.0 Bands",
+      "review": "Excellent environment and state-of-the-art facilities for PTE practice.",
+      "photo": "https://fakeimg.pl/600x800/1e293b/818cf8/?text=IELTS+7.0+Bands&font=bebas"
+    },
+    {
+      "student": "Arjun Brar",
+      "score": "IELTS 8.5 Bands",
+      "review": "Visa process was smooth sailing after I got my scores. Thank you Webcom!",
+      "photo": "https://fakeimg.pl/600x800/1e293b/38bdf8/?text=IELTS+8.5+Bands&font=bebas"
+    },
+    {
+      "student": "Aanya Verma",
+      "score": "IELTS 7.0 Bands",
+      "review": "The mock tests were exactly like the real exam. Scored way above my expectations.",
+      "photo": "https://fakeimg.pl/600x800/1e293b/34d399/?text=IELTS+7.0+Bands&font=bebas"
+    },
+    {
+      "student": "Isha Kaur",
+      "score": "IELTS 6.5 Bands",
+      "review": "Achieved my dream score on the first attempt thanks to the personalized coaching.",
+      "photo": "https://fakeimg.pl/600x800/0f172a/818cf8/?text=IELTS+6.5+Bands&font=bebas"
+    },
+    {
+      "student": "Ananya Brar",
+      "score": "IELTS 6.5 Bands",
+      "review": "Excellent environment and state-of-the-art facilities for PTE practice.",
+      "photo": "https://fakeimg.pl/600x800/0f172a/f472b6/?text=IELTS+6.5+Bands&font=bebas"
+    },
+    {
+      "student": "Neha Kaur",
+      "score": "PTE 85+",
+      "review": "They focus on your weak points and give targeted feedback. Brilliant experience.",
+      "photo": "https://fakeimg.pl/600x800/1e293b/34d399/?text=PTE+85+&font=bebas"
+    },
+    {
+      "student": "Rishi Sharma",
+      "score": "PTE 90",
+      "review": "Best institute in Sirsa! The faculty is incredibly supportive and knowledgeable.",
+      "photo": "https://fakeimg.pl/600x800/171717/34d399/?text=PTE+90&font=bebas"
+    },
+    {
+      "student": "Aanya Singh",
+      "score": "PTE 90",
+      "review": "The 1-on-1 speaking sessions were a game changer for me.",
+      "photo": "https://fakeimg.pl/600x800/1e293b/f472b6/?text=PTE+90&font=bebas"
+    },
+    {
+      "student": "Aditya Gill",
+      "score": "IELTS 6.5 Bands",
+      "review": "Visa process was smooth sailing after I got my scores. Thank you Webcom!",
+      "photo": "https://fakeimg.pl/600x800/171717/34d399/?text=IELTS+6.5+Bands&font=bebas"
+    },
+    {
+      "student": "Karthik Gill",
+      "score": "IELTS 7.5 Bands",
+      "review": "I struggled with reading, but their techniques made it so easy. Got my desired score!",
+      "photo": "https://fakeimg.pl/600x800/111827/38bdf8/?text=IELTS+7.5+Bands&font=bebas"
+    },
+    {
+      "student": "Riya Kaur",
+      "score": "PTE 79+",
+      "review": "Best institute in Sirsa! The faculty is incredibly supportive and knowledgeable.",
+      "photo": "https://fakeimg.pl/600x800/18181b/38bdf8/?text=PTE+79+&font=bebas"
+    },
+    {
+      "student": "Neha Gill",
+      "score": "PTE 85+",
+      "review": "Best institute in Sirsa! The faculty is incredibly supportive and knowledgeable.",
+      "photo": "https://fakeimg.pl/600x800/1e293b/38bdf8/?text=PTE+85+&font=bebas"
+    },
+    {
+      "student": "Pooja Verma",
+      "score": "PTE 79+",
+      "review": "The 1-on-1 speaking sessions were a game changer for me.",
+      "photo": "https://fakeimg.pl/600x800/1e293b/fbbf24/?text=PTE+79+&font=bebas"
+    },
+    {
+      "student": "Vivaan Singh",
+      "score": "IELTS 7.5 Bands",
+      "review": "Visa process was smooth sailing after I got my scores. Thank you Webcom!",
+      "photo": "https://fakeimg.pl/600x800/1e293b/f472b6/?text=IELTS+7.5+Bands&font=bebas"
+    },
+    {
+      "student": "Aanya Sandhu",
+      "score": "IELTS 6.5 Bands",
+      "review": "Achieved my dream score on the first attempt thanks to the personalized coaching.",
+      "photo": "https://fakeimg.pl/600x800/171717/38bdf8/?text=IELTS+6.5+Bands&font=bebas"
+    },
+    {
+      "student": "Myra Sandhu",
+      "score": "PTE 79+",
+      "review": "I couldn't have asked for better mentors. They truly care about student success.",
+      "photo": "https://fakeimg.pl/600x800/111827/38bdf8/?text=PTE+79+&font=bebas"
+    },
+    {
+      "student": "Rishi Brar",
+      "score": "PTE 79+",
+      "review": "The mock tests were exactly like the real exam. Scored way above my expectations.",
+      "photo": "https://fakeimg.pl/600x800/18181b/38bdf8/?text=PTE+79+&font=bebas"
+    },
+    {
+      "student": "Anjali Gill",
+      "score": "PTE 90",
+      "review": "Achieved my dream score on the first attempt thanks to the personalized coaching.",
+      "photo": "https://fakeimg.pl/600x800/0f172a/38bdf8/?text=PTE+90&font=bebas"
+    },
+    {
+      "student": "Atharv Brar",
+      "score": "IELTS 8.0 Bands",
+      "review": "Achieved my dream score on the first attempt thanks to the personalized coaching.",
+      "photo": "https://fakeimg.pl/600x800/171717/fbbf24/?text=IELTS+8.0+Bands&font=bebas"
+    },
+    {
+      "student": "Aditya Singh",
+      "score": "PTE 90",
+      "review": "Excellent environment and state-of-the-art facilities for PTE practice.",
+      "photo": "https://fakeimg.pl/600x800/171717/f472b6/?text=PTE+90&font=bebas"
+    },
+    {
+      "student": "Kavya Sharma",
+      "score": "PTE 65+",
+      "review": "They focus on your weak points and give targeted feedback. Brilliant experience.",
+      "photo": "https://fakeimg.pl/600x800/0f172a/fbbf24/?text=PTE+65+&font=bebas"
+    },
+    {
+      "student": "Ishita Sharma",
+      "score": "IELTS 8.0 Bands",
+      "review": "Achieved my dream score on the first attempt thanks to the personalized coaching.",
+      "photo": "https://fakeimg.pl/600x800/0f172a/38bdf8/?text=IELTS+8.0+Bands&font=bebas"
+    },
+    {
+      "student": "Aanya Singh",
+      "score": "PTE 79+",
+      "review": "They focus on your weak points and give targeted feedback. Brilliant experience.",
+      "photo": "https://fakeimg.pl/600x800/1e293b/818cf8/?text=PTE+79+&font=bebas"
+    },
+    {
+      "student": "Diya Singh",
+      "score": "PTE 85+",
+      "review": "The 1-on-1 speaking sessions were a game changer for me.",
+      "photo": "https://fakeimg.pl/600x800/111827/34d399/?text=PTE+85+&font=bebas"
+    },
+    {
+      "student": "Pooja Sharma",
+      "score": "PTE 65+",
+      "review": "They focus on your weak points and give targeted feedback. Brilliant experience.",
+      "photo": "https://fakeimg.pl/600x800/111827/f472b6/?text=PTE+65+&font=bebas"
+    },
+    {
+      "student": "Saanvi Brar",
+      "score": "IELTS 7.0 Bands",
+      "review": "I struggled with reading, but their techniques made it so easy. Got my desired score!",
+      "photo": "https://fakeimg.pl/600x800/0f172a/f472b6/?text=IELTS+7.0+Bands&font=bebas"
+    },
+    {
+      "student": "Arjun Verma",
+      "score": "IELTS 8.0 Bands",
+      "review": "Visa process was smooth sailing after I got my scores. Thank you Webcom!",
+      "photo": "https://fakeimg.pl/600x800/111827/34d399/?text=IELTS+8.0+Bands&font=bebas"
+    },
+    {
+      "student": "Karthik Brar",
+      "score": "IELTS 8.0 Bands",
+      "review": "Excellent environment and state-of-the-art facilities for PTE practice.",
+      "photo": "https://fakeimg.pl/600x800/1e293b/fbbf24/?text=IELTS+8.0+Bands&font=bebas"
+    },
+    {
+      "student": "Kabir Verma",
+      "score": "IELTS 8.5 Bands",
+      "review": "The 1-on-1 speaking sessions were a game changer for me.",
+      "photo": "https://fakeimg.pl/600x800/18181b/38bdf8/?text=IELTS+8.5+Bands&font=bebas"
+    }
+  ]
 }

@@ -14,7 +14,8 @@
         /* Masonry Grid */
         .masonry-grid {
             column-count: 3;
-            column-gap: 20px;
+            column-gap: 24px;
+            padding-bottom: 50px;
         }
 
         @media (max-width: 991px) { .masonry-grid { column-count: 2; } }
@@ -22,43 +23,72 @@
 
         .masonry-item {
             break-inside: avoid;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
             position: relative;
             overflow: hidden;
-            border-radius: 20px;
+            border-radius: 16px;
             cursor: pointer;
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid rgba(255,255,255,0.05);
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            transition: transform 0.4s var(--apple-spring), box-shadow 0.4s;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .masonry-item img {
             width: 100%;
             display: block;
-            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+            border-radius: 16px;
+            transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
         .masonry-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(56, 189, 248, 0.3);
+            transform: translateY(-10px);
+            border-color: rgba(56, 189, 248, 0.4);
+            box-shadow: 0 20px 40px rgba(14, 165, 233, 0.3);
+            z-index: 2;
         }
 
         .masonry-item:hover img {
-            transform: scale(1.05);
+            transform: scale(1.08);
         }
 
         .masonry-overlay {
             position: absolute;
             inset: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            background: linear-gradient(to top, rgba(2, 6, 23, 0.9) 0%, rgba(14, 165, 233, 0.2) 100%);
             opacity: 0;
             display: flex;
-            align-items: flex-end;
-            padding: 20px;
-            transition: opacity 0.4s;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(3px);
+            border-radius: 16px;
         }
 
         .masonry-item:hover .masonry-overlay {
             opacity: 1;
+        }
+
+        .masonry-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #fff;
+            transform: translateY(20px);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .masonry-item:hover .masonry-icon {
+            transform: translateY(0);
+            background: #0ea5e9;
+            border-color: #0ea5e9;
+            box-shadow: 0 0 20px rgba(14, 165, 233, 0.5);
         }
 
         /* Cinematic Lightbox */
@@ -155,6 +185,14 @@
     <!-- DYNAMIC MASONRY GALLERY -->
     <section class="py-5" style="min-height: 50vh;">
         <div class="container">
+            
+            <!-- GALLERY FILTER BAR -->
+            <div class="d-flex justify-content-center flex-wrap gap-2 mb-5 reveal reveal-delay-3">
+                <button class="btn btn-primary rounded-pill px-4 fw-bold" style="box-shadow: 0 5px 15px rgba(14, 165, 233, 0.4);">All Photos</button>
+                <button class="btn rounded-pill px-4 fw-bold filter-btn" style="background: rgba(255,255,255,0.05); color: #fff; border: 1px solid rgba(255,255,255,0.1); transition: all 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='rgba(255,255,255,0.05)'">Events</button>
+                <button class="btn rounded-pill px-4 fw-bold filter-btn" style="background: rgba(255,255,255,0.05); color: #fff; border: 1px solid rgba(255,255,255,0.1); transition: all 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='rgba(255,255,255,0.05)'">Seminars</button>
+                <button class="btn rounded-pill px-4 fw-bold filter-btn" style="background: rgba(255,255,255,0.05); color: #fff; border: 1px solid rgba(255,255,255,0.1); transition: all 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='rgba(255,255,255,0.05)'">Classes</button>
+            </div>
             <div id="loadingIndicator" class="text-center text-muted py-5">
                 <i class="fa-solid fa-circle-notch fa-spin fs-2 mb-3"></i>
                 <p>Loading gallery from secure cloud...</p>
@@ -229,7 +267,9 @@
                         <div class="masonry-item reveal reveal-delay-${delay}" data-img="${photoUrl}">
                             <img src="${photoUrl}" alt="Gallery Image ${imgObj.id}">
                             <div class="masonry-overlay">
-                                <h5 class="text-white m-0 fw-bold"><i class="fa-solid fa-expand me-2 text-info"></i>View Image</h5>
+                                <div class="masonry-icon">
+                                    <i class="fa-solid fa-eye"></i>
+                                </div>
                             </div>
                         </div>
                     `;

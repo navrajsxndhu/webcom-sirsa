@@ -194,287 +194,8 @@ Modern learning experience with AI mock tests, expert trainers and real exam str
 
 </div>
 
-<div class="row g-4">
-
-<!-- IELTS -->
-
-<div class="col-lg-4">
-
-<div class="course-card">
-
-<div class="d-flex justify-content-between align-items-center mb-4">
-
-<i class="fa-solid fa-earth-americas"></i>
-
-<span class="badge bg-primary px-3 py-2">
-Most Popular
-</span>
-
-</div>
-
-<h3>
-IELTS Coaching
-</h3>
-
-<p>
-Academic & General IELTS preparation with advanced speaking labs and writing evaluation.
-</p>
-
-<hr class="my-4">
-
-<div class="mb-3">
-
-<h5>
-Course Duration
-</h5>
-
-<p>
-4 Weeks
-</p>
-
-</div>
-
-<div class="mb-3">
-
-<h5>
-Course Fee
-</h5>
-
-<p class="fs-3 fw-bold text-info">
-₹8,999
-</p>
-
-</div>
-
-<div class="mb-4">
-
-<h5>
-What’s Included
-</h5>
-
-<ul>
-
-<li>
-Daily Practice Sessions
-</li>
-
-<li>
-Mock Exams
-</li>
-
-<li>
-Writing Evaluation
-</li>
-
-<li>
-Study Material
-</li>
-
-<li>
-Speaking Labs
-</li>
-
-</ul>
-
-</div>
-
-<a href="contact.html"
-class="btn btn-primary w-100">
-
-Enroll Now
-
-</a>
-
-</div>
-
-</div>
-
-<!-- PTE -->
-
-<div class="col-lg-4">
-
-<div class="course-card">
-
-<div class="d-flex justify-content-between align-items-center mb-4">
-
-<i class="fa-solid fa-microphone"></i>
-
-<span class="badge bg-success px-3 py-2">
-AI Based
-</span>
-
-</div>
-
-<h3>
-PTE Coaching
-</h3>
-
-<p>
-Real exam simulation with AI scoring system and modern practice software.
-</p>
-
-<hr class="my-4">
-
-<div class="mb-3">
-
-<h5>
-Course Duration
-</h5>
-
-<p>
-4 Weeks
-</p>
-
-</div>
-
-<div class="mb-3">
-
-<h5>
-Course Fee
-</h5>
-
-<p class="fs-3 fw-bold text-info">
-₹9,999
-</p>
-
-</div>
-
-<div class="mb-4">
-
-<h5>
-What’s Included
-</h5>
-
-<ul>
-
-<li>
-AI Mock Tests
-</li>
-
-<li>
-Real Exam Interface
-</li>
-
-<li>
-Speaking Practice
-</li>
-
-<li>
-Vocabulary Sessions
-</li>
-
-<li>
-Performance Tracking
-</li>
-
-</ul>
-
-</div>
-
-<a href="contact.html"
-class="btn btn-primary w-100">
-
-Enroll Now
-
-</a>
-
-</div>
-
-</div>
-
-<!-- SPOKEN ENGLISH -->
-
-<div class="col-lg-4">
-
-<div class="course-card">
-
-<div class="d-flex justify-content-between align-items-center mb-4">
-
-<i class="fa-solid fa-language"></i>
-
-<span class="badge bg-warning text-dark px-3 py-2">
-Trending
-</span>
-
-</div>
-
-<h3>
-Spoken English
-</h3>
-
-<p>
-Fluency development and communication confidence for students and professionals.
-</p>
-
-<hr class="my-4">
-
-<div class="mb-3">
-
-<h5>
-Course Duration
-</h5>
-
-<p>
-4 Weeks
-</p>
-
-</div>
-
-<div class="mb-3">
-
-<h5>
-Course Fee
-</h5>
-
-<p class="fs-3 fw-bold text-info">
-₹5,999
-</p>
-
-</div>
-
-<div class="mb-4">
-
-<h5>
-What’s Included
-</h5>
-
-<ul>
-
-<li>
-Conversation Practice
-</li>
-
-<li>
-Interview Preparation
-</li>
-
-<li>
-Confidence Building
-</li>
-
-<li>
-Daily Vocabulary
-</li>
-
-<li>
-Public Speaking
-</li>
-
-</ul>
-
-</div>
-
-<a href="contact.html"
-class="btn btn-primary w-100">
-
-Enroll Now
-
-</a>
-
-</div>
-
-</div>
-
+<div class="row g-4" id="coursesContainer">
+<!-- Populated by JavaScript -->
 </div>
 
 </div>
@@ -729,6 +450,50 @@ class="whatsapp-btn">
 <!-- JS -->
 
 <script src="script.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+    const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+                    ? 'http://localhost:5000/api' : '/api';
+    
+    try {
+        const res = await fetch(`${API_BASE}/data`);
+        const data = await res.json();
+        const container = document.getElementById('coursesContainer');
+        
+        container.innerHTML = '';
+        data.courses.forEach((course, index) => {
+            const delay = index + 1;
+            const badgeClass = index === 0 ? 'bg-primary' : (index === 1 ? 'bg-success' : 'bg-warning text-dark');
+            const badgeText = index === 0 ? 'Most Popular' : (index === 1 ? 'AI Based' : 'Trending');
+            
+            container.innerHTML += `
+            <div class="col-lg-4">
+                <div class="course-card reveal reveal-delay-${delay} active">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <i class="fa-solid ${course.icon}"></i>
+                        <span class="badge ${badgeClass} px-3 py-2">${badgeText}</span>
+                    </div>
+                    <h3>${course.title}</h3>
+                    <p>Professional coaching with advanced modules and evaluation.</p>
+                    <hr class="my-4" style="border-color: rgba(255,255,255,0.1)">
+                    <div class="mb-3">
+                        <h5 style="color: #94a3b8; font-size: 14px;">Course Duration</h5>
+                        <p class="fw-bold">${course.duration}</p>
+                    </div>
+                    <div class="mb-4">
+                        <h5 style="color: #94a3b8; font-size: 14px;">Course Fee</h5>
+                        <p class="fs-3 fw-bold text-info">₹${course.price}</p>
+                    </div>
+                    <a href="contact.html" class="btn btn-primary w-100">Enroll Now</a>
+                </div>
+            </div>`;
+        });
+    } catch(e) {
+        console.error("Failed to load courses", e);
+    }
+});
+</script>
 
 <script
 src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">

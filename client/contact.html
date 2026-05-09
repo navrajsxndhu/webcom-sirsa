@@ -279,7 +279,7 @@ class="btn btn-light">
 Send Inquiry
 </h2>
 
-<form>
+<form id="contactForm">
 
 <div class="row">
 
@@ -287,6 +287,8 @@ Send Inquiry
 
 <input
 type="text"
+id="contactName"
+required
 class="form-control form-control-lg"
 placeholder="Full Name">
 
@@ -296,6 +298,8 @@ placeholder="Full Name">
 
 <input
 type="email"
+id="contactEmail"
+required
 class="form-control form-control-lg"
 placeholder="Email Address">
 
@@ -306,7 +310,9 @@ placeholder="Email Address">
 <div class="mb-4">
 
 <input
-type="text"
+type="tel"
+id="contactPhone"
+required
 class="form-control form-control-lg"
 placeholder="Phone Number">
 
@@ -315,25 +321,26 @@ placeholder="Phone Number">
 <div class="mb-4">
 
 <select
+id="contactCourse"
 class="form-select form-select-lg">
 
-<option>
+<option value="">
 Select Course
 </option>
 
-<option>
+<option value="IELTS">
 IELTS
 </option>
 
-<option>
+<option value="PTE">
 PTE
 </option>
 
-<option>
+<option value="Spoken English">
 Spoken English
 </option>
 
-<option>
+<option value="Visa Guidance">
 Visa Guidance
 </option>
 
@@ -344,6 +351,7 @@ Visa Guidance
 <div class="mb-4">
 
 <textarea
+id="contactMessage"
 class="form-control"
 rows="6"
 placeholder="Write your message..."></textarea>
@@ -352,6 +360,7 @@ placeholder="Write your message..."></textarea>
 
 <button
 type="submit"
+id="submitBtn"
 class="btn btn-primary btn-lg w-100">
 
 Submit Inquiry
@@ -485,6 +494,7 @@ class="whatsapp-btn">
 </a>
 
 <script src="script.js"></script>
+<script src="contact.js"></script>
 
 <script
 src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">

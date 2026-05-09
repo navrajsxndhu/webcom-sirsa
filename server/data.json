@@ -1,0 +1,39 @@
+{
+  "courses": [
+    {
+      "id": 1,
+      "title": "IELTS Coaching",
+      "price": "7000",
+      "duration": "1 Month",
+      "icon": "fa-earth-americas"
+    },
+    {
+      "id": 2,
+      "title": "PTE Coaching",
+      "price": "6500",
+      "duration": "1 Months",
+      "icon": "fa-microphone"
+    },
+    {
+      "id": 3,
+      "title": "Spoken English",
+      "price": "5,000 / month",
+      "duration": "3 Months",
+      "icon": "fa-language"
+    }
+  ],
+  "gallery": [
+    {
+      "id": 1,
+      "url": "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200&auto=format&fit=crop"
+    },
+    {
+      "id": 2,
+      "url": "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=1200&auto=format&fit=crop"
+    },
+    {
+      "id": 3,
+      "url": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop"
+    }
+  ]
+}

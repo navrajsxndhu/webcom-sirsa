@@ -8,6 +8,11 @@ html{
 scroll-behavior:smooth;
 }
 
+:root {
+--apple-ease: cubic-bezier(0.25, 1, 0.5, 1);
+--apple-spring: cubic-bezier(0.175, 0.885, 0.32, 1.1); /* Subtle bounce */
+}
+
 body{
 
 font-family:'Inter',sans-serif;
@@ -17,6 +22,7 @@ background:#0f172a;
 color:#ffffff;
 
 overflow-x:hidden;
+cursor: none; /* Hide default cursor for custom cursor */
 
 line-height:1.7;
 
@@ -28,13 +34,17 @@ line-height:1.7;
 
 .glass-nav{
 
-background:rgba(15,23,42,0.92);
+background:rgba(15,23,42,0.7);
 
-backdrop-filter:blur(16px);
+backdrop-filter:blur(24px) saturate(180%);
+
+-webkit-backdrop-filter: blur(24px) saturate(180%);
 
 padding:18px 0;
 
 border-bottom:1px solid rgba(255,255,255,0.08);
+
+transition: all 0.4s var(--apple-ease);
 
 }
 
@@ -150,6 +160,15 @@ color:#7dd3fc;
 
 /* BUTTONS */
 
+.btn {
+transition: transform 0.4s var(--apple-spring), background-color 0.3s var(--apple-ease), opacity 0.3s var(--apple-ease);
+}
+
+.btn:active {
+transform: scale(0.95);
+opacity: 0.8;
+}
+
 .btn-primary{
 
 background:#2563eb;
@@ -167,6 +186,7 @@ font-weight:600;
 .btn-primary:hover{
 
 background:#1d4ed8;
+transform: translateY(-2px);
 
 }
 
@@ -178,6 +198,10 @@ border-radius:14px;
 
 font-weight:600;
 
+}
+
+.btn-outline-light:hover {
+transform: translateY(-2px);
 }
 
 /* HERO STATS */
@@ -277,6 +301,22 @@ height:100%;
 
 border:1px solid rgba(255,255,255,0.06);
 
+transition: transform 0.5s var(--apple-spring), box-shadow 0.5s var(--apple-ease);
+
+}
+
+.feature-card:hover,
+.course-card:hover,
+.testimonial-card:hover {
+transform: translateY(-8px);
+box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+border: 1px solid rgba(255,255,255,0.15);
+}
+
+.feature-card:active,
+.course-card:active,
+.testimonial-card:active {
+transform: scale(0.97);
 }
 
 .feature-card i,
@@ -448,7 +488,35 @@ text-decoration:none;
 box-shadow:
 0 10px 30px rgba(0,0,0,0.3);
 
+transition: transform 0.4s var(--apple-spring);
+
 }
+
+.whatsapp-btn:hover {
+transform: translateY(-5px) scale(1.05);
+}
+
+.whatsapp-btn:active {
+transform: scale(0.9);
+}
+
+/* ANIMATIONS (SCROLL REVEAL) */
+
+.reveal {
+opacity: 0;
+transform: translateY(40px);
+transition: all 0.8s var(--apple-ease);
+will-change: transform, opacity;
+}
+
+.reveal.active {
+opacity: 1;
+transform: translateY(0);
+}
+
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
 
 /* SCROLLBAR */
 
@@ -518,4 +586,128 @@ font-size:2rem;
 
 }
 
+}
+
+/* APPLE TOAST NOTIFICATION */
+
+.apple-toast {
+position: fixed;
+top: -100px;
+left: 50%;
+transform: translateX(-50%) scale(0.9);
+background: rgba(30, 30, 30, 0.85);
+backdrop-filter: blur(20px) saturate(180%);
+-webkit-backdrop-filter: blur(20px) saturate(180%);
+border: 1px solid rgba(255, 255, 255, 0.1);
+padding: 16px 24px;
+border-radius: 999px;
+display: flex;
+align-items: center;
+gap: 12px;
+z-index: 9999;
+opacity: 0;
+transition: all 0.5s var(--apple-spring);
+box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+}
+
+.apple-toast.show {
+top: 40px;
+transform: translateX(-50%) scale(1);
+opacity: 1;
+}
+
+.toast-icon {
+font-size: 24px;
+}
+
+.toast-content h4 {
+margin: 0;
+font-size: 15px;
+font-weight: 600;
+color: #fff;
+line-height: 1.2;
+}
+
+.toast-content p {
+margin: 0;
+font-size: 13px;
+color: #a1a1aa;
+}
+
+/* =========================================
+   GLOBAL AESTHETICS (COOL FACTOR)
+========================================= */
+
+/* Scroll Progress Bar */
+#scrollProgress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 4px;
+    background: linear-gradient(90deg, #38bdf8, #c084fc, #38bdf8);
+    background-size: 200% auto;
+    animation: gradientMove 3s linear infinite;
+    z-index: 999999;
+    box-shadow: 0 0 15px rgba(56, 189, 248, 0.8);
+    transition: width 0.1s ease-out;
+}
+
+@keyframes gradientMove {
+    0% { background-position: 0% center; }
+    100% { background-position: 200% center; }
+}
+
+/* Custom Glowing Cursor */
+.custom-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 24px;
+    height: 24px;
+    background: rgba(56, 189, 248, 0.6);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 1000000;
+    box-shadow: 0 0 20px 8px rgba(56, 189, 248, 0.3);
+    transition: width 0.3s var(--apple-spring), height 0.3s var(--apple-spring), background 0.3s;
+    mix-blend-mode: screen;
+}
+
+.custom-cursor.hover {
+    width: 60px;
+    height: 60px;
+    background: rgba(192, 132, 252, 0.3);
+    box-shadow: 0 0 30px 10px rgba(192, 132, 252, 0.2);
+    border: 1px solid rgba(255,255,255,0.4);
+}
+
+/* Animated Background Blobs */
+.bg-blobs {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.blob {
+    position: absolute;
+    filter: blur(100px);
+    opacity: 0.3;
+    border-radius: 50%;
+    animation: floatBlob 20s infinite alternate ease-in-out;
+}
+
+.blob-1 { width: 45vw; height: 45vw; background: rgba(56, 189, 248, 0.15); top: -10%; left: -10%; }
+.blob-2 { width: 40vw; height: 40vw; background: rgba(192, 132, 252, 0.15); bottom: -10%; right: -10%; animation-duration: 25s; animation-direction: alternate-reverse; }
+
+@keyframes floatBlob {
+    0% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(15%, 20%) scale(1.1); }
+    100% { transform: translate(-10%, -15%) scale(0.9); }
 }

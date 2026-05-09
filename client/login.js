@@ -6,8 +6,8 @@ document.addEventListener('DOMContentLoaded', () => {
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
+            const username = document.getElementById('username').value.trim().toLowerCase();
+            const password = document.getElementById('password').value.trim();
 
             // Loading state
             const originalText = loginBtn.innerHTML;

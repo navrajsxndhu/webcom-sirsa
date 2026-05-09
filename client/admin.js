@@ -279,23 +279,39 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- ADD NEW TESTIMONIAL ---
+    // --- ADD NEW TESTIMONIAL & UPLOAD PHOTO ---
     document.getElementById('addTestimonialForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         const btn = document.getElementById('addTestSubmitBtn');
-        btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin me-2"></i>Adding...';
+        btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin me-2"></i>Uploading...';
         btn.disabled = true;
 
-        const newTest = {
-            id: Date.now(),
-            student: document.getElementById('newTestStudent').value,
-            score: document.getElementById('newTestScore').value,
-            review: document.getElementById('newTestReview').value
-        };
-
-        globalData.testimonials.push(newTest);
+        const fileInput = document.getElementById('newTestPhoto');
+        const formData = new FormData();
+        formData.append('file', fileInput.files[0]);
 
         try {
+            // 1. Upload Photo
+            const uploadRes = await fetch(`${API_BASE}/upload`, {
+                method: 'POST',
+                body: formData
+            });
+            const uploadData = await uploadRes.json();
+            
+            if(!uploadRes.ok) throw new Error(uploadData.error || 'Upload failed');
+
+            // 2. Push new testimonial
+            const newTest = {
+                id: Date.now(),
+                student: document.getElementById('newTestStudent').value,
+                score: document.getElementById('newTestScore').value,
+                review: document.getElementById('newTestReview').value,
+                photo: uploadData.url // Use the uploaded photo URL
+            };
+
+            globalData.testimonials.push(newTest);
+
+            // 3. Save
             const saveRes = await fetch(`${API_BASE}/testimonials`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
@@ -303,14 +319,15 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             if(saveRes.ok) {
-                showToast('Success', 'Testimonial added!', 'success');
+                showToast('Success', 'Testimonial added with photo!', 'success');
                 document.getElementById('addTestimonialForm').reset();
                 renderDashboard();
             } else {
-                showToast('Error', 'Failed to save testimonial.', 'error');
+                throw new Error('Failed to save testimonial data');
             }
         } catch(err) {
-            showToast('Error', 'Network error.', 'error');
+            console.error(err);
+            showToast('Error', err.message, 'error');
         } finally {
             btn.innerHTML = 'Add Testimonial';
             btn.disabled = false;

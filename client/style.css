@@ -710,3 +710,14 @@ color: #a1a1aa;
     50% { transform: translate(15%, 20%) scale(1.1); }
     100% { transform: translate(-10%, -15%) scale(0.9); }
 }
+
+.testimonial-photo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    margin: 0 auto 15px auto;
+    display: block;
+}

@@ -8,6 +8,20 @@ const path = require('path');
 // Secret key for JWT (In production, use an environment variable)
 const JWT_SECRET = process.env.JWT_SECRET || 'webcom_super_secret_key_2026';
 
+// Authentication Middleware to protect Admin API routes
+const authenticateToken = (req, res, next) => {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1]; // Format: "Bearer <token>"
+
+    if (!token) return res.status(401).json({ error: 'Access Denied. No token provided.' });
+
+    jwt.verify(token, JWT_SECRET, (err, user) => {
+        if (err) return res.status(403).json({ error: 'Invalid or expired token.' });
+        req.user = user;
+        next();
+    });
+};
+
 const app = express();
 
 app.use(cors());
@@ -98,19 +112,7 @@ app.post('/api/login', (req, res) => {
     return res.status(401).json({ error: 'Invalid username or password' });
 });
 
-// Authentication Middleware to protect Admin API routes
-const authenticateToken = (req, res, next) => {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1]; // Format: "Bearer <token>"
-
-    if (!token) return res.status(401).json({ error: 'Access Denied. No token provided.' });
-
-    jwt.verify(token, JWT_SECRET, (err, user) => {
-        if (err) return res.status(403).json({ error: 'Invalid or expired token.' });
-        req.user = user;
-        next();
-    });
-};
+// (authenticateToken moved to top)
 
 // --- DATABASE LOGIC ---
 const dataFilePath = path.join(__dirname, 'data.json');

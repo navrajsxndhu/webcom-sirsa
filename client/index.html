@@ -641,9 +641,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         container.innerHTML = '';
         data.testimonials.forEach((test, index) => {
             const delay = index + 1;
+            const photoHtml = test.photo ? `<img src="${test.photo}" alt="${test.student}" class="testimonial-photo mb-3">` : '';
             container.innerHTML += `
             <div class="col-md-4">
-                <div class="testimonial-card reveal reveal-delay-${delay} active">
+                <div class="testimonial-card reveal reveal-delay-${delay} active text-center">
+                    ${photoHtml}
                     <h3>${test.score}</h3>
                     <p>“${test.review}”</p>
                     <h5>— ${test.student}</h5>

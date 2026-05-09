@@ -1,1 +1,6 @@
-run = "cd server && npm install && npm start"
+modules = ["nodejs-20"]
+run = "cd server && npm start"
+
+[deployment]
+build = ["sh", "-c", "cd server && npm install"]
+run = ["sh", "-c", "cd server && npm start"]

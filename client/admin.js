@@ -461,7 +461,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 student: document.getElementById('newTestStudent').value,
                 score: document.getElementById('newTestScore').value,
                 review: document.getElementById('newTestReview').value,
-                photo: uploadData.url // Use the uploaded photo URL
+                photo: uploadData.url, // Use the uploaded photo URL
+                videoUrl: document.getElementById('newTestVideo').value || null // Optional video link
             };
 
             globalData.testimonials.push(newTest);

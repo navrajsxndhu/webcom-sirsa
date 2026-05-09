@@ -638,6 +638,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
             }
             const photoHtml = photoUrl ? `<img src="${photoUrl}" alt="${test.student}" class="testimonial-photo mb-3">` : '';
+            const videoBtnHtml = test.videoUrl ? `<br><button class="btn btn-sm btn-outline-info mt-3 fw-bold play-video-btn" data-video="${test.videoUrl}"><i class="fa-solid fa-play me-2"></i>Watch Video</button>` : '';
             container.innerHTML += `
             <div class="col-md-4">
                 <div class="testimonial-card reveal reveal-delay-${delay} active text-center">
@@ -645,14 +646,53 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <h3>${test.score}</h3>
                     <p>“${test.review}”</p>
                     <h5>— ${test.student}</h5>
+                    ${videoBtnHtml}
                 </div>
             </div>`;
         });
+        
+        // Attach Video Button Event Listeners
+        document.querySelectorAll('.play-video-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                let videoUrl = e.currentTarget.getAttribute('data-video');
+                // Convert standard youtube link to embed link
+                if(videoUrl.includes('watch?v=')) {
+                    videoUrl = videoUrl.replace('watch?v=', 'embed/');
+                } else if(videoUrl.includes('youtu.be/')) {
+                    videoUrl = videoUrl.replace('youtu.be/', 'youtube.com/embed/');
+                }
+                document.getElementById('videoIframe').src = videoUrl;
+                const modal = new bootstrap.Modal(document.getElementById('videoModal'));
+                modal.show();
+            });
+        });
+
+        // Clear iframe src on modal close to stop audio
+        document.getElementById('videoModal').addEventListener('hidden.bs.modal', function () {
+            document.getElementById('videoIframe').src = '';
+        });
+
     } catch(e) {
         console.error("Failed to load testimonials", e);
     }
 });
 </script>
+
+<!-- VIDEO MODAL -->
+<div class="modal fade" id="videoModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content" style="background: transparent; border: none;">
+            <div class="modal-header border-0 pb-0 justify-content-end">
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-0 rounded overflow-hidden shadow-lg" style="background: #000;">
+                <div class="ratio ratio-16x9">
+                    <iframe id="videoIframe" src="" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script
 src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">

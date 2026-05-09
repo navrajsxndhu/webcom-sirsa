@@ -36,7 +36,26 @@
       "url": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop"
     }
   ],
-  "staff": [],
+  "staff": [
+    {
+      "name": "Rajveer Singh",
+      "role": "Senior IELTS Trainer",
+      "bio": "Expert in reading and writing modules with 8+ years of experience helping students achieve 8.0+ bands.",
+      "photo": "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=600&auto=format&fit=crop"
+    },
+    {
+      "name": "Simran Kaur",
+      "role": "PTE Expert",
+      "bio": "Specializes in AI-based mock testing and spoken English fluency. Has guided over 500 students to success.",
+      "photo": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&auto=format&fit=crop"
+    },
+    {
+      "name": "Arshdeep Gill",
+      "role": "Visa Counselor",
+      "bio": "Dedicated to helping students with university admissions, SOP writing, and final embassy interview preparations.",
+      "photo": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=600&auto=format&fit=crop"
+    }
+  ],
   "testimonials": [
     {
       "student": "Pooja Kumar",

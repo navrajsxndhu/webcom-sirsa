@@ -184,6 +184,18 @@ app.post('/api/testimonials', authenticateToken, (req, res) => {
     res.json({ success: true, message: 'Testimonials updated successfully' });
 });
 
+// Protected Route: Update Gallery
+app.post('/api/gallery', authenticateToken, (req, res) => {
+    const { gallery } = req.body;
+    if(!gallery || !Array.isArray(gallery)) return res.status(400).json({ error: 'Invalid gallery data' });
+
+    const data = readData();
+    data.gallery = gallery;
+    writeData(data);
+
+    res.json({ success: true, message: 'Gallery updated successfully' });
+});
+
 const port = process.env.PORT || 5000;
 app.listen(port, '0.0.0.0', () => {
 console.log(`Server running on port ${port}`);

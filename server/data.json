@@ -21,9 +21,9 @@
     { "id": 2, "name": "Simran Kaur", "role": "PTE Expert", "bio": "Specialist in AI scoring algorithms and spoken English fluency.", "photo": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=600&auto=format&fit=crop" }
   ],
   "testimonials": [
-    { "id": 1, "score": "8 Bands IELTS", "review": "Amazing trainers and speaking practice sessions.", "student": "Amanpreet Singh" },
-    { "id": 2, "score": "79+ PTE", "review": "AI mock tests helped me improve very quickly.", "student": "Priya Verma" },
-    { "id": 3, "score": "Canada Visa Approved", "review": "Professional support from admission to visa.", "student": "Gurleen Brar" }
+    { "id": 1, "score": "8 Bands IELTS", "review": "Amazing trainers and speaking practice sessions.", "student": "Amanpreet Singh", "photo": "" },
+    { "id": 2, "score": "79+ PTE", "review": "AI mock tests helped me improve very quickly.", "student": "Priya Verma", "photo": "" },
+    { "id": 3, "score": "Canada Visa Approved", "review": "Professional support from admission to visa.", "student": "Gurleen Brar", "photo": "" }
   ],
   "eventVideos": [
     { "id": 1, "url": "assets/videos/event1.mp4" },

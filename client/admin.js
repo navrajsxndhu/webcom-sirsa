@@ -460,19 +460,25 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.disabled = true;
 
         const fileInput = document.getElementById('newTestPhoto');
-        const fileBlob = croppedBlobMap.get('newTestPhoto') || fileInput.files[0];
-        const formData = new FormData();
-        formData.append('file', fileBlob, 'testimonial.jpg');
-
+        const fileBlob = croppedBlobMap.get('newTestPhoto') || (fileInput.files.length > 0 ? fileInput.files[0] : null);
+        
         try {
-            // 1. Upload Photo
-            const uploadRes = await fetch(`${API_BASE}/upload`, {
-                method: 'POST',
-                body: formData
-            });
-            const uploadData = await uploadRes.json();
-            
-            if(!uploadRes.ok) throw new Error(uploadData.error || 'Upload failed');
+            let photoUrl = null;
+
+            if (fileBlob) {
+                const formData = new FormData();
+                formData.append('file', fileBlob, 'testimonial.jpg');
+
+                // 1. Upload Photo
+                const uploadRes = await fetch(`${API_BASE}/upload`, {
+                    method: 'POST',
+                    body: formData
+                });
+                const uploadData = await uploadRes.json();
+                
+                if(!uploadRes.ok) throw new Error(uploadData.error || 'Upload failed');
+                photoUrl = uploadData.url;
+            }
 
             // 2. Push new testimonial
             const newTest = {
@@ -480,7 +486,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 student: document.getElementById('newTestStudent').value,
                 score: document.getElementById('newTestScore').value,
                 review: document.getElementById('newTestReview').value,
-                photo: uploadData.url, // Use the uploaded photo URL
+                photo: photoUrl, // Use the uploaded photo URL or null
                 videoUrl: document.getElementById('newTestVideo').value || null // Optional video link
             };
 
@@ -494,16 +500,16 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             if(saveRes.ok) {
-                showToast('Success', 'Testimonial added with photo!', 'success');
+                showToast('Success', photoUrl ? 'Testimonial added with photo!' : 'Testimonial added (No photo)!', 'success');
                 document.getElementById('addTestimonialForm').reset();
                 croppedBlobMap.delete('newTestPhoto');
                 renderDashboard();
             } else {
-                throw new Error('Failed to save testimonial data');
+                throw new Error('Failed to save testimonials');
             }
-        } catch(err) {
-            console.error(err);
-            showToast('Error', err.message, 'error');
+        } catch (error) {
+            console.error(error);
+            showToast('Error', error.message, 'error');
         } finally {
             btn.innerHTML = 'Add Testimonial';
             btn.disabled = false;

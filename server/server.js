@@ -187,6 +187,15 @@ const readData = async () => {
     }
 };
 
+// System Health/Status Check
+app.get('/api/system-status', (req, res) => {
+    res.json({
+        database: isMongoConnected ? 'MongoDB Atlas (Persistent)' : 'Local File (Ephemeral)',
+        connected: isMongoConnected,
+        environment: process.env.NODE_ENV || 'production'
+    });
+});
+
 const writeData = async (data) => {
     try {
         if (isMongoConnected) {

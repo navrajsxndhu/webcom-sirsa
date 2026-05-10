@@ -277,9 +277,15 @@
                     <div class="logo-shield" style="width: 40px; height: 40px; font-size: 20px; margin: 0; transform: none;">
                         <i class="fa-solid fa-shield-halved"></i>
                     </div>
-                    <h2 class="fw-bold mb-0">Command Center</h2>
+                <div class="d-flex justify-content-between align-items-center mb-5">
+                    <div>
+                        <h2 class="fw-bold mb-1" id="welcomeMessage">Welcome back, Director!</h2>
+                        <p class="text-muted mb-0">System operational. Here is your current snapshot.</p>
+                    </div>
+                    <div id="dbStatusBadge" class="badge rounded-pill px-3 py-2" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); font-size: 13px; font-weight: 500;">
+                        <i class="fa-solid fa-circle-notch fa-spin me-2 text-info"></i>Checking Storage...
+                    </div>
                 </div>
-                <p class="text-muted mb-5" id="welcomeMessage">Welcome back, Director! Loading your stats...</p>
 
                 <div class="row g-4 mb-5">
                     <div class="col-md-4">

@@ -687,6 +687,29 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    async function fetchSystemStatus() {
+        const badge = document.getElementById('dbStatusBadge');
+        if(!badge) return;
+
+        try {
+            const res = await fetch(`${API_BASE}/system-status`);
+            const status = await res.json();
+            
+            if(status.connected) {
+                badge.innerHTML = `<i class="fa-solid fa-cloud text-success me-2"></i> ${status.database}`;
+                badge.style.borderColor = 'rgba(34, 197, 94, 0.3)';
+                badge.style.background = 'rgba(34, 197, 94, 0.1)';
+            } else {
+                badge.innerHTML = `<i class="fa-solid fa-triangle-exclamation text-warning me-2"></i> ${status.database}`;
+                badge.style.borderColor = 'rgba(234, 179, 8, 0.3)';
+                badge.style.background = 'rgba(234, 179, 8, 0.1)';
+            }
+        } catch (e) {
+            badge.innerHTML = `<i class="fa-solid fa-xmark text-danger me-2"></i> Status Offline`;
+        }
+    }
+
     // Init
     fetchDashboardData();
+    fetchSystemStatus();
 });

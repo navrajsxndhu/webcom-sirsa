@@ -175,14 +175,14 @@ if (MONGODB_URI) {
 async function migrateDataIfNeeded() {
     try {
         const count = await WebData.countDocuments();
-        if (true) { // TEMPORARY FORCE SYNC
-            console.log("FORCE SYNC: Adding 10 new gallery photos to MongoDB...");
+        if (count === 0 || process.env.FORCE_SYNC === 'true') {
+            console.log("FORCE SYNC: Overwriting MongoDB with data.json...");
             const localData = JSON.parse(fs.readFileSync(dataFilePath));
             const { inquiries, admin, ...publicData } = localData;
             
             await WebData.deleteMany({}); // Clear existing data
             await new WebData(publicData).save();
-            console.log("Gallery expansion complete.");
+            console.log("Force sync successful.");
         }
     } catch (err) {
         console.error("Migration failed:", err);

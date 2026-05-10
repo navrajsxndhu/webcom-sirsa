@@ -2,62 +2,113 @@
 <html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | Webcom Sirsa</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 
-<meta charset="UTF-8">
+    <style>
+        .contact-header {
+            padding: 120px 0 60px;
+            text-align: center;
+            background: linear-gradient(to bottom, rgba(14, 165, 233, 0.1), transparent);
+        }
 
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+        .contact-card {
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            padding: 40px;
+            height: 100%;
+            transition: all 0.4s ease;
+        }
 
-<title>
-Contact | Webcom Sirsa
-</title>
+        .contact-card:hover {
+            border-color: rgba(56, 189, 248, 0.2);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            transform: translateY(-5px);
+        }
 
-<link
-href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-rel="stylesheet">
+        .info-item {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
 
-<link
-rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+        .info-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(56, 189, 248, 0.1);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: #38bdf8;
+            flex-shrink: 0;
+        }
 
-<link
-href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
-rel="stylesheet">
+        .social-link {
+            width: 45px;
+            height: 45px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 18px;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
 
-<link rel="stylesheet"
-href="style.css">
+        .social-link.insta:hover { background: #E1306C; border-color: #E1306C; box-shadow: 0 0 15px rgba(225, 48, 108, 0.5); }
+        .social-link.fb:hover { background: #1877F2; border-color: #1877F2; box-shadow: 0 0 15px rgba(24, 119, 242, 0.5); }
+        .social-link.yt:hover { background: #FF0000; border-color: #FF0000; box-shadow: 0 0 15px rgba(255, 0, 0, 0.5); }
 
+        /* Floating Labels Style */
+        .form-floating > .form-control, .form-floating > .form-select {
+            background: rgba(0,0,0,0.2) !important;
+            border: 1px solid rgba(255,255,255,0.1) !important;
+            color: white !important;
+            border-radius: 14px;
+        }
+
+        .form-floating > label { color: #94a3b8; }
+        
+        .form-control:focus {
+            border-color: #38bdf8 !important;
+            box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.1) !important;
+        }
+
+        .map-container {
+            border-radius: 24px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+            margin-top: 60px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+    </style>
 </head>
 
 <body>
 
-<!-- NAVBAR -->
-
-<nav class="navbar navbar-expand-lg navbar-dark glass-nav fixed-top">
-
-<div class="container">
-
-<a class="navbar-brand fw-bold"
-href="index.html">
-
-WEBCOM
-
-</a>
-
-<button
-class="navbar-toggler"
-type="button"
-data-bs-toggle="collapse"
-data-bs-target="#navMenu">
-
-<span class="navbar-toggler-icon"></span>
-
-</button>
-
-<div class="collapse navbar-collapse"
-id="navMenu">
-
-<ul class="navbar-nav ms-auto">
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-dark glass-nav fixed-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="index.html">WEBCOM</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navMenu">
+                <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
                     <li class="nav-item"><a class="nav-link" href="courses.html">Courses</a></li>
@@ -66,396 +117,153 @@ id="navMenu">
                     <li class="nav-item"><a class="nav-link" href="testimonials.html">Results</a></li>
                     <li class="nav-item"><a class="nav-link active" href="contact.html">Contact</a></li>
                 </ul>
-
-<a href="login.html" class="btn ms-lg-3 rounded-pill px-4 fw-bold" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; backdrop-filter: blur(10px);">
-    <i class="fa-solid fa-lock me-1"></i> Admin
-</a>
-
-</div>
-
-</div>
-
-</nav>
-
-<!-- HERO -->
-
-<section class="hero">
-
-<div class="container">
-
-<div class="row align-items-center min-vh-100">
-
-<div class="col-lg-6">
-
-<div class="hero-content">
-
-<span class="hero-badge">
-Get In Touch
-</span>
-
-<h1>
-Start Your Study Abroad Journey Today
-</h1>
-
-<p>
-Connect with Webcom Sirsa for IELTS, PTE, Spoken English and visa guidance.
-</p>
-
-<div class="hero-buttons">
-
-<a href="tel:+919050700577"
-class="btn btn-primary btn-lg">
-
-Call Now
-
-</a>
-
-<a
-href="#" class="dyn-whatsapp-btn btn btn-outline-light btn-lg">
-
-WhatsApp
-
-</a>
-
-</div>
-
-</div>
-
-</div>
-
-<div class="col-lg-6">
-
-<div class="hero-image">
-
-<img
-src="https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=1200&auto=format&fit=crop"
-class="img-fluid"
-alt="Contact">
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- CONTACT SECTION -->
-
-<section class="features-section">
-
-<div class="container">
-
-<div class="row g-5">
-
-<!-- LEFT -->
-
-<div class="col-lg-5">
-
-<div class="feature-card h-100">
-
-<h2 class="mb-4">
-Contact Information
-</h2>
-
-<div class="mb-4">
-
-<h5>
-<i class="fa-solid fa-location-dot me-2"></i>
-Address
-</h5>
-
-<p>
-<span class='dyn-address'>Opposite Town Park Road, Sirsa</span><br>
-Sirsa, Haryana, India
-</p>
-
-</div>
-
-<div class="mb-4">
-
-<h5>
-<i class="fa-solid fa-phone me-2"></i>
-Phone
-</h5>
-
-<p>
-<span class='dyn-phone'>+91 90507 00577</span>
-</p>
-
-</div>
-
-<div class="mb-4">
-
-<h5>
-<i class="fa-solid fa-envelope me-2"></i>
-Email
-</h5>
-
-<p>
-webcomsirsa@gmail.com
-</p>
-
-</div>
-
-<div class="mb-4">
-
-<h5>
-<i class="fa-solid fa-clock me-2"></i>
-Working Hours
-</h5>
-
-<p>
-Monday - Saturday<br>
-9:00 AM - 7:00 PM
-</p>
-
-</div>
-
-<div class="d-flex gap-3 mt-4">
-
-<a href="https://instagram.com/webcomsirsa" target="_blank"
-class="btn btn-light dyn-instagram">
-
-<i class="fa-brands fa-instagram"></i>
-
-</a>
-
-<a href="https://facebook.com/webcomsirsa" target="_blank"
-class="btn btn-light">
-
-<i class="fa-brands fa-facebook-f"></i>
-
-</a>
-
-<a href="https://youtube.com/@shipramiglani_?si=L1jy2Nm3yGIeIItU" target="_blank"
-class="btn btn-light dyn-youtube">
-
-<i class="fa-brands fa-youtube"></i>
-
-</a>
-
-</div>
-
-</div>
-
-</div>
-
-<!-- RIGHT -->
-
-<div class="col-lg-7">
-
-<div class="feature-card">
-
-<h2 class="mb-4">
-Send Inquiry
-</h2>
-
-<form id="contactForm">
-
-<div class="row">
-
-<div class="col-md-6 mb-4">
-
-<input
-type="text"
-id="contactName"
-required
-class="form-control form-control-lg"
-placeholder="Full Name">
-
-</div>
-
-<div class="col-md-6 mb-4">
-
-<input
-type="email"
-id="contactEmail"
-required
-class="form-control form-control-lg"
-placeholder="Email Address">
-
-</div>
-
-</div>
-
-<div class="mb-4">
-
-<input
-type="tel"
-id="contactPhone"
-required
-class="form-control form-control-lg"
-placeholder="Phone Number">
-
-</div>
-
-<div class="mb-4">
-
-<select
-id="contactCourse"
-class="form-select form-select-lg">
-
-<option value="">
-Select Course
-</option>
-
-<option value="IELTS">
-IELTS
-</option>
-
-<option value="PTE">
-PTE
-</option>
-
-<option value="Spoken English">
-Spoken English
-</option>
-
-<option value="Visa Guidance">
-Visa Guidance
-</option>
-
-</select>
-
-</div>
-
-<div class="mb-4">
-
-<textarea
-id="contactMessage"
-class="form-control"
-rows="6"
-placeholder="Write your message..."></textarea>
-
-</div>
-
-<button
-type="submit"
-id="submitBtn"
-class="btn btn-primary btn-lg w-100">
-
-Submit Inquiry
-
-</button>
-
-</form>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- MAP -->
-
-<section class="gallery-section">
-
-<div class="container">
-
-<div class="section-heading text-center">
-
-<h2>
-Find Us On Map
-</h2>
-
-<p>
-Visit our institute in Sirsa for expert counseling and coaching.
-</p>
-
-</div>
-
-<div class="feature-card p-0 overflow-hidden">
-
-<iframe
-src="https://www.google.com/maps?q=Sirsa%20Haryana&output=embed"
-width="100%"
-height="500"
-style="border:0;"
-allowfullscreen=""
-loading="lazy">
-
-</iframe>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- CTA -->
-
-<section class="cta-section">
-
-<div class="container text-center">
-
-<h2>
-Book Your Free Demo Session
-</h2>
-
-<p>
-Take the first step toward your international future.
-</p>
-
-<a
-href="tel:+919050700577"
-class="btn btn-light btn-lg">
-
-Call Webcom Now
-
-</a>
-
-</div>
-
-</section>
-
-<!-- FOOTER -->
-
-<footer class="footer">
-
-<div class="container">
-
-<div class="row">
-
-<div class="col-md-6">
-
-<h3>
-Webcom Sirsa
-</h3>
-
-<p>
-Premium IELTS, PTE & Spoken English coaching institute in Sirsa.
-</p>
-
-</div>
-
-<div class="col-md-6 text-md-end">
-
-<h4>
-Quick Contact
-</h4>
-
-<p>
-<span class='dyn-phone'>+91 90507 00577</span>
-</p>
-
-<p>
-webcomsirsa@gmail.com
-</p>
-
-</div>
-
-</div>
-
-</div>
-
-
+                <a href="login.html" class="btn ms-lg-3 rounded-pill px-4 fw-bold" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; backdrop-filter: blur(10px);">
+                    <i class="fa-solid fa-lock me-1"></i> Admin
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HEADER -->
+    <div class="contact-header">
+        <div class="container">
+            <span class="hero-badge reveal">Contact Us</span>
+            <h1 class="display-4 fw-bold mb-3 reveal reveal-delay-1">Let's Talk About Your Future</h1>
+            <p class="text-muted fs-5 reveal reveal-delay-2" style="max-width: 600px; margin: 0 auto;">Have questions about IELTS, PTE, or Visa? Our experts are here to help you every step of the way.</p>
+        </div>
+    </div>
+
+    <!-- CONTACT SECTION -->
+    <section class="pb-5">
+        <div class="container">
+            <div class="row g-4">
+                
+                <!-- Info Column -->
+                <div class="col-lg-5">
+                    <div class="contact-card reveal reveal-delay-1">
+                        <h3 class="fw-bold mb-4">Contact Information</h3>
+                        
+                        <div class="info-item">
+                            <div class="info-icon"><i class="fa-solid fa-location-dot"></i></div>
+                            <div>
+                                <h6 class="fw-bold mb-1">Our Location</h6>
+                                <p class="text-muted mb-0 dyn-address">52, Basement, City Photostat, Opposite Town Park, Sirsa</p>
+                            </div>
+                        </div>
+
+                        <div class="info-item">
+                            <div class="info-icon"><i class="fa-solid fa-phone"></i></div>
+                            <div>
+                                <h6 class="fw-bold mb-1">Call Us</h6>
+                                <p class="text-muted mb-0 dyn-phone">+91 90507 00577</p>
+                            </div>
+                        </div>
+
+                        <div class="info-item">
+                            <div class="info-icon"><i class="fa-solid fa-envelope"></i></div>
+                            <div>
+                                <h6 class="fw-bold mb-1">Email Address</h6>
+                                <p class="text-muted mb-0 dyn-email">webcomsirsa@gmail.com</p>
+                            </div>
+                        </div>
+
+                        <div class="info-item">
+                            <div class="info-icon"><i class="fa-solid fa-clock"></i></div>
+                            <div>
+                                <h6 class="fw-bold mb-1">Working Hours</h6>
+                                <p class="text-muted mb-0">Mon - Sat: 9:00 AM - 7:00 PM</p>
+                            </div>
+                        </div>
+
+                        <hr style="border-color: rgba(255,255,255,0.1); margin: 30px 0;">
+                        
+                        <h6 class="fw-bold mb-3">Follow Our Community</h6>
+                        <div class="d-flex gap-3">
+                            <a href="#" class="social-link insta dyn-instagram" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+                            <a href="#" class="social-link fb" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
+                            <a href="#" class="social-link yt dyn-youtube" target="_blank"><i class="fa-brands fa-youtube"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form Column -->
+                <div class="col-lg-7">
+                    <div class="contact-card reveal reveal-delay-2">
+                        <h3 class="fw-bold mb-4">Send an Inquiry</h3>
+                        <form id="contactForm">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="text" id="contactName" class="form-control" placeholder="Full Name" required>
+                                        <label>Full Name</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="email" id="contactEmail" class="form-control" placeholder="Email Address" required>
+                                        <label>Email Address</label>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-floating">
+                                        <input type="tel" id="contactPhone" class="form-control" placeholder="Phone Number" required>
+                                        <label>Phone Number</label>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-floating">
+                                        <select id="contactCourse" class="form-select">
+                                            <option value="">Choose a Course</option>
+                                            <option value="IELTS">IELTS Coaching</option>
+                                            <option value="PTE">PTE Academic</option>
+                                            <option value="Spoken English">Spoken English</option>
+                                            <option value="Visa Guidance">Visa Guidance</option>
+                                        </select>
+                                        <label>Course Interest</label>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-floating">
+                                        <textarea id="contactMessage" class="form-control" placeholder="Your Message" style="height: 120px"></textarea>
+                                        <label>Your Message</label>
+                                    </div>
+                                </div>
+                                <div class="col-12 mt-4">
+                                    <button type="submit" id="submitBtn" class="btn btn-primary btn-lg w-100 fw-bold rounded-pill" style="height: 60px;">
+                                        Submit Inquiry <i class="fa-solid fa-paper-plane ms-2"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MAP CONTAINER -->
+            <div class="map-container reveal reveal-delay-3">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3463.344485573436!2d75.03154837618032!3d29.535359475184282!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39114f85e4904071%3A0x6b4329241b947c6e!2sWebcom%20Sirsa!5e0!3m2!1sen!2sin!4v1715310000000!5m2!1sen!2sin" 
+                    width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="py-5 mt-5" style="background: linear-gradient(to right, #2563eb, #0ea5e9);">
+        <div class="container text-center">
+            <h2 class="fw-bold mb-3">Ready to transform your life?</h2>
+            <p class="mb-4 opacity-75">Book a free demo session with our experts today.</p>
+            <a href="tel:+919050700577" class="btn btn-light btn-lg rounded-pill px-5 fw-bold dyn-phone">Call +91 90507 00577</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer mt-0">
+        <div class="container text-center">
+            <h3>Webcom Sirsa</h3>
+            <p>Premium IELTS • PTE • Spoken English Institute</p>
+        </div>
+    
         <div class="container mt-4 pt-4 pb-4 border-top" style="border-color: rgba(255,255,255,0.1) !important;">
             <div class="row align-items-center">
                 <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
@@ -475,23 +283,13 @@ webcomsirsa@gmail.com
                 </div>
             </div>
         </div>
-</footer>
+    </footer>
 
-<!-- WHATSAPP -->
+    <!-- WHATSAPP BUTTON -->
+    <a href="#" class="dyn-whatsapp-btn whatsapp-btn"><i class="fa-brands fa-whatsapp"></i></a>
 
-<a
-href="#" class="dyn-whatsapp-btn whatsapp-btn">
-
-<i class="fa-brands fa-whatsapp"></i>
-
-</a>
-
-<script src="script.js"></script>
-<script src="contact.js"></script>
-
-<script
-src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
-</script>
-
+    <script src="script.js"></script>
+    <script src="contact.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

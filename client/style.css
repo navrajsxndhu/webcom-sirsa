@@ -14,19 +14,13 @@ scroll-behavior:smooth;
 }
 
 body{
-
 font-family:'Inter',sans-serif;
-
 background:#0f172a;
-
 color:#ffffff;
-
 overflow-x:hidden;
-
-line-height:1.7;
-
+font-size: 0.95rem; /* Reduced from default */
+line-height:1.6;
 -webkit-font-smoothing:antialiased;
-
 }
 
 /* NAVBAR */
@@ -114,19 +108,12 @@ linear-gradient(
 }
 
 .hero-content h1{
-
-font-size:4rem;
-
+font-size:3.2rem; /* Reduced from 4rem */
 font-weight:800;
-
 line-height:1.1;
-
-margin-bottom:25px;
-
-max-width:700px;
-
-letter-spacing:-2px;
-
+margin-bottom:20px;
+max-width:650px;
+letter-spacing:-1.5px;
 }
 
 .hero-content p{
@@ -269,9 +256,7 @@ box-shadow:
 /* SECTIONS */
 
 section{
-
-padding:100px 0;
-
+padding:80px 0; /* Reduced from 100px */
 }
 
 .section-heading{
@@ -281,13 +266,9 @@ margin-bottom:60px;
 }
 
 .section-heading h2{
-
-font-size:3rem;
-
+font-size:2.5rem; /* Reduced from 3rem */
 font-weight:800;
-
-margin-bottom:15px;
-
+margin-bottom:12px;
 }
 
 .section-heading p{
@@ -305,13 +286,9 @@ margin:auto;
 .feature-card,
 .course-card,
 .testimonial-card{
-
 background:#111827;
-
-padding:40px;
-
-border-radius:28px;
-
+padding:30px; /* Reduced from 40px */
+border-radius:24px;
 height:100%;
 
 border:1px solid rgba(255,255,255,0.06);

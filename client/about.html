@@ -2,62 +2,80 @@
 <html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | Webcom Sirsa - Excellence in IELTS & PTE</title>
+    <meta name="description" content="Learn about Webcom Sirsa, the premier institute for IELTS, PTE, and Spoken English. Discover our mission, our journey, and the expert team behind our success.">
+    
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="style.css?v=1.2">
+    
+    <style>
+        .about-hero {
+            padding: 180px 0 100px;
+            background: radial-gradient(circle at top right, rgba(56, 189, 248, 0.1), transparent 40%),
+                        radial-gradient(circle at bottom left, rgba(37, 99, 235, 0.05), transparent 40%);
+        }
+        
+        .story-section {
+            padding: 100px 0;
+            position: relative;
+        }
 
-<meta charset="UTF-8">
+        .director-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 40px;
+            padding: 60px;
+            margin-top: 80px;
+        }
 
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+        .pillar-card {
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 30px;
+            padding: 40px;
+            height: 100%;
+            transition: all 0.4s ease;
+        }
 
-<title>
-About | Webcom Sirsa
-</title>
+        .pillar-card:hover {
+            transform: translateY(-10px);
+            background: rgba(56, 189, 248, 0.05);
+            border-color: rgba(56, 189, 248, 0.3);
+        }
 
-<link
-href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-rel="stylesheet">
-
-<link
-rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
-<link
-href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
-rel="stylesheet">
-
-<link rel="stylesheet"
-href="style.css?v=1.1">
-
+        .pillar-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(56, 189, 248, 0.1);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #38bdf8;
+            margin-bottom: 25px;
+        }
+    </style>
 </head>
 
 <body>
 
-<!-- NAVBAR -->
-
-<nav class="navbar navbar-expand-lg navbar-dark glass-nav fixed-top">
-
-<div class="container">
-
-<a class="navbar-brand fw-bold"
-href="index.html">
-
-WEBCOM
-
-</a>
-
-<button
-class="navbar-toggler"
-type="button"
-data-bs-toggle="collapse"
-data-bs-target="#navMenu">
-
-<span class="navbar-toggler-icon"></span>
-
-</button>
-
-<div class="collapse navbar-collapse"
-id="navMenu">
-
-<ul class="navbar-nav ms-auto">
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-dark glass-nav fixed-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="index.html">WEBCOM</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navMenu">
+                <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
                     <li class="nav-item"><a class="nav-link active" href="about.html">About</a></li>
                     <li class="nav-item"><a class="nav-link" href="courses.html">Courses</a></li>
@@ -66,599 +84,155 @@ id="navMenu">
                     <li class="nav-item"><a class="nav-link" href="testimonials.html">Results</a></li>
                     <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
                 </ul>
+                <a href="login.html" class="btn btn-admin-premium ms-lg-3 rounded-pill px-4 fw-bold">
+                    <i class="fa-solid fa-lock me-1"></i> Admin
+                </a>
+            </div>
+        </div>
+    </nav>
 
-<a href="login.html" class="btn btn-admin-premium ms-lg-3 rounded-pill px-4 fw-bold">
-    <i class="fa-solid fa-lock me-1"></i> Admin
-</a>
+    <!-- HERO -->
+    <section class="about-hero text-center">
+        <div class="container">
+            <span class="hero-badge reveal">Legacy of Excellence</span>
+            <h1 class="display-3 fw-bold mb-4 reveal reveal-delay-1">Defining the Future of <br><span class="text-info">Global Education</span></h1>
+            <p class="lead text-white-50 mx-auto reveal reveal-delay-2" style="max-width: 800px;">Webcom Sirsa is more than just an institute; it's a launchpad for your international dreams. We blend technology with tradition to deliver results that matter.</p>
+        </div>
+    </section>
 
-</div>
-
-</div>
-
-</nav>
-
-<!-- HERO -->
-
-<section class="hero">
-
-<div class="container">
-
-<div class="row align-items-center min-vh-100">
-
-<div class="col-lg-6">
-
-<div class="hero-content">
-
-<span class="hero-badge">
-About Webcom Sirsa
-</span>
-
-<h1>
-Building Global Careers Through Education
-</h1>
-
-<p>
-Webcom Sirsa is a premium IELTS, PTE and Spoken English institute dedicated to helping students achieve international education and career success.
-</p>
-
-<div class="hero-buttons">
-
-<a href="contact.html"
-class="btn btn-primary btn-lg">
-
-Book Counseling
-
-</a>
-
-<a href="courses.html"
-class="btn btn-outline-light btn-lg">
-
-Explore Our Programs
-
-</a>
-
-</div>
-
-</div>
-
-</div>
-
-<div class="col-lg-6">
-
-                    <div class="hero-image">
-                        <img loading="lazy" src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200&auto=format&fit=crop" class="img-fluid" alt="Webcom">
-                        
+    <!-- STORY SECTION -->
+    <section class="story-section">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6 reveal">
+                    <div class="creative-photo-wrapper">
+                        <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=1200&auto=format&fit=crop" class="img-fluid" alt="Webcom Journey">
                     </div>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- MISSION -->
-
-<section class="features-section">
-
-<div class="container">
-
-<div class="section-heading text-center">
-
-<h2>
-Our Mission
-</h2>
-
-<p>
-To provide world-class language training and visa guidance using modern teaching methods and technology.
-</p>
-
-</div>
-
-<div class="row g-4">
-
-<div class="col-md-4">
-
-<div class="feature-card">
-
-<i class="fa-solid fa-graduation-cap"></i>
-
-<h3>
-Quality Education
-</h3>
-
-<p>
-Providing high-standard IELTS and PTE coaching with advanced learning systems.
-</p>
-
-</div>
-
-</div>
-
-<div class="col-md-4">
-
-<div class="feature-card">
-
-<i class="fa-solid fa-globe"></i>
-
-<h3>
-Global Opportunities
-</h3>
-
-<p>
-Helping students build careers and study opportunities abroad.
-</p>
-
-</div>
-
-</div>
-
-<div class="col-md-4">
-
-<div class="feature-card">
-
-<i class="fa-solid fa-user-group"></i>
-
-<h3>
-Student Support
-</h3>
-
-<p>
-Complete guidance from admission process to visa assistance.
-</p>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- JOURNEY -->
-
-<section class="courses-section">
-
-<div class="container">
-
-<div class="row align-items-center g-5">
-
-                        <div class="creative-photo-wrapper">
-                            <img loading="lazy" src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=1200&auto=format&fit=crop" class="img-fluid" alt="Journey">
-                            
-                        </div>
-
-<div class="col-lg-6">
-
-<div class="section-heading">
-
-<h2>
-Our Journey
-</h2>
-
-<p>
-Over the years, Webcom Sirsa has trained hundreds of students and guided them toward successful international careers.
-</p>
-
-</div>
-
-<div class="feature-card">
-
-<p>
-We focus on practical learning, speaking confidence, AI-based mock testing and modern classroom experiences.
-</p>
-
-<p>
-Our experienced trainers ensure every student receives personalized mentorship and score improvement strategies.
-</p>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- TEAM -->
-
-<section class="testimonial-section">
-
-<div class="container">
-
-<div class="section-heading text-center">
-
-<h2>
-Meet Our Trainers
-</h2>
-
-<p>
-Experienced mentors committed to student success.
-</p>
-
-</div>
-
-<div class="row g-4">
-
-<div class="col-md-4">
-
-<div class="testimonial-card text-center">
-
-<img loading="lazy"
-src="https://randomuser.me/api/portraits/men/32.jpg"
-class="rounded-circle mb-4"
-width="120"
-height="120">
-
-<h3>
-Rajveer Singh
-</h3>
-
-<p>
-Senior IELTS Trainer with 8+ years of experience in band score improvement.
-</p>
-
-</div>
-
-</div>
-
-<div class="col-md-4">
-
-<div class="testimonial-card text-center">
-
-<img loading="lazy"
-src="https://randomuser.me/api/portraits/women/44.jpg"
-class="rounded-circle mb-4"
-width="120"
-height="120">
-
-<h3>
-Simran Kaur
-</h3>
-
-<p>
-PTE Expert specializing in AI-based mock testing and speaking modules.
-</p>
-
-</div>
-
-</div>
-
-<div class="col-md-4">
-
-<div class="testimonial-card text-center">
-
-<img loading="lazy"
-src="https://randomuser.me/api/portraits/men/51.jpg"
-class="rounded-circle mb-4"
-width="120"
-height="120">
-
-<h3>
-Arshdeep Gill
-</h3>
-
-<p>
-Visa counselor helping students with admissions and documentation.
-</p>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- STATS -->
-
-<section class="stats-section">
-
-<div class="container">
-
-<div class="row g-4">
-
-<div class="col-md-3">
-
-<h2>
-1000+
-</h2>
-
-<p>
-Students Trained
-</p>
-
-</div>
-
-<div class="col-md-3">
-
-<h2>
-95%
-</h2>
-
-<p>
-Visa Success
-</p>
-
-</div>
-
-<div class="col-md-3">
-
-<h2>
-8+
-</h2>
-
-<p>
-IELTS Bands
-</p>
-
-</div>
-
-<div class="col-md-3">
-
-<h2>
-79+
-</h2>
-
-<p>
-PTE Scores
-</p>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- FOOTER -->
-
-<footer class="footer">
-
-<div class="container">
-
-<div class="row">
-
-<div class="col-md-6">
-
-<h3>
-Webcom Sirsa
-</h3>
-
-<p>
-Premium IELTS, PTE & Spoken English institute in Sirsa.
-</p>
-
-</div>
-
-<div class="col-md-6 text-md-end">
-
-<h4>
-Contact
-</h4>
-
-<p>
-<span class='dyn-phone'>+91 90507 00577</span>
-</p>
-
-<p>
-<span class='dyn-address'>Opp. Town Park Road, Sirsa</span>
-</p>
-
-</div>
-
-</div>
-
-</div>
-
-</footer>
-
-<!-- STUDENT REVIEWS -->
-
-<section class="testimonial-section">
-
-<div class="container">
-
-<div class="section-heading text-center">
-
-<h2>
-What Students Say
-</h2>
-
-<p>
-Real success stories from students trained at Webcom Sirsa.
-</p>
-
-</div>
-
-<div class="row g-4">
-
-<div class="col-md-4">
-
-<div class="testimonial-card">
-
-<div class="d-flex align-items-center mb-4">
-
-<img loading="lazy"
-src="https://randomuser.me/api/portraits/men/32.jpg"
-class="rounded-circle me-3"
-width="70"
-height="70">
-
-<div>
-
-<h5 class="mb-1">
-Amanpreet Singh
-</h5>
-
-<p class="mb-0 text-info">
-IELTS Student
-</p>
-
-</div>
-
-</div>
-
-<p>
-“I was struggling with my speaking module, but the 1-on-1 sessions at Webcom completely changed my approach. Scored an overall 8 bands on my first attempt!”
-</p>
-
-<div class="text-warning">
-
-<i class="fa-solid fa-star"></i>
-<i class="fa-solid fa-star"></i>
-<i class="fa-solid fa-star"></i>
-<i class="fa-solid fa-star"></i>
-<i class="fa-solid fa-star"></i>
-
-</div>
-
-</div>
-
-</div>
-
-<div class="col-md-4">
-
-<div class="testimonial-card">
-
-<div class="d-flex align-items-center mb-4">
-
-<img loading="lazy"
-src="https://randomuser.me/api/portraits/women/44.jpg"
-class="rounded-circle me-3"
-width="70"
-height="70">
-
-<div>
-
-<h5 class="mb-1">
-Simran Kaur
-</h5>
-
-<p class="mb-0 text-info">
-PTE Student
-</p>
-
-</div>
-
-</div>
-
-<p>
-“After trying multiple institutes, I finally got my desired 79+ in PTE here. Their AI software mimics the actual exam perfectly, and the trainers are incredibly supportive.”
-</p>
-
-<div class="text-warning">
-
-<i class="fa-solid fa-star"></i>
-<i class="fa-solid fa-star"></i>
-<i class="fa-solid fa-star"></i>
-<i class="fa-solid fa-star"></i>
-<i class="fa-solid fa-star"></i>
-
-</div>
-
-</div>
-
-</div>
-
-<div class="col-md-4">
-
-<div class="testimonial-card">
-
-<div class="d-flex align-items-center mb-4">
-
-<img loading="lazy"
-src="https://randomuser.me/api/portraits/men/51.jpg"
-class="rounded-circle me-3"
-width="70"
-height="70">
-
-<div>
-
-<h5 class="mb-1">
-Gurleen Brar
-</h5>
-
-<p class="mb-0 text-info">
-Visa Client
-</p>
-
-</div>
-
-</div>
-
-<p>
-“The entire visa process felt overwhelming until I met the team here. From university selection to the final embassy interview prep, they handled everything flawlessly.”
-</p>
-
-<div class="text-warning">
-
-<i class="fa-solid fa-star"></i>
-<i class="fa-solid fa-star"></i>
-<i class="fa-solid fa-star"></i>
-<i class="fa-solid fa-star"></i>
-<i class="fa-solid fa-star"></i>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- FOOTER BOTTOM -->
-<footer class="footer">
-        <div class="container mt-4 pt-4 pb-4 border-top" style="border-color: rgba(255,255,255,0.1) !important;">
-            <div class="row align-items-center">
-                <div class="col-md-7 text-center text-md-start mb-3 mb-md-0 d-flex flex-column flex-md-row align-items-center gap-3">
-                    <p class="mb-0" style="font-size: 14px; color: #cbd5e1; font-weight: 500;">&copy; <span class="dyn-year">2026</span> Webcom Sirsa. All Rights Reserved.</p>
-                    <a href="license.html" target="_blank" class="license-badge-premium">
-                        <i class="fa-solid fa-shield-check me-1"></i> Proprietary
-                    </a>
                 </div>
-                <div class="col-md-5 d-flex flex-column flex-md-row align-items-center justify-content-md-end gap-3">
-                    <p class="mb-0" style="font-size: 14px; font-weight: 500; color: #cbd5e1;">
-                        Designed & Engineered by <span class="designer-name">Navraj Sandhu</span>
-                    </p>
-                    <div class="d-flex gap-3 ms-md-2">
-                        <a href="https://github.com/navrajsxndhu" target="_blank" class="footer-social-icon"><i class="fa-brands fa-github"></i></a>
-                        <a href="https://instagram.com/navraj_sxndhu" target="_blank" class="footer-social-icon insta"><i class="fa-brands fa-instagram"></i></a>
-                        <a href="mailto:navysandhu970@gmail.com" class="footer-social-icon mail"><i class="fa-solid fa-envelope"></i></a>
-                        <a href="tel:+919017851916" class="footer-social-icon phone"><i class="fa-solid fa-phone"></i></a>
-                        <a href="https://wa.me/919017851916" target="_blank" class="footer-social-icon wa"><i class="fa-brands fa-whatsapp"></i></a>
+                <div class="col-lg-6 reveal reveal-delay-1">
+                    <h2 class="display-5 fw-bold mb-4">The Webcom Story</h2>
+                    <p class="text-white-50 fs-5 mb-4">Founded with a vision to bridge the gap between local talent and global opportunities, Webcom Sirsa has grown into the region's most trusted name for IELTS and PTE coaching.</p>
+                    <p class="text-white-50 fs-5">Our journey began with a simple belief: every student deserves access to world-class tools and mentorship. Today, with hundreds of success stories and thousands of visa approvals, we continue to set new benchmarks in education.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PILLARS SECTION -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-4 reveal">
+                    <div class="pillar-card">
+                        <div class="pillar-icon"><i class="fa-solid fa-bullseye"></i></div>
+                        <h4>Our Mission</h4>
+                        <p class="text-white-50">To empower students with the linguistic skills and confidence required to excel in international proficiency exams and global environments.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 reveal reveal-delay-1">
+                    <div class="pillar-card">
+                        <div class="pillar-icon"><i class="fa-solid fa-eye"></i></div>
+                        <h4>Our Vision</h4>
+                        <p class="text-white-50">To be the global leader in language training, recognized for our innovative AI-driven teaching methods and student-first philosophy.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 reveal reveal-delay-2">
+                    <div class="pillar-card">
+                        <div class="pillar-icon"><i class="fa-solid fa-heart"></i></div>
+                        <h4>Our Values</h4>
+                        <p class="text-white-50">Transparency, Integrity, and Excellence are at the core of everything we do, from coaching to final visa guidance.</p>
                     </div>
                 </div>
             </div>
         </div>
-</footer>
+    </section>
 
-<!-- WHATSAPP -->
+    <!-- STATS -->
+    <section class="stats-section reveal">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-3">
+                    <h2>1000+</h2>
+                    <p>Success Stories</p>
+                </div>
+                <div class="col-md-3">
+                    <h2>95%</h2>
+                    <p>Visa Success Rate</p>
+                </div>
+                <div class="col-md-3">
+                    <h2>8.0+</h2>
+                    <p>Avg. Bands Scored</p>
+                </div>
+                <div class="col-md-3">
+                    <h2>15+</h2>
+                    <p>Years of Legacy</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<a
-href="#" class="dyn-whatsapp-btn whatsapp-btn">
+    <!-- DIRECTOR SECTION -->
+    <section class="pb-5">
+        <div class="container">
+            <div class="director-card reveal">
+                <div class="row align-items-center g-5">
+                    <div class="col-lg-4 text-center">
+                        <img src="https://play-lh.googleusercontent.com/zT--a5G3ULjLBdoiNcOZ58e7ijV3cLD4iKKl6J8QnztOGMU96j1y1QrA9clLQjDTseA" class="rounded-circle shadow-lg mb-4" width="200" height="200" style="object-fit: cover; border: 4px solid #38bdf8;" alt="Director">
+                        <h4 class="fw-bold mb-1">Shipra Miglani</h4>
+                        <p class="text-info fw-bold">Founder & Director</p>
+                    </div>
+                    <div class="col-lg-8">
+                        <i class="fa-solid fa-quote-left fs-1 text-info mb-4 opacity-50"></i>
+                        <h3 class="fw-bold mb-4">"Success is not just about scores; it's about opening doors to a world of possibilities."</h3>
+                        <p class="text-white-50 fs-5">At Webcom, we believe that education is the most powerful tool to change lives. My goal has always been to provide a supportive, high-tech environment where students can discover their true potential and achieve their dreams of studying abroad.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<i class="fa-brands fa-whatsapp"></i>
+    <!-- CTA -->
+    <section class="cta-section reveal">
+        <div class="container text-center">
+            <h2 class="fw-bold">Ready to Start Your Journey?</h2>
+            <p class="mb-4">Book a free consultation with our experts today.</p>
+            <a href="contact.html" class="btn cta-btn-premium">Get In Touch</a>
+        </div>
+    </section>
 
-</a>
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h3>Webcom Sirsa</h3>
+                    <p>Premium IELTS, PTE & Spoken English institute in Sirsa.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <h4>Contact</h4>
+                    <p><span class='dyn-phone'>+91 90507 00577</span></p>
+                    <p><span class='dyn-address'>Sirsa, Haryana</span></p>
+                </div>
+            </div>
+        </div>
+        <div class="container mt-4 pt-4 pb-4 border-top" style="border-color: rgba(255,255,255,0.1) !important;">
+            <div class="row align-items-center">
+                <div class="col-md-7 d-flex align-items-center gap-3">
+                    <p class="mb-0">&copy; 2026 Webcom Sirsa. All Rights Reserved.</p>
+                    <a href="license.html" class="license-badge-premium">Proprietary</a>
+                </div>
+                <div class="col-md-5 text-md-end">
+                    Designed & Engineered by Navraj Sandhu
+                </div>
+            </div>
+        </div>
+    </footer>
 
-<script src="script.js"></script>
+    <!-- WHATSAPP -->
+    <a href="https://wa.me/919050700577" class="whatsapp-btn"><i class="fa-brands fa-whatsapp"></i></a>
 
-<script
-src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
-</script>
-
+    <!-- JS -->
+    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

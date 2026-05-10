@@ -120,29 +120,58 @@
         }
 
         .admin-card {
-            background: rgba(15, 23, 42, 0.8);
-            backdrop-filter: blur(20px) saturate(150%);
-            -webkit-backdrop-filter: blur(20px);
+            background: rgba(15, 23, 42, 0.5);
+            backdrop-filter: blur(40px) saturate(200%);
+            -webkit-backdrop-filter: blur(40px);
             border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 24px;
-            padding: 30px;
+            border-radius: 30px;
+            padding: 35px;
             margin-bottom: 30px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.05);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s;
+        }
+        .admin-card:hover {
+            border-color: rgba(56, 189, 248, 0.2);
         }
 
-        @media (max-width: 767px) {
-            .admin-card {
-                padding: 20px;
-                border-radius: 16px;
-            }
-            .stat-card h3 { font-size: 2rem; }
-            .table-dark td, .table-dark th {
-                padding: 12px 8px;
-                font-size: 13px;
-            }
-            .nav-btn {
-                padding: 16px 20px;
-            }
+        .form-control, .form-select {
+            background: rgba(0,0,0,0.2) !important;
+            border: 1px solid rgba(255,255,255,0.1) !important;
+            color: white !important;
+            border-radius: 14px;
+            padding: 12px 18px;
+            transition: all 0.3s;
+        }
+        .form-control:focus, .form-select:focus {
+            background: rgba(0,0,0,0.4) !important;
+            border-color: #38bdf8 !important;
+            box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.15) !important;
+        }
+
+        .list-group-item {
+            background: rgba(255,255,255,0.03) !important;
+            border: 1px solid rgba(255,255,255,0.05) !important;
+            color: white !important;
+            border-radius: 16px !important;
+            margin-bottom: 12px !important;
+            padding: 20px !important;
+            transition: all 0.3s;
+        }
+        .list-group-item:hover {
+            background: rgba(255,255,255,0.06) !important;
+            transform: translateX(5px);
+        }
+
+        .badge-premium {
+            background: rgba(56, 189, 248, 0.1);
+            color: #38bdf8;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            padding: 5px 12px;
+            border-radius: 99px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .stat-card {
@@ -318,8 +347,13 @@
 
             <!-- INQUIRIES PANEL -->
             <div id="inquiries-panel" class="panel">
-                <h2 class="fw-bold mb-4">Student Inquiries</h2>
-                <p class="text-muted mb-4">Messages submitted from the website Contact Form.</p>
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <div>
+                        <h2 class="fw-bold mb-1"><i class="fa-solid fa-satellite-dish me-2 text-primary"></i> Live Inquiries</h2>
+                        <p class="text-muted mb-0">Messages submitted from the website Contact Form.</p>
+                    </div>
+                    <span class="badge-premium pulse-animation"><i class="fa-solid fa-circle me-1" style="font-size: 8px;"></i> Real-time</span>
+                </div>
 
                 <div class="admin-card">
                     <div class="table-responsive">
@@ -344,7 +378,10 @@
             <!-- COURSES PANEL -->
             <div id="courses-panel" class="panel">
                 <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h2 class="fw-bold m-0">Edit Courses</h2>
+                <div class="mb-1">
+                    <h2 class="fw-bold m-0"><i class="fa-solid fa-graduation-cap me-2 text-purple"></i> Program Catalog</h2>
+                    <p class="text-muted small">Update course fees, durations, and details.</p>
+                </div>
                     <button class="btn btn-primary" id="saveCoursesBtn" style="border-radius: 12px; font-weight: 600;"><i class="fa-solid fa-cloud-arrow-up me-2"></i>Publish Changes</button>
                 </div>
 
@@ -369,7 +406,10 @@
             <!-- STAFF PANEL -->
             <div id="staff-panel" class="panel">
                 <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h2 class="fw-bold m-0">Manage Staff</h2>
+                <div class="mb-1">
+                    <h2 class="fw-bold m-0"><i class="fa-solid fa-users-gear me-2 text-success"></i> Team Management</h2>
+                    <p class="text-muted small">Manage the professional trainers and educators.</p>
+                </div>
                     <button class="btn btn-primary" id="saveStaffBtn" style="border-radius: 12px; font-weight: 600;"><i class="fa-solid fa-cloud-arrow-up me-2"></i>Publish Changes</button>
                 </div>
 
@@ -417,7 +457,10 @@
             <!-- TESTIMONIALS PANEL -->
             <div id="testimonials-panel" class="panel">
                 <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h2 class="fw-bold m-0">Edit Testimonials</h2>
+                <div class="mb-1">
+                    <h2 class="fw-bold m-0"><i class="fa-solid fa-award me-2 text-warning"></i> Hall of Fame</h2>
+                    <p class="text-muted small">Post student results, band scores, and reviews.</p>
+                </div>
                     <button class="btn btn-primary" id="saveTestimonialsBtn" style="border-radius: 12px; font-weight: 600;"><i class="fa-solid fa-cloud-arrow-up me-2"></i>Publish Changes</button>
                 </div>
 
@@ -467,7 +510,10 @@
 
             <!-- GALLERY PANEL -->
             <div id="gallery-panel" class="panel">
-                <h2 class="fw-bold mb-4">Manage Gallery</h2>
+                <div class="mb-4">
+                    <h2 class="fw-bold mb-1"><i class="fa-solid fa-photo-film me-2 text-info"></i> Visual Media</h2>
+                    <p class="text-muted small">Manage classroom photos and workshop highlights.</p>
+                </div>
                 
                 <div class="row">
                     <div class="col-md-6">
@@ -527,7 +573,10 @@
 
             <!-- SETTINGS PANEL -->
             <div id="settings-panel" class="panel">
-                <h2 class="fw-bold mb-4">Contact Settings</h2>
+                <div class="mb-4">
+                    <h2 class="fw-bold mb-1"><i class="fa-solid fa-sliders me-2 text-secondary"></i> System Config</h2>
+                    <p class="text-muted small">Manage contact info and global configurations.</p>
+                </div>
                 <div class="admin-card">
                     <form id="settingsForm">
                         <div class="row g-4 mb-4">

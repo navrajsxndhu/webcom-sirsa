@@ -200,6 +200,27 @@
         }
         .back-link:hover { color: #fff; transform: translateX(-5px); }
         
+        .forgot-btn-premium {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s var(--apple-ease);
+            display: inline-flex;
+            align-items: center;
+        }
+        .forgot-btn-premium:hover {
+            background: rgba(56, 189, 248, 0.1);
+            border-color: rgba(56, 189, 248, 0.3);
+            color: #38bdf8;
+            transform: translateY(-1px);
+            box-shadow: 0 5px 15px rgba(56, 189, 248, 0.15);
+        }
+
         /* Error Shake Animation */
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
@@ -243,9 +264,14 @@
                     </button>
                 </div>
 
-
-                <div class="text-end mb-4">
-                    <a href="#" id="forgotBtn" class="text-muted small text-decoration-none hover-glow" style="font-weight: 600; transition: all 0.3s;">Forgot Access?</a>
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="rememberMe" style="background-color: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.1);">
+                        <label class="form-check-label text-muted small" for="rememberMe">Remember</label>
+                    </div>
+                    <a href="#" id="forgotBtn" class="forgot-btn-premium">
+                        <i class="fa-solid fa-circle-question me-1"></i> Forgot Access?
+                    </a>
                 </div>
                 
                 <button type="submit" id="loginBtn" class="btn btn-primary w-100 login-btn">

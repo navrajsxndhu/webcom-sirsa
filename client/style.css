@@ -744,18 +744,28 @@ font-size:2rem;
     position: absolute;
     top: 20px;
     right: 20px;
-    background: rgba(15, 23, 42, 0.8);
-    border: 1px solid rgba(56, 189, 248, 0.3);
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 11px;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(56, 189, 248, 0.4);
+    padding: 6px 14px;
+    border-radius: 99px;
+    font-size: 10px;
     font-weight: 800;
-    color: #38bdf8;
+    color: #fff;
     text-transform: uppercase;
     letter-spacing: 1px;
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3), 0 0 20px rgba(56, 189, 248, 0.1);
+    z-index: 5;
+    transition: all 0.3s ease;
+}
+
+.testimonial-card:hover .testimonial-badge {
+    transform: translateY(-2px) scale(1.05);
+    border-color: rgba(56, 189, 248, 0.8);
+    box-shadow: 0 8px 25px rgba(56, 189, 248, 0.2);
 }
 
 .testimonial-badge::before {
@@ -763,6 +773,14 @@ font-size:2rem;
     font-family: 'Font Awesome 6 Free';
     font-weight: 900;
     color: #f59e0b;
+    font-size: 12px;
+    filter: drop-shadow(0 0 5px rgba(245, 158, 11, 0.5));
+    animation: starPulse 2s infinite ease-in-out;
+}
+
+@keyframes starPulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.2); opacity: 0.8; }
 }
 
 .score-placeholder-wrapper {

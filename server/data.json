@@ -24,7 +24,16 @@
   "testimonials": [
     { "id": 1, "score": "8 Bands IELTS", "review": "Amazing trainers and speaking practice sessions.", "student": "Amanpreet Singh", "photo": "" },
     { "id": 2, "score": "79+ PTE", "review": "AI mock tests helped me improve very quickly.", "student": "Priya Verma", "photo": "" },
-    { "id": 3, "score": "Canada Visa Approved", "review": "Professional support from admission to visa.", "student": "Gurleen Brar", "photo": "" }
+    { "id": 3, "score": "Canada Visa Approved", "review": "Professional support from admission to visa.", "student": "Gurleen Brar", "photo": "" },
+    { "id": 4, "score": "8.5 Bands IELTS", "review": "The intensive training at Webcom helped me achieve my target score for Canada PR. Highly recommend!", "student": "Arjun Mehra", "photo": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=400&auto=format&fit=crop" },
+    { "id": 5, "score": "82 Score PTE", "review": "AI mock tests were a game changer. I improved from 65 to 82 in just 4 weeks.", "student": "Sanya Goyal", "photo": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=400&auto=format&fit=crop" },
+    { "id": 6, "score": "UK Study Visa Approved", "review": "Excellent guidance for university selection and visa interview preparation.", "student": "Karan Dhillon", "photo": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&auto=format&fit=crop" },
+    { "id": 7, "score": "7.5 Bands IELTS", "review": "Spoken English classes boosted my confidence. The trainers are very supportive.", "student": "Ishani Verma", "photo": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=400&auto=format&fit=crop" },
+    { "id": 8, "score": "79+ PTE", "review": "Best PTE coaching in Sirsa. The lab facilities and AI software are top-notch.", "student": "Rohan Singhal", "photo": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=400&auto=format&fit=crop" },
+    { "id": 9, "score": "Australia Visa Approved", "review": "Transparent process and genuine advice. Thank you Webcom team for my visa!", "student": "Mehak Preet", "photo": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=400&auto=format&fit=crop" },
+    { "id": 10, "score": "8 Bands IELTS", "review": "The 1-on-1 writing feedback helped me overcome my plateau. Great experience.", "student": "Deepak Hooda", "photo": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=400&auto=format&fit=crop" },
+    { "id": 11, "score": "78 PTE", "review": "Friendly environment and flexible timings made it easy to balance work and studies.", "student": "Navdeep Kaur", "photo": "https://images.unsplash.com/photo-1554151228-14d9def656e4?q=80&w=400&auto=format&fit=crop" },
+    { "id": 12, "score": "USA Visa Success", "review": "Guided me through every step of the F1 visa process. Very happy with the result!", "student": "Sahil Bansal", "photo": "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=400&auto=format&fit=crop" }
   ],
   "eventVideos": [
     { "id": 1, "url": "assets/videos/event1.mp4" },

@@ -164,25 +164,38 @@ async function migrateDataIfNeeded() {
 }
 
 const readData = async () => {
-    if (isMongoConnected) {
-        const dbData = await WebData.findOne();
-        return dbData ? dbData.toObject() : { settings: {}, courses: [], gallery: [], staff: [], testimonials: [], eventVideos: [] };
-    }
     try {
-        const rawData = fs.readFileSync(dataFilePath);
-        return JSON.parse(rawData);
+        if (isMongoConnected) {
+            const dbData = await WebData.findOne();
+            const inquiries = await Inquiry.find().sort({ date: -1 });
+            const data = dbData ? dbData.toObject() : { settings: {}, courses: [], gallery: [], staff: [], testimonials: [], eventVideos: [] };
+            data.inquiries = inquiries; // Include inquiries from MongoDB
+            return data;
+        }
+        
+        // Fallback to local file (Non-persistent on Vercel)
+        if (fs.existsSync(dataFilePath)) {
+            const rawData = fs.readFileSync(dataFilePath);
+            return JSON.parse(rawData);
+        }
+        return { settings: {}, courses: [], gallery: [], staff: [], testimonials: [], eventVideos: [], inquiries: [] };
     } catch (error) {
+        console.error("Data Read Error:", error);
         return { settings: {}, courses: [], gallery: [], staff: [], testimonials: [], eventVideos: [], inquiries: [] };
     }
 };
 
 const writeData = async (data) => {
-    if (isMongoConnected) {
-        const { inquiries, admin, ...publicData } = data;
-        await WebData.findOneAndUpdate({}, publicData, { upsert: true });
-        return;
+    try {
+        if (isMongoConnected) {
+            const { inquiries, admin, ...publicData } = data;
+            await WebData.findOneAndUpdate({}, publicData, { upsert: true });
+            return;
+        }
+        fs.writeFileSync(dataFilePath, JSON.stringify(data, null, 2));
+    } catch (error) {
+        console.error("Data Write Error:", error);
     }
-    fs.writeFileSync(dataFilePath, JSON.stringify(data, null, 2));
 };
 
 // --- ROUTES ---
@@ -422,25 +435,39 @@ app.use((err, req, res, next) => {
 const CLEANUP_INTERVAL = 1 * 60 * 60 * 1000; // Check every 1 hour
 const EXPIRY_TIME = 50 * 60 * 60 * 1000;    // 50 Hours in milliseconds
 
-setInterval(() => {
+setInterval(async () => {
     console.log("Running inquiry cleanup task...");
-    const data = readData();
-    if (!data.inquiries || data.inquiries.length === 0) return;
-
     const now = Date.now();
-    const initialCount = data.inquiries.length;
-    
-    // Keep only inquiries newer than 50 hours
-    data.inquiries = data.inquiries.filter(inq => {
-        const inqTime = new Date(inq.date).getTime();
-        return (now - inqTime) < EXPIRY_TIME;
-    });
+    const expiryDate = new Date(now - EXPIRY_TIME);
 
-    if (data.inquiries.length < initialCount) {
-        writeData(data);
-        console.log(`Cleanup complete: Removed ${initialCount - data.inquiries.length} expired inquiries.`);
-    } else {
-        console.log("Cleanup complete: No expired inquiries found.");
+    if (isMongoConnected) {
+        try {
+            const result = await Inquiry.deleteMany({ date: { $lt: expiryDate } });
+            if (result.deletedCount > 0) {
+                console.log(`MongoDB Cleanup: Removed ${result.deletedCount} expired inquiries.`);
+            }
+        } catch (err) {
+            console.error("MongoDB Cleanup Error:", err);
+        }
+    }
+
+    // Also cleanup local data.json if it exists (for safety/local dev)
+    try {
+        const data = await readData();
+        if (data.inquiries && data.inquiries.length > 0) {
+            const initialCount = data.inquiries.length;
+            data.inquiries = data.inquiries.filter(inq => {
+                const inqTime = new Date(inq.date).getTime();
+                return (now - inqTime) < EXPIRY_TIME;
+            });
+
+            if (data.inquiries.length < initialCount) {
+                await writeData(data);
+                console.log(`Local Cleanup: Removed ${initialCount - data.inquiries.length} expired inquiries.`);
+            }
+        }
+    } catch (err) {
+        console.error("Local Cleanup Error:", err);
     }
 }, CLEANUP_INTERVAL);
 

@@ -681,7 +681,7 @@ font-size:2rem;
     border-radius: 50%;
     transform: translate(-50%, -50%);
     pointer-events: none;
-    z-index: 1000000;
+    z-index: 99999999;
     box-shadow: 0 0 20px 8px rgba(56, 189, 248, 0.3);
     transition: width 0.3s var(--apple-spring), height 0.3s var(--apple-spring), background 0.3s;
     mix-blend-mode: screen;

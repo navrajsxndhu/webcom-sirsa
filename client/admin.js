@@ -528,6 +528,54 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // --- CHANGE CREDENTIALS ---
+    const changeCredsForm = document.getElementById('changeCredentialsForm');
+    if (changeCredsForm) {
+        changeCredsForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('saveCredentialsBtn');
+            const originalHtml = btn.innerHTML;
+
+            const currentPassword = document.getElementById('secCurrentPass').value;
+            const newUsername = document.getElementById('secNewUser').value;
+            const newPassword = document.getElementById('secNewPass').value;
+            const confirmPassword = document.getElementById('secConfirmPass').value;
+
+            if (newPassword !== confirmPassword) {
+                showToast('Error', 'New passwords do not match.', 'error');
+                return;
+            }
+
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin me-2"></i>Updating...';
+            btn.disabled = true;
+
+            try {
+                const res = await fetch(`${API_BASE}/change-credentials`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                    body: JSON.stringify({ currentPassword, newUsername, newPassword })
+                });
+
+                const data = await res.json();
+
+                if (res.ok) {
+                    showToast('Success', 'Credentials updated! Logging out...', 'success');
+                    setTimeout(() => {
+                        localStorage.removeItem('webcom_admin_token');
+                        window.location.href = 'login.html';
+                    }, 2000);
+                } else {
+                    showToast('Error', data.error || 'Failed to update credentials.', 'error');
+                }
+            } catch (err) {
+                showToast('Error', 'Network connection failed.', 'error');
+            } finally {
+                btn.innerHTML = originalHtml;
+                btn.disabled = false;
+            }
+        });
+    }
+
     // Init
     fetchDashboardData();
 });

@@ -124,186 +124,6 @@
   ],
   "testimonials": [
     {
-      "student": "Alka",
-      "score": "IELTS 6.5 Bands",
-      "review": "Achieved my dream score! Thank you Webcom Sirsa for the amazing guidance.",
-      "photo": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=600&auto=format&fit=crop"
-    },
-    {
-      "student": "Priyanka",
-      "score": "IELTS 6.5 Bands",
-      "review": "The mock tests and faculty support were incredible. Highly recommended!",
-      "photo": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=600&auto=format&fit=crop"
-    },
-    {
-      "student": "Harman",
-      "score": "PTE 62",
-      "review": "Webcom's state-of-the-art lab helped me crack PTE in my very first attempt.",
-      "photo": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=600&auto=format&fit=crop"
-    },
-    {
-      "student": "Harkirat Singh",
-      "score": "PTE 69",
-      "review": "Best institute in Sirsa! The faculty is incredibly supportive and knowledgeable.",
-      "photo": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=600&auto=format&fit=crop"
-    },
-    {
-      "student": "Pooja Kumar",
-      "score": "PTE 79+",
-      "review": "Webcom Sirsa completely transformed my speaking confidence. Highly recommended!",
-      "photo": "https://placehold.co/600x800/1e293b/34d399.png?text=PTE%2079%2B&font=montserrat"
-    },
-    {
-      "student": "Navjot Kaur",
-      "score": "IELTS 7.5 Bands",
-      "review": "They focus on your weak points and give targeted feedback. Brilliant experience.",
-      "photo": "https://placehold.co/600x800/18181b/38bdf8.png?text=IELTS%207.5%20Bands&font=montserrat"
-    },
-    {
-      "student": "Prabhjot Chahal",
-      "score": "IELTS 6.5 Bands",
-      "review": "Achieved my dream score on the first attempt thanks to the personalized coaching.",
-      "photo": "https://placehold.co/600x800/18181b/818cf8.png?text=IELTS%206.5%20Bands&font=montserrat"
-    },
-    {
-      "student": "Varun Rajput",
-      "score": "IELTS 6.5 Bands",
-      "review": "Achieved my dream score on the first attempt thanks to the personalized coaching.",
-      "photo": "https://placehold.co/600x800/111827/818cf8.png?text=IELTS%206.5%20Bands&font=montserrat"
-    },
-    {
-      "student": "Rohan Verma",
-      "score": "IELTS 7.0 Bands",
-      "review": "I couldn't have asked for better mentors. They truly care about student success.",
-      "photo": "https://placehold.co/600x800/0f172a/38bdf8.png?text=IELTS%207.0%20Bands&font=montserrat"
-    },
-    {
-      "student": "Pooja Tiwari",
-      "score": "IELTS 8.0 Bands",
-      "review": "Excellent environment and state-of-the-art facilities for PTE practice.",
-      "photo": "https://placehold.co/600x800/18181b/fbbf24.png?text=IELTS%208.0%20Bands&font=montserrat"
-    },
-    {
-      "student": "Rishi Mishra",
-      "score": "IELTS 7.5 Bands",
-      "review": "Achieved my dream score on the first attempt thanks to the personalized coaching.",
-      "photo": "https://placehold.co/600x800/0f172a/34d399.png?text=IELTS%207.5%20Bands&font=montserrat"
-    },
-    {
-      "student": "Gurpreet Gill",
-      "score": "IELTS 7.5 Bands",
-      "review": "The mock tests were exactly like the real exam. Scored way above my expectations.",
-      "photo": "https://placehold.co/600x800/0f172a/38bdf8.png?text=IELTS%207.5%20Bands&font=montserrat"
-    },
-    {
-      "student": "Pooja Rajput",
-      "score": "IELTS 8.5 Bands",
-      "review": "I struggled with reading, but their techniques made it so easy. Got my desired score!",
-      "photo": "https://placehold.co/600x800/18181b/fbbf24.png?text=IELTS%208.5%20Bands&font=montserrat"
-    },
-    {
-      "student": "Ananya Bansal",
-      "score": "IELTS 8.5 Bands",
-      "review": "The 1-on-1 speaking sessions were a game changer for me.",
-      "photo": "https://placehold.co/600x800/171717/38bdf8.png?text=IELTS%208.5%20Bands&font=montserrat"
-    },
-    {
-      "student": "Prabhjot Cheema",
-      "score": "PTE 65+",
-      "review": "Visa process was smooth sailing after I got my scores. Thank you Webcom!",
-      "photo": "https://placehold.co/600x800/111827/38bdf8.png?text=PTE%2065%2B&font=montserrat"
-    },
-    {
-      "student": "Navjot Kaur",
-      "score": "IELTS 7.0 Bands",
-      "review": "Webcom Sirsa completely transformed my speaking confidence. Highly recommended!",
-      "photo": "https://placehold.co/600x800/0f172a/38bdf8.png?text=IELTS%207.0%20Bands&font=montserrat"
-    },
-    {
-      "student": "Riya Kumar",
-      "score": "IELTS 7.0 Bands",
-      "review": "They focus on your weak points and give targeted feedback. Brilliant experience.",
-      "photo": "https://placehold.co/600x800/0f172a/f472b6.png?text=IELTS%207.0%20Bands&font=montserrat"
-    },
-    {
-      "student": "Navdeep Brar",
-      "score": "PTE 65+",
-      "review": "I struggled with reading, but their techniques made it so easy. Got my desired score!",
-      "photo": "https://placehold.co/600x800/0f172a/fbbf24.png?text=PTE%2065%2B&font=montserrat"
-    },
-    {
-      "student": "Manpreet Cheema",
-      "score": "PTE 79+",
-      "review": "Webcom Sirsa completely transformed my speaking confidence. Highly recommended!",
-      "photo": "https://placehold.co/600x800/171717/fbbf24.png?text=PTE%2079%2B&font=montserrat"
-    },
-    {
-      "student": "Navdeep Chahal",
-      "score": "IELTS 7.5 Bands",
-      "review": "The mock tests were exactly like the real exam. Scored way above my expectations.",
-      "photo": "https://placehold.co/600x800/171717/fbbf24.png?text=IELTS%207.5%20Bands&font=montserrat"
-    },
-    {
-      "student": "Sneha Mishra",
-      "score": "PTE 85+",
-      "review": "Visa process was smooth sailing after I got my scores. Thank you Webcom!",
-      "photo": "https://placehold.co/600x800/171717/f472b6.png?text=PTE%2085%2B&font=montserrat"
-    },
-    {
-      "student": "Manish Kumar",
-      "score": "IELTS 8.5 Bands",
-      "review": "Excellent environment and state-of-the-art facilities for PTE practice.",
-      "photo": "https://placehold.co/600x800/111827/818cf8.png?text=IELTS%208.5%20Bands&font=montserrat"
-    },
-    {
-      "student": "Saanvi Tiwari",
-      "score": "PTE 90",
-      "review": "The mock tests were exactly like the real exam. Scored way above my expectations.",
-      "photo": "https://placehold.co/600x800/18181b/38bdf8.png?text=PTE%2090&font=montserrat"
-    },
-    {
-      "student": "Prabhjot Gill",
-      "score": "IELTS 8.0 Bands",
-      "review": "They focus on your weak points and give targeted feedback. Brilliant experience.",
-      "photo": "https://placehold.co/600x800/111827/f472b6.png?text=IELTS%208.0%20Bands&font=montserrat"
-    },
-    {
-      "student": "Myra Tiwari",
-      "score": "IELTS 8.0 Bands",
-      "review": "Webcom Sirsa completely transformed my speaking confidence. Highly recommended!",
-      "photo": "https://placehold.co/600x800/18181b/f472b6.png?text=IELTS%208.0%20Bands&font=montserrat"
-    },
-    {
-      "student": "Maya Kumar",
-      "score": "PTE 85+",
-      "review": "The 1-on-1 speaking sessions were a game changer for me.",
-      "photo": "https://placehold.co/600x800/0f172a/34d399.png?text=PTE%2085%2B&font=montserrat"
-    },
-    {
-      "student": "Gurpreet Brar",
-      "score": "IELTS 6.5 Bands",
-      "review": "Excellent environment and state-of-the-art facilities for PTE practice.",
-      "photo": "https://placehold.co/600x800/171717/38bdf8.png?text=IELTS%206.5%20Bands&font=montserrat"
-    },
-    {
-      "student": "Navdeep Grewal",
-      "score": "IELTS 8.0 Bands",
-      "review": "Excellent environment and state-of-the-art facilities for PTE practice.",
-      "photo": "https://placehold.co/600x800/1e293b/f472b6.png?text=IELTS%208.0%20Bands&font=montserrat"
-    },
-    {
-      "student": "Neha Yadav",
-      "score": "IELTS 8.5 Bands",
-      "review": "Visa process was smooth sailing after I got my scores. Thank you Webcom!",
-      "photo": "https://placehold.co/600x800/0f172a/fbbf24.png?text=IELTS%208.5%20Bands&font=montserrat"
-    },
-    {
-      "student": "Harpreet Chahal",
-      "score": "IELTS 6.5 Bands",
-      "review": "I couldn't have asked for better mentors. They truly care about student success.",
-      "photo": "https://placehold.co/600x800/18181b/38bdf8.png?text=IELTS%206.5%20Bands&font=montserrat"
-    },
-    {
       "student": "Dhruv Tiwari",
       "score": "PTE 90",
       "review": "The mock tests were exactly like the real exam. Scored way above my expectations.",
@@ -359,7 +179,13 @@
     }
   ],
   "eventVideos": [
-    { "id": 1, "url": "assets/videos/event1.mp4" },
-    { "id": 2, "url": "assets/videos/event2.mp4" }
+    {
+      "id": 1,
+      "url": "assets/videos/event1.mp4"
+    },
+    {
+      "id": 2,
+      "url": "assets/videos/event2.mp4"
+    }
   ]
 }

@@ -189,6 +189,7 @@
     <!-- JS -->
     <script src="script.js"></script>
     <script>
+        document.addEventListener('DOMContentLoaded', loadTestimonials);
         async function loadTestimonials() {
             try {
                 const data = await getWebcomData();
@@ -257,7 +258,7 @@
                         } else if(videoUrl.includes('youtu.be/')) {
                             embedUrl = videoUrl.replace('youtu.be/', 'youtube.com/embed/');
                         }
-                        const modal = new bootstrap.Modal(document.getElementById('videoModal'));
+                        iframe.src = embedUrl;
                         modal.show();
                     });
                 });

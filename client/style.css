@@ -882,18 +882,12 @@ font-size:2rem;
     left: 150%;
 }
 
-.glass-reflection {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 100%);
-    pointer-events: none;
-    z-index: 2;
-}
+
 
 /* PREMIUM PHOTO EFFECTS */
 .hero-image { position: relative; perspective: 1000px; }
 .hero-image img { width: 100%; border-radius: 30px; object-fit: cover; box-shadow: 0 25px 60px rgba(0,0,0,0.5); animation: floatingImage 6s infinite ease-in-out; transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.5s; }
-.hero-image::after { content: ''; position: absolute; inset: 0; border-radius: 30px; background: linear-gradient(125deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 40%, rgba(255,255,255,0) 60%, rgba(255,255,255,0.05) 100%); pointer-events: none; z-index: 2; }
+
 @keyframes floatingImage { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-20px) rotate(0.5deg); } }
 .hero-image:hover img { transform: translateY(-5px) scale(1.02); box-shadow: 0 40px 80px rgba(0,0,0,0.6); }
 

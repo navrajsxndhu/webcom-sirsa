@@ -117,7 +117,17 @@ function showToast(title, message, type = 'success') {
     const toast = document.createElement('div');
     toast.className = `apple-toast ${type}`;
     
-    const icon = type === 'success' ? '<i class="fa-solid fa-check-circle" style="color:#34c759"></i>' : '<i class="fa-solid fa-exclamation-circle" style="color:#ff3b30"></i>';
+    let icon;
+    if (type === 'success') {
+        icon = '<i class="fa-solid fa-check-circle" style="color:#34c759"></i>';
+    } else if (type === 'error') {
+        icon = '<i class="fa-solid fa-circle-xmark" style="color:#ff3b30"></i>';
+    } else if (type === 'warning') {
+        icon = '<i class="fa-solid fa-triangle-exclamation" style="color:#ff9f0a"></i>';
+    } else {
+        // info or default
+        icon = '<i class="fa-solid fa-circle-info" style="color:#007aff"></i>';
+    }
 
     toast.innerHTML = `
         <div class="toast-icon">${icon}</div>
@@ -131,6 +141,6 @@ function showToast(title, message, type = 'success') {
     setTimeout(() => toast.classList.add('show'), 10);
     setTimeout(() => {
         toast.classList.remove('show');
-        setTimeout(() => toast.remove(), 400);
-    }, 4000);
+        setTimeout(() => toast.remove(), 500);
+    }, 4500);
 }

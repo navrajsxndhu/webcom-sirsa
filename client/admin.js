@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // --- FETCH DATA ---
-    let globalData = { settings: {}, courses: [], gallery: [], staff: [], testimonials: [] };
+    let globalData = { settings: {}, courses: [], gallery: [], staff: [], testimonials: [], eventVideos: [] };
     let globalInquiries = [];
 
     async function fetchDashboardData() {

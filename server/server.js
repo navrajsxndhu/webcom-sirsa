@@ -286,6 +286,18 @@ app.post('/api/gallery', authenticateToken, (req, res) => {
     res.json({ success: true, message: 'Gallery updated successfully' });
 });
 
+// Protected Route: Update Event Videos
+app.post('/api/event-videos', authenticateToken, (req, res) => {
+    const { eventVideos } = req.body;
+    if(!eventVideos || !Array.isArray(eventVideos)) return res.status(400).json({ error: 'Invalid video data' });
+
+    const data = readData();
+    data.eventVideos = eventVideos;
+    writeData(data);
+
+    res.json({ success: true, message: 'Event videos updated successfully' });
+});
+
 // Global Error Handler
 app.use((err, req, res, next) => {
     console.error('Server Error:', err.message);

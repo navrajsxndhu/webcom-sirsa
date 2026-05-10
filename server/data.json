@@ -357,5 +357,9 @@
       "review": "I struggled with reading, but their techniques made it so easy. Got my desired score!",
       "photo": "https://placehold.co/600x800/18181b/f472b6.png?text=PTE%2065%2B&font=montserrat"
     }
+  ],
+  "eventVideos": [
+    { "id": 1, "url": "assets/videos/event1.mp4" },
+    { "id": 2, "url": "assets/videos/event2.mp4" }
   ]
 }

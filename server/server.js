@@ -133,15 +133,23 @@ const WebData = mongoose.model('WebData', webDataSchema);
 let isMongoConnected = false;
 
 if (MONGODB_URI) {
+    console.log("MONGODB_URI detected. Attempting to connect...");
+    // Log a masked version for debugging
+    const maskedUri = MONGODB_URI.replace(/\/\/.*@/, "//****:****@");
+    console.log("Connecting to:", maskedUri);
+
     mongoose.connect(MONGODB_URI)
         .then(() => {
-            console.log("Connected to MongoDB Atlas");
+            console.log("✅ SUCCESS: Connected to MongoDB Atlas");
             isMongoConnected = true;
             migrateDataIfNeeded();
         })
-        .catch(err => console.error("MongoDB connection error:", err));
+        .catch(err => {
+            console.error("❌ FAILED: MongoDB connection error:", err.message);
+            isMongoConnected = false;
+        });
 } else {
-    console.log("No MONGODB_URI found. Falling back to data.json (Non-persistent on Vercel)");
+    console.log("⚠️ WARNING: No MONGODB_URI found in environment variables. Falling back to local data.json.");
 }
 
 // Migration Logic: Move data from JSON to MongoDB
@@ -189,9 +197,14 @@ const readData = async () => {
 
 // System Health/Status Check
 app.get('/api/system-status', (req, res) => {
+    const hasUri = !!process.env.MONGODB_URI;
+    const maskedUri = hasUri ? process.env.MONGODB_URI.replace(/\/\/.*@/, "//****:****@") : 'Not Found';
+    
     res.json({
         database: isMongoConnected ? 'MongoDB Atlas (Persistent)' : 'Local File (Ephemeral)',
         connected: isMongoConnected,
+        uriDetected: hasUri,
+        maskedUri: maskedUri,
         environment: process.env.NODE_ENV || 'production'
     });
 });

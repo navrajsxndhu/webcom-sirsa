@@ -260,6 +260,9 @@
             <button class="nav-btn" data-target="settings-panel">
                 <i class="fa-solid fa-gear"></i> Contact Settings
             </button>
+            <button class="nav-btn" data-target="security-panel">
+                <i class="fa-solid fa-shield-halved"></i> Security Vault
+            </button>
 
             <hr style="border-color: rgba(255,255,255,0.1); margin: 20px 0;">
 
@@ -617,6 +620,47 @@
             </div>
 
             <!-- SECURITY PANEL -->
+            <div id="security-panel" class="panel">
+                <div class="mb-4">
+                    <h2 class="fw-bold mb-1"><i class="fa-solid fa-user-shield me-2 text-warning"></i> Security Vault</h2>
+                    <p class="text-muted small">Protect your administrative access and recovery keys.</p>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-md-5">
+                        <div class="admin-card mb-4" style="background: rgba(234, 179, 8, 0.05); border-color: rgba(234, 179, 8, 0.2);">
+                            <h5 class="fw-bold mb-3">System Recovery Key</h5>
+                            <p class="text-muted small mb-3">Keep this key safe. Use it if you ever lose your login credentials.</p>
+                            <div class="p-3 rounded bg-dark border border-secondary border-opacity-25 d-flex justify-content-between align-items-center">
+                                <code id="adminRecoveryKey" class="text-warning fw-bold" style="font-size: 16px;">LOADING-KEY...</code>
+                                <button class="btn btn-sm btn-outline-warning" onclick="copyRecoveryKey()"><i class="fa-solid fa-copy"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="admin-card">
+                            <h5 class="fw-bold mb-4">Change Access Credentials</h5>
+                            <form id="changeCredsForm">
+                                <div class="mb-3">
+                                    <label class="text-muted mb-2 text-uppercase" style="font-size: 11px; font-weight:700;">New Username</label>
+                                    <input type="text" id="newAdminUser" class="form-control" placeholder="Enter new username" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="text-muted mb-2 text-uppercase" style="font-size: 11px; font-weight:700;">New Password</label>
+                                    <input type="password" id="newAdminPass" class="form-control" placeholder="Minimum 6 characters" required minlength="6">
+                                </div>
+                                <hr class="border-secondary opacity-25 my-4">
+                                <div class="mb-4">
+                                    <label class="text-muted mb-2 text-uppercase" style="font-size: 11px; font-weight:700; color: #ef4444 !important;">Current Password (To Confirm)</label>
+                                    <input type="password" id="currentAdminPass" class="form-control border-danger border-opacity-25" placeholder="Verification required" required>
+                                </div>
+                                <button type="submit" class="btn btn-warning w-100 fw-bold" style="border-radius: 12px;">Update Credentials</button>
+                                <p class="text-center mt-3 text-muted small"><i class="fa-solid fa-circle-info me-1"></i> You will be logged out after updating.</p>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
 
 

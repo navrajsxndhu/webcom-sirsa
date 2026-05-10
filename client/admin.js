@@ -593,9 +593,64 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // --- CHANGE CREDENTIALS ---
+    async function fetchAdminProfile() {
+        try {
+            const res = await fetch(`${API_BASE}/admin-profile`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            const profile = await res.json();
+            if(res.ok) {
+                document.getElementById('adminRecoveryKey').innerText = profile.recoveryKey;
+            }
+        } catch (err) { console.error("Failed to fetch admin profile", err); }
+    }
 
+    window.copyRecoveryKey = () => {
+        const key = document.getElementById('adminRecoveryKey').innerText;
+        navigator.clipboard.writeText(key);
+        showToast('Copied', 'Recovery key copied to clipboard!', 'success');
+    };
 
-    // --- UPLOAD EVENT VIDEOS ---
+    document.getElementById('changeCredsForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = e.target.querySelector('button');
+        
+        const payload = {
+            newUsername: document.getElementById('newAdminUser').value,
+            newPassword: document.getElementById('newAdminPass').value,
+            currentPassword: document.getElementById('currentAdminPass').value
+        };
+
+        if(!confirm('This will change your login access. You will be logged out. Continue?')) return;
+
+        btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin me-2"></i>Updating...';
+        btn.disabled = true;
+
+        try {
+            const res = await fetch(`${API_BASE}/change-credentials`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                body: JSON.stringify(payload)
+            });
+            const data = await res.json();
+
+            if(res.ok) {
+                showToast('Success', 'Credentials updated! Logging out...', 'success');
+                setTimeout(() => {
+                    localStorage.removeItem('webcom_admin_token');
+                    window.location.href = 'login.html';
+                }, 2000);
+            } else {
+                throw new Error(data.error || 'Failed to update credentials');
+            }
+        } catch (error) {
+            showToast('Error', error.message, 'error');
+            btn.innerHTML = 'Update Credentials';
+            btn.disabled = false;
+        }
+    });
+
+    fetchAdminProfile();
     async function handleVideoUpload(formId, inputId, videoId) {
         const form = document.getElementById(formId);
         if (!form) return;

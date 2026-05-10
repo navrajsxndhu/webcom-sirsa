@@ -23,6 +23,8 @@ const observer = new IntersectionObserver((entries, observer) => {
     });
 }, observerOptions);
 
+window.revealObserver = observer; // Make it globally accessible
+
 document.addEventListener('DOMContentLoaded', () => {
     const revealElements = document.querySelectorAll('.reveal');
     revealElements.forEach(el => observer.observe(el));

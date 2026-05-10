@@ -635,9 +635,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
             const photoHtml = photoUrl ? `<img src="${photoUrl}" alt="${test.student}" class="testimonial-photo mb-3">` : '';
             const videoBtnHtml = test.videoUrl ? `<br><button class="btn btn-sm btn-outline-info mt-3 fw-bold play-video-btn" data-video="${test.videoUrl}"><i class="fa-solid fa-play me-2"></i>Watch Video</button>` : '';
-            container.innerHTML += `
+            const testimonialHtml = `
             <div class="col-md-4">
-                <div class="testimonial-card reveal reveal-delay-${delay} active text-center">
+                <div class="testimonial-card reveal reveal-delay-${delay} text-center">
                     ${photoHtml}
                     <h3>${test.score}</h3>
                     <p>“${test.review}”</p>
@@ -645,6 +645,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                     ${videoBtnHtml}
                 </div>
             </div>`;
+            container.insertAdjacentHTML('beforeend', testimonialHtml);
+            // Observe the new element
+            const newElement = container.lastElementChild.querySelector('.reveal');
+            if (window.revealObserver && newElement) {
+                window.revealObserver.observe(newElement);
+            }
         });
         
         // Attach Video Button Event Listeners

@@ -274,7 +274,12 @@
                             </div>
                         </div>
                     `;
-                    container.innerHTML += itemHtml;
+                    container.insertAdjacentHTML('beforeend', itemHtml);
+                    // Force reveal for the newly added item
+                    const newItem = container.lastElementChild;
+                    if (window.revealObserver) {
+                        window.revealObserver.observe(newItem);
+                    }
                 });
 
                 // 3. Attach Filter Logic

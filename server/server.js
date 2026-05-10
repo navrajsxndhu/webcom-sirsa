@@ -176,7 +176,9 @@ const readData = async () => {
         // Fallback to local file (Non-persistent on Vercel)
         if (fs.existsSync(dataFilePath)) {
             const rawData = fs.readFileSync(dataFilePath);
-            return JSON.parse(rawData);
+            const parsed = JSON.parse(rawData);
+            if (!parsed.inquiries) parsed.inquiries = []; // Ensure inquiries exists
+            return parsed;
         }
         return { settings: {}, courses: [], gallery: [], staff: [], testimonials: [], eventVideos: [], inquiries: [] };
     } catch (error) {

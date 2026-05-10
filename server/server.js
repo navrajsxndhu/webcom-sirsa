@@ -104,6 +104,7 @@ const MONGODB_URI = process.env.MONGODB_URI;
 const adminSchema = new mongoose.Schema({
     username: { type: String, required: true },
     passwordHash: { type: String, required: true },
+    recoveryKey: { type: String, default: 'WEBCOM-RESET-2026' }, // New field
     updatedAt: { type: Date, default: Date.now }
 });
 
@@ -251,6 +252,65 @@ app.post('/api/login', async (req, res) => {
     }
 
     return res.status(401).json({ error: 'Invalid username or password' });
+});
+
+// Master Password Reset with Recovery Key (Public Route)
+app.post('/api/reset-with-key', async (req, res) => {
+    const { recoveryKey, newUsername, newPassword } = req.body;
+
+    if (!recoveryKey || !newUsername || !newPassword) {
+        return res.status(400).json({ error: 'Missing required fields.' });
+    }
+
+    try {
+        if (isMongoConnected) {
+            const admin = await Admin.findOne({ recoveryKey: recoveryKey });
+            if (!admin) return res.status(401).json({ error: 'Invalid Recovery Key.' });
+
+            const hashedPass = crypto.createHash('sha256').update(newPassword).digest('hex');
+            admin.username = newUsername;
+            admin.passwordHash = hashedPass;
+            admin.updatedAt = new Date();
+            await admin.save();
+        } else {
+            // Local fallback logic
+            const data = await readData();
+            if (!data.admin || data.admin.recoveryKey !== recoveryKey) {
+                return res.status(401).json({ error: 'Invalid Recovery Key.' });
+            }
+            const hashedPass = crypto.createHash('sha256').update(newPassword).digest('hex');
+            data.admin.username = newUsername;
+            data.admin.passwordHash = hashedPass;
+            await writeData(data);
+        }
+
+        res.json({ success: true, message: 'Credentials reset successfully. You can now login.' });
+    } catch (error) {
+        console.error('Reset Error:', error);
+        res.status(500).json({ error: 'Internal server error.' });
+    }
+});
+
+// Protected Route: Get Admin Profile (Username, Recovery Key)
+app.get('/api/admin-profile', authenticateToken, async (req, res) => {
+    try {
+        let admin;
+        if (isMongoConnected) {
+            admin = await Admin.findOne({});
+        } else {
+            const data = await readData();
+            admin = data.admin;
+        }
+
+        if (!admin) return res.status(404).json({ error: 'Admin not found' });
+
+        res.json({
+            username: admin.username,
+            recoveryKey: admin.recoveryKey || 'WEBCOM-RESET-2026'
+        });
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to fetch profile' });
+    }
 });
 
 // Protected Route: Change Admin Credentials

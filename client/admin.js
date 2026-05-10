@@ -65,11 +65,30 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             renderDashboard();
+
+            // Fetch Admin Profile (Username, Recovery Key)
+            const resProf = await fetch(`${API_BASE}/admin-profile`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if(resProf.ok) {
+                const profile = await resProf.json();
+                if(document.getElementById('displayRecoveryKey')) {
+                    document.getElementById('displayRecoveryKey').innerText = profile.recoveryKey;
+                }
+            }
+
         } catch(e) {
             console.error("Failed to load CMS data", e);
             showToast('Error', 'Failed to load data from server', 'error');
         }
     }
+
+    // --- UTILS ---
+    window.copyRecoveryKey = () => {
+        const key = document.getElementById('displayRecoveryKey').innerText;
+        navigator.clipboard.writeText(key);
+        showToast('Copied', 'Recovery key copied to clipboard!', 'success');
+    };
 
     // --- RENDER LOGIC ---
     function renderDashboard() {

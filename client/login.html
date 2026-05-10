@@ -181,35 +181,70 @@
         <div class="logo-shield">
             <i class="fa-solid fa-shield-halved"></i>
         </div>
-        <h2>Director Login</h2>
-        <p>Access the master dashboard</p>
+        
+        <!-- LOGIN VIEW -->
+        <div id="loginView">
+            <h2>Director Login</h2>
+            <p>Access the master dashboard</p>
 
-        <form id="loginForm">
-            <div class="form-floating mb-3">
-                <input type="text" id="username" class="form-control" placeholder="Username" required autocomplete="username">
-                <label for="username">Username</label>
-            </div>
-            
-            <div class="pass-container mb-2">
-                <div class="form-floating">
-                    <input type="password" id="password" class="form-control" placeholder="Password" required autocomplete="current-password">
-                    <label for="password">Password</label>
+            <form id="loginForm">
+                <div class="form-floating mb-3">
+                    <input type="text" id="username" class="form-control" placeholder="Username" required autocomplete="username">
+                    <label for="username">Username</label>
                 </div>
-                <button type="button" class="pass-toggle" id="togglePass">
-                    <i class="fa-solid fa-eye"></i>
+                
+                <div class="pass-container mb-2">
+                    <div class="form-floating">
+                        <input type="password" id="password" class="form-control" placeholder="Password" required autocomplete="current-password">
+                        <label for="password">Password</label>
+                    </div>
+                    <button type="button" class="pass-toggle" id="togglePass">
+                        <i class="fa-solid fa-eye"></i>
+                    </button>
+                </div>
+
+                <div class="text-end mb-4">
+                    <a href="#" class="forgot-link" id="forgotPass">Forgot Access?</a>
+                </div>
+                
+                <button type="submit" id="loginBtn" class="btn btn-primary w-100 login-btn">
+                    Authorize Access <i class="fa-solid fa-key ms-2"></i>
                 </button>
-            </div>
+            </form>
+        </div>
 
-            <div class="text-end mb-4">
-                <a href="#" class="forgot-link" id="forgotPass">Forgot Access?</a>
-            </div>
-            
-            <button type="submit" id="loginBtn" class="btn btn-primary w-100 login-btn">
-                Authorize Access <i class="fa-solid fa-key ms-2"></i>
-            </button>
-        </form>
+        <!-- RECOVERY VIEW (Hidden by default) -->
+        <div id="recoveryView" style="display: none;">
+            <h2>Reset Access</h2>
+            <p>Enter your Master Recovery Key</p>
 
-        <a href="index.html" class="back-link text-decoration-none">
+            <form id="recoveryForm">
+                <div class="form-floating mb-3">
+                    <input type="text" id="recoveryKeyInput" class="form-control" placeholder="Recovery Key" required>
+                    <label for="recoveryKeyInput">Master Recovery Key</label>
+                </div>
+                
+                <div class="form-floating mb-3">
+                    <input type="text" id="newUsername" class="form-control" placeholder="New Username" required>
+                    <label for="newUsername">New Username</label>
+                </div>
+
+                <div class="form-floating mb-4">
+                    <input type="password" id="newPassword" class="form-control" placeholder="New Password" required>
+                    <label for="newPassword">New Password</label>
+                </div>
+                
+                <button type="submit" id="resetBtn" class="btn btn-primary w-100 login-btn">
+                    Reset Credentials <i class="fa-solid fa-rotate ms-2"></i>
+                </button>
+
+                <a href="#" class="back-link mt-4" id="cancelRecovery">
+                    <i class="fa-solid fa-arrow-left me-2"></i> Back to Login
+                </a>
+            </form>
+        </div>
+
+        <a href="index.html" class="back-link text-decoration-none" id="returnToSiteLink">
             <i class="fa-solid fa-arrow-left me-2"></i> Return to Site
         </a>
     </div>
@@ -217,6 +252,71 @@
     <script src="script.js"></script>
     <script src="login.js"></script>
     <script>
+        // Toggle views
+        const loginView = document.getElementById('loginView');
+        const recoveryView = document.getElementById('recoveryView');
+        const returnLink = document.getElementById('returnToSiteLink');
+
+        document.getElementById('forgotPass').addEventListener('click', (e) => {
+            e.preventDefault();
+            loginView.style.display = 'none';
+            recoveryView.style.display = 'block';
+            returnLink.style.display = 'none';
+        });
+
+        document.getElementById('cancelRecovery').addEventListener('click', (e) => {
+            e.preventDefault();
+            loginView.style.display = 'block';
+            recoveryView.style.display = 'none';
+            returnLink.style.display = 'inline-block';
+        });
+
+        // Recovery Form Submission
+        const recoveryForm = document.getElementById('recoveryForm');
+        const resetBtn = document.getElementById('resetBtn');
+
+        recoveryForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const recoveryKey = document.getElementById('recoveryKeyInput').value;
+            const newUsername = document.getElementById('newUsername').value;
+            const newPassword = document.getElementById('newPassword').value;
+
+            const originalText = resetBtn.innerHTML;
+            resetBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Resetting...';
+            resetBtn.disabled = true;
+
+            try {
+                const apiUrl = (window.WEBCOM_API || (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+                                ? 'http://localhost:5000/api' : 'https://webcom-sirsa.onrender.com/api')) + '/reset-with-key';
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ recoveryKey, newUsername, newPassword })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showToast('Success', 'Access restored! You can now login with your new credentials.', 'success');
+                    recoveryForm.reset();
+                    // Switch back to login
+                    loginView.style.display = 'block';
+                    recoveryView.style.display = 'none';
+                    returnLink.style.display = 'inline-block';
+                } else {
+                    showToast('Error', data.error || 'Reset failed.', 'error');
+                    if (window.shakeLoginCard) window.shakeLoginCard();
+                }
+            } catch (error) {
+                showToast('Error', 'Server connection failed.', 'error');
+            } finally {
+                resetBtn.innerHTML = originalText;
+                resetBtn.disabled = false;
+            }
+        });
+
         // Toggle Password Visibility
         const toggleBtn = document.getElementById('togglePass');
         const passInput = document.getElementById('password');
@@ -226,13 +326,7 @@
             toggleBtn.innerHTML = type === 'password' ? '<i class="fa-solid fa-eye"></i>' : '<i class="fa-solid fa-eye-slash"></i>';
         });
 
-        // Forgot Password Action
-        document.getElementById('forgotPass').addEventListener('click', (e) => {
-            e.preventDefault();
-            showToast('Security Protocol', 'To reset master credentials, please update your server environment variables or contact Navraj Sandhu.', 'info');
-        });
-
-        // Add shake on failed attempt (interacts with login.js if possible)
+        // Add shake on failed attempt
         window.shakeLoginCard = () => {
             const card = document.getElementById('loginCard');
             card.classList.add('shake');

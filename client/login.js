@@ -37,10 +37,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     }, 1000);
                 } else {
                     showToast('Error', data.error || 'Invalid credentials.', 'error');
+                    if (window.shakeLoginCard) window.shakeLoginCard();
                 }
             } catch (error) {
                 console.error('Login Error:', error);
                 showToast('Error', 'Failed to connect to server.', 'error');
+                if (window.shakeLoginCard) window.shakeLoginCard();
             } finally {
                 loginBtn.innerHTML = originalText;
                 loginBtn.disabled = false;

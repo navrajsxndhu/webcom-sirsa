@@ -10,8 +10,8 @@ nav.style.background = 'rgba(15,23,42,0.7)';
 // Intersection Observer for Scroll Animations
 const observerOptions = {
     root: null,
-    rootMargin: '0px',
-    threshold: 0.15
+    rootMargin: '100px',
+    threshold: 0.05
 };
 
 const observer = new IntersectionObserver((entries, observer) => {

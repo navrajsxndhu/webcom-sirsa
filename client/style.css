@@ -654,8 +654,8 @@ transform: scale(0.9);
 
 .reveal {
 opacity: 0;
-transform: translateY(40px);
-transition: all 0.8s var(--apple-ease);
+transform: translateY(20px);
+transition: all 0.4s var(--apple-ease);
 will-change: transform, opacity;
 }
 

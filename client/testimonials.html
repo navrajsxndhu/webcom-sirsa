@@ -189,24 +189,19 @@
     <!-- JS -->
     <script src="script.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', async () => {
-            const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
-                            ? 'http://localhost:5000/api' : 'https://webcom-sirsa.onrender.com/api';
-            
+        async function loadTestimonials() {
             try {
-                const res = await fetch(`${API_BASE}/data`);
-                const data = await res.json();
-                
+                const data = await getWebcomData();
                 const container = document.getElementById('resultsContainer');
                 
-                if(!data.testimonials || data.testimonials.length === 0) {
+                if(!data || !data.testimonials || data.testimonials.length === 0) {
                     container.innerHTML = '<div class="col-12 text-center text-muted"><p>No results posted yet.</p></div>';
                     return;
                 }
                 
                 data.testimonials.forEach((test, index) => {
                     const delay = (index % 4) + 1;
-                    const BACKEND_URL = API_BASE.replace('/api', '');
+                    const BACKEND_URL = window.WEBCOM_API.replace('/api', '');
                     
                     let mediaHtml = '';
                     if (test.photo && !test.photo.includes('placehold.co') && !test.photo.includes('fakeimg.pl')) {
@@ -243,23 +238,25 @@
                     `;
                     container.insertAdjacentHTML('beforeend', html);
 
-                    // Observe new element
+                    // Re-observe for animation
                     const newItem = container.lastElementChild.querySelector('.reveal');
-                    if (window.revealObserver) {
-                        window.revealObserver.observe(newItem);
-                    }
+                    if (window.revealObserver) window.revealObserver.observe(newItem);
                 });
+                
                 // Attach Video Button Event Listeners
                 document.querySelectorAll('.play-video-btn').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        let videoUrl = e.currentTarget.getAttribute('data-video');
-                        // Convert standard youtube link to embed link
-                        if(videoUrl.includes('watch?v=')) {
-                            videoUrl = videoUrl.replace('watch?v=', 'embed/');
+                    btn.addEventListener('click', () => {
+                        const videoUrl = btn.getAttribute('data-video');
+                        const modal = new bootstrap.Modal(document.getElementById('videoModal'));
+                        const iframe = document.getElementById('videoIframe');
+                        
+                        // Convert YouTube link to embed link if necessary
+                        let embedUrl = videoUrl;
+                        if(videoUrl.includes('youtube.com/watch?v=')) {
+                            embedUrl = videoUrl.replace('watch?v=', 'embed/');
                         } else if(videoUrl.includes('youtu.be/')) {
-                            videoUrl = videoUrl.replace('youtu.be/', 'youtube.com/embed/');
+                            embedUrl = videoUrl.replace('youtu.be/', 'youtube.com/embed/');
                         }
-                        document.getElementById('videoIframe').src = videoUrl;
                         const modal = new bootstrap.Modal(document.getElementById('videoModal'));
                         modal.show();
                     });

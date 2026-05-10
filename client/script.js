@@ -84,27 +84,40 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// --- GLOBAL SETTINGS INJECTOR ---
-document.addEventListener('DOMContentLoaded', async () => {
+// --- GLOBAL DATA FETCH & CACHE ---
+async function getWebcomData() {
     const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
                     ? 'http://localhost:5000/api' : 'https://webcom-sirsa.onrender.com/api';
     
-    // Make API_BASE globally available
     window.WEBCOM_API = API_BASE;
+
+    // Check session cache first
+    const cached = sessionStorage.getItem('webcom_data_cache');
+    if (cached) {
+        return JSON.parse(cached);
+    }
 
     try {
         const res = await fetch(`${API_BASE}/data`);
         const data = await res.json();
-        
-        if (data.settings) {
-            document.querySelectorAll('.dyn-phone').forEach(el => el.innerText = data.settings.phone || '+91 90507 00577');
-            document.querySelectorAll('.dyn-address').forEach(el => el.innerText = data.settings.address || 'Opp. Town Park Road, Sirsa');
-            document.querySelectorAll('.dyn-whatsapp-btn').forEach(el => el.href = `https://wa.me/${data.settings.whatsapp || '919050700577'}`);
-            document.querySelectorAll('.dyn-youtube').forEach(el => el.href = data.settings.youtube || '#');
-            document.querySelectorAll('.dyn-instagram').forEach(el => el.href = data.settings.instagram || '#');
-        }
+        sessionStorage.setItem('webcom_data_cache', JSON.stringify(data));
+        return data;
     } catch(e) {
-        console.error("Failed to load global settings", e);
+        console.error("Failed to fetch data", e);
+        return null;
+    }
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
+    // 1. Initial background fetch to warm up Render server & cache
+    const data = await getWebcomData();
+    
+    if (data && data.settings) {
+        document.querySelectorAll('.dyn-phone').forEach(el => el.innerText = data.settings.phone || '+91 90507 00577');
+        document.querySelectorAll('.dyn-address').forEach(el => el.innerText = data.settings.address || 'Opp. Town Park Road, Sirsa');
+        document.querySelectorAll('.dyn-whatsapp-btn').forEach(el => el.href = `https://wa.me/${data.settings.whatsapp || '919050700577'}`);
+        document.querySelectorAll('.dyn-youtube').forEach(el => el.href = data.settings.youtube || '#');
+        document.querySelectorAll('.dyn-instagram').forEach(el => el.href = data.settings.instagram || '#');
     }
 
     // Dynamic copyright year

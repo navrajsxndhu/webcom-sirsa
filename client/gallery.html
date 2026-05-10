@@ -245,26 +245,23 @@
     <script src="script.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
-            const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
-                            ? 'http://localhost:5000/api' : 'https://webcom-sirsa.onrender.com/api';
-            
             const container = document.getElementById('galleryContainer');
             const loading = document.getElementById('loadingIndicator');
             const lightbox = document.getElementById('lightbox');
             const lightboxImg = document.getElementById('lightbox-img');
             const closeBtn = document.getElementById('lightbox-close');
 
-            // 1. Fetch Dynamic Data
+            // 1. Fetch Dynamic Data (Instantly from cache if available)
             try {
-                const res = await fetch(`${API_BASE}/data`);
-                const data = await res.json();
+                const data = await getWebcomData();
+                if (!data) throw new Error("No data found");
                 
                 loading.style.display = 'none';
 
                 // 2. Render Masonry Grid
                 data.gallery.forEach((imgObj, index) => {
-                    const delay = (index % 5) + 1; // max delay 5 for reveal
-                    const BACKEND_URL = API_BASE.replace('/api', '');
+                    const delay = (index % 5) + 1; 
+                    const BACKEND_URL = window.WEBCOM_API.replace('/api', '');
                     const photoUrl = imgObj.url ? (imgObj.url.startsWith('http') ? imgObj.url : BACKEND_URL + imgObj.url) : '';
                     const category = imgObj.category || 'other';
                     const itemHtml = `
@@ -278,11 +275,9 @@
                         </div>
                     `;
                     container.insertAdjacentHTML('beforeend', itemHtml);
-                    // Force reveal for the newly added item
+                    
                     const newItem = container.lastElementChild;
-                    if (window.revealObserver) {
-                        window.revealObserver.observe(newItem);
-                    }
+                    if (window.revealObserver) window.revealObserver.observe(newItem);
                 });
 
                 // 3. Attach Filter Logic
@@ -291,14 +286,12 @@
 
                 filterBtns.forEach(btn => {
                     btn.addEventListener('click', () => {
-                        // Reset all buttons styling
                         filterBtns.forEach(b => {
                             b.classList.remove('btn-primary', 'active');
                             b.style.boxShadow = 'none';
                             b.style.background = 'rgba(255,255,255,0.05)';
                         });
                         
-                        // Set active styling to clicked button
                         btn.classList.add('btn-primary', 'active');
                         btn.style.boxShadow = '0 5px 15px rgba(14, 165, 233, 0.4)';
                         btn.style.background = '';
@@ -317,7 +310,7 @@
                     });
                 });
 
-                // 3. Attach Lightbox Events
+                // 4. Attach Lightbox Events
                 const items = document.querySelectorAll('.masonry-item');
                 items.forEach(item => {
                     item.addEventListener('click', () => {

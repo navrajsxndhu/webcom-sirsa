@@ -240,56 +240,52 @@
     <!-- JS -->
     <script src="script.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', async () => {
-            const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
-                            ? 'http://localhost:5000/api' : 'https://webcom-sirsa.onrender.com/api';
-            
+        document.addEventListener('DOMContentLoaded', loadStaff);
+        async function loadStaff() {
             try {
-                const res = await fetch(`${API_BASE}/data`);
-                const data = await res.json();
-                
+                const data = await getWebcomData();
                 const container = document.getElementById('staffContainer');
+                
+                if(!data || !data.staff || data.staff.length === 0) {
+                    container.innerHTML = '<div class="col-12 text-center text-muted"><p>No staff profiles available.</p></div>';
+                    return;
+                }
                 
                 data.staff.forEach((member, index) => {
                     const delay = (index % 4) + 1;
-                    const BACKEND_URL = API_BASE.replace('/api', '');
-                    
-                    let photoUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=1e293b&color=38bdf8&size=512`;
-                    if (member.photo) {
-                        photoUrl = member.photo.startsWith('http') ? member.photo : BACKEND_URL + member.photo;
-                    }
+                    const BACKEND_URL = window.WEBCOM_API.replace('/api', '');
+                    const photoUrl = member.photo.startsWith('http') ? member.photo : BACKEND_URL + member.photo;
 
                     const html = `
-                        <div class="col-md-6 col-lg-4 d-flex align-items-stretch">
-                            <div class="staff-card reveal reveal-delay-${delay} w-100">
-                                <div class="staff-photo-container">
-                                    <img loading="lazy" src="${photoUrl}" alt="${member.name}">
-                                    <div class="staff-social">
-                                        <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
-                                        <a href="#"><i class="fa-brands fa-twitter"></i></a>
-                                        <a href="mailto:contact@webcomsirsa.com"><i class="fa-solid fa-envelope"></i></a>
+                        <div class="col-md-6 col-lg-4">
+                            <div class="staff-card reveal reveal-delay-${delay}">
+                                <div class="staff-img-wrapper">
+                                    <img src="${photoUrl}" alt="${member.name}" class="staff-img">
+                                    <div class="staff-overlay">
+                                        <div class="d-flex gap-2">
+                                            <a href="#" class="btn btn-sm btn-light rounded-circle"><i class="fa-brands fa-linkedin-in"></i></a>
+                                            <a href="#" class="btn btn-sm btn-light rounded-circle"><i class="fa-brands fa-instagram"></i></a>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="staff-details">
-                                    <div><span class="staff-role-badge">${member.role}</span></div>
-                                    <h3>${member.name}</h3>
-                                    <p>${member.bio}</p>
+                                <div class="staff-info text-center">
+                                    <h3 class="staff-name">${member.name}</h3>
+                                    <p class="staff-role">${member.role}</p>
+                                    <p class="staff-bio">${member.bio}</p>
                                 </div>
                             </div>
                         </div>
                     `;
                     container.insertAdjacentHTML('beforeend', html);
-                    
-                    // Observe new element
+
+                    // Re-observe for animation
                     const newItem = container.lastElementChild.querySelector('.reveal');
-                    if (window.revealObserver) {
-                        window.revealObserver.observe(newItem);
-                    }
+                    if (window.revealObserver) window.revealObserver.observe(newItem);
                 });
-            } catch(e) {
-                console.error("Failed to load staff", e);
+            } catch (error) {
+                console.error("Staff load error:", error);
             }
-        });
+        }
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 

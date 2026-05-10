@@ -292,6 +292,32 @@ app.use((err, req, res, next) => {
     res.status(500).json({ error: 'Internal server error' });
 });
 
+// --- AUTO-DELETE OLD INQUIRIES (50 Hour Cleanup) ---
+const CLEANUP_INTERVAL = 1 * 60 * 60 * 1000; // Check every 1 hour
+const EXPIRY_TIME = 50 * 60 * 60 * 1000;    // 50 Hours in milliseconds
+
+setInterval(() => {
+    console.log("Running inquiry cleanup task...");
+    const data = readData();
+    if (!data.inquiries || data.inquiries.length === 0) return;
+
+    const now = Date.now();
+    const initialCount = data.inquiries.length;
+    
+    // Keep only inquiries newer than 50 hours
+    data.inquiries = data.inquiries.filter(inq => {
+        const inqTime = new Date(inq.date).getTime();
+        return (now - inqTime) < EXPIRY_TIME;
+    });
+
+    if (data.inquiries.length < initialCount) {
+        writeData(data);
+        console.log(`Cleanup complete: Removed ${initialCount - data.inquiries.length} expired inquiries.`);
+    } else {
+        console.log("Cleanup complete: No expired inquiries found.");
+    }
+}, CLEANUP_INTERVAL);
+
 const port = process.env.PORT || 5000;
 app.listen(port, '0.0.0.0', () => {
     console.log(`Server running on port ${port}`);

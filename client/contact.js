@@ -1,4 +1,39 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // --- CUSTOM SELECT LOGIC ---
+    const trigger = document.getElementById('courseTrigger');
+    const options = document.getElementById('courseOptions');
+    const hiddenInput = document.getElementById('contactCourse');
+    const allOptions = document.querySelectorAll('.custom-option');
+
+    if (trigger) {
+        trigger.addEventListener('click', (e) => {
+            e.stopPropagation();
+            options.classList.toggle('open');
+            trigger.classList.toggle('active');
+        });
+
+        allOptions.forEach(opt => {
+            opt.addEventListener('click', () => {
+                const val = opt.getAttribute('data-value');
+                const text = opt.innerText;
+
+                hiddenInput.value = val;
+                trigger.querySelector('span').innerText = text;
+                
+                allOptions.forEach(o => o.classList.remove('selected'));
+                opt.classList.add('selected');
+                
+                options.classList.remove('open');
+                trigger.classList.remove('active');
+            });
+        });
+
+        document.addEventListener('click', () => {
+            options.classList.remove('open');
+            trigger.classList.remove('active');
+        });
+    }
+
     const contactForm = document.getElementById('contactForm');
     const submitBtn = document.getElementById('submitBtn');
 
@@ -37,6 +72,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (response.ok) {
                     showToast('Success', 'Your inquiry has been sent! We will contact you soon.', 'success');
                     contactForm.reset();
+                    // Reset custom select
+                    if (trigger) {
+                        trigger.querySelector('span').innerText = 'Choose a Course';
+                        allOptions.forEach(o => o.classList.remove('selected'));
+                    }
                 } else {
                     showToast('Error', data.error || 'Failed to send inquiry.', 'error');
                 }

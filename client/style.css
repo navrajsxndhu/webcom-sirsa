@@ -896,3 +896,24 @@ font-size:2rem;
 .creative-photo-wrapper:hover img { transform: scale(1.1); }
 .creative-photo-wrapper::before { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0) 100%); transform: skewX(-25deg); transition: 0.75s; z-index: 1; }
 .creative-photo-wrapper:hover::before { left: 150%; }
+
+/* PREMIUM TESTIMONIAL CREATIVITY */
+.testimonial-page-card { background: rgba(15, 23, 42, 0.5); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 30px; overflow: hidden; height: 100%; transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); position: relative; }
+.testimonial-page-card:hover { transform: translateY(-10px) scale(1.02); border-color: rgba(56, 189, 248, 0.3); box-shadow: 0 30px 60px rgba(0,0,0,0.4); }
+.t-photo-wrapper { position: relative; overflow: hidden; border-radius: 20px 20px 0 0; }
+.t-photo-wrapper img { width: 100%; height: 320px; object-fit: cover; transition: transform 0.8s; }
+.testimonial-page-card:hover .t-photo-wrapper img { transform: scale(1.1); }
+.t-score-badge { position: absolute; top: 20px; right: 20px; background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(10px); border: 1px solid rgba(56, 189, 248, 0.5); color: #fff; padding: 8px 16px; border-radius: 99px; font-weight: 800; font-size: 14px; z-index: 10; display: flex; align-items: center; box-shadow: 0 0 20px rgba(56, 189, 248, 0.2); animation: badgeGlow 3s infinite alternate; }
+@keyframes badgeGlow { from { box-shadow: 0 0 10px rgba(56, 189, 248, 0.2); border-color: rgba(56, 189, 248, 0.3); } to { box-shadow: 0 0 25px rgba(56, 189, 248, 0.6); border-color: rgba(56, 189, 248, 0.8); } }
+.testimonial-page-card::before { content: ''; position: absolute; top: 0; left: -150%; width: 50%; height: 100%; background: linear-gradient(to right, transparent, rgba(255,255,255,0.05), transparent); transform: skewX(-25deg); transition: 0.75s; z-index: 5; pointer-events: none; }
+.testimonial-page-card:hover::before { left: 150%; }
+.t-content { padding: 30px; }
+.t-review-text { font-style: italic; color: #cbd5e1; font-size: 1.05rem; line-height: 1.6; margin-bottom: 20px; }
+.t-student-name { font-weight: 800; color: #fff; font-size: 1.2rem; letter-spacing: -0.5px; }
+
+.score-placeholder-wrapper { background: linear-gradient(135deg, rgba(30, 41, 59, 0.5), rgba(15, 23, 42, 0.8)); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+.score-placeholder-wrapper::after { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at center, rgba(56, 189, 248, 0.1) 0%, transparent 70%); }
+.testimonial-photo { width: 100%; height: 320px; object-fit: cover; border-radius: 20px 20px 0 0; }
+
+.play-video-btn { border-radius: 12px !important; padding: 10px !important; transition: all 0.3s !important; border: 1px solid rgba(56, 189, 248, 0.4) !important; background: rgba(56, 189, 248, 0.05) !important; }
+.play-video-btn:hover { background: #38bdf8 !important; color: #fff !important; transform: scale(1.05); box-shadow: 0 10px 20px rgba(56, 189, 248, 0.3); }

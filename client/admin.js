@@ -40,6 +40,30 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = 'login.html';
     });
 
+    // --- QUICK ACTION HELPERS ---
+    window.showPanel = (targetId) => {
+        const fullTarget = targetId.endsWith('-panel') ? targetId : targetId + '-panel';
+        navBtns.forEach(btn => {
+            if (btn.getAttribute('data-target') === fullTarget) {
+                btn.click();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        });
+    };
+
+    function updateGreeting() {
+        const hour = new Date().getHours();
+        let greeting = "Good Morning";
+        if (hour >= 12 && hour < 17) greeting = "Good Afternoon";
+        if (hour >= 17) greeting = "Good Evening";
+        
+        const welcomeEl = document.getElementById('welcomeMessage');
+        if (welcomeEl) {
+            welcomeEl.innerHTML = `${greeting}, Director! Here is what's happening with <strong>Webcom Sirsa</strong> today.`;
+        }
+    }
+    updateGreeting();
+
     // --- FETCH DATA ---
     let globalData = { settings: {}, courses: [], gallery: [], staff: [], testimonials: [], eventVideos: [] };
     let globalInquiries = [];

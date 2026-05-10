@@ -244,29 +244,73 @@
             
             <!-- OVERVIEW PANEL -->
             <div id="overview-panel" class="panel active">
-                <h2 class="fw-bold mb-4">Dashboard Overview</h2>
-                <p class="text-muted mb-5">Welcome back, Director! Here is a summary of your website.</p>
+                <div class="d-flex align-items-center gap-3 mb-2">
+                    <div class="logo-shield" style="width: 40px; height: 40px; font-size: 20px; margin: 0; transform: none;">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <h2 class="fw-bold mb-0">Command Center</h2>
+                </div>
+                <p class="text-muted mb-5" id="welcomeMessage">Welcome back, Director! Loading your stats...</p>
 
-                <div class="row g-4">
+                <div class="row g-4 mb-5">
                     <div class="col-md-4">
-                        <div class="admin-card stat-card">
-                            <i class="fa-solid fa-envelope-open-text"></i>
-                            <h3 id="statInquiries">0</h3>
-                            <p>New Inquiries</p>
+                        <div class="admin-card stat-card" style="background: linear-gradient(135deg, rgba(56, 189, 248, 0.1), transparent);">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <i class="fa-solid fa-envelope-open-text fs-4" style="color: #38bdf8;"></i>
+                                <span class="badge rounded-pill bg-primary bg-opacity-25 text-primary">Live</span>
+                            </div>
+                            <h3 id="statInquiries" class="display-6 fw-bold mb-1">0</h3>
+                            <p class="text-muted mb-0">Student Inquiries</p>
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="admin-card stat-card">
-                            <i class="fa-solid fa-book-open"></i>
-                            <h3 id="statCourses">3</h3>
-                            <p>Active Courses</p>
+                        <div class="admin-card stat-card" style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), transparent);">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <i class="fa-solid fa-book-open fs-4" style="color: #8b5cf6;"></i>
+                                <span class="badge rounded-pill bg-purple bg-opacity-25" style="color: #8b5cf6;">Active</span>
+                            </div>
+                            <h3 id="statCourses" class="display-6 fw-bold mb-1">0</h3>
+                            <p class="text-muted mb-0">Courses Offered</p>
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="admin-card stat-card">
-                            <i class="fa-solid fa-images"></i>
-                            <h3 id="statGallery">3</h3>
-                            <p>Gallery Photos</p>
+                        <div class="admin-card stat-card" style="background: linear-gradient(135deg, rgba(236, 72, 153, 0.1), transparent);">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <i class="fa-solid fa-images fs-4" style="color: #ec4899;"></i>
+                                <span class="badge rounded-pill bg-pink bg-opacity-25" style="color: #ec4899;">Public</span>
+                            </div>
+                            <h3 id="statGallery" class="display-6 fw-bold mb-1">0</h3>
+                            <p class="text-muted mb-0">Gallery Assets</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="admin-card mb-4">
+                    <h5 class="fw-bold mb-4"><i class="fa-solid fa-bolt me-2 text-warning"></i> Quick Actions</h5>
+                    <div class="row g-3">
+                        <div class="col-6 col-md-3">
+                            <button class="btn btn-outline-light w-100 py-3 d-flex flex-column align-items-center gap-2 border-opacity-10" onclick="showPanel('testimonials')">
+                                <i class="fa-solid fa-star text-warning"></i>
+                                <span style="font-size: 13px;">Post Result</span>
+                            </button>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <button class="btn btn-outline-light w-100 py-3 d-flex flex-column align-items-center gap-2 border-opacity-10" onclick="showPanel('gallery')">
+                                <i class="fa-solid fa-cloud-arrow-up text-info"></i>
+                                <span style="font-size: 13px;">Add Photo</span>
+                            </button>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <button class="btn btn-outline-light w-100 py-3 d-flex flex-column align-items-center gap-2 border-opacity-10" onclick="showPanel('staff')">
+                                <i class="fa-solid fa-user-plus text-success"></i>
+                                <span style="font-size: 13px;">Add Staff</span>
+                            </button>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <button class="btn btn-outline-light w-100 py-3 d-flex flex-column align-items-center gap-2 border-opacity-10" onclick="showPanel('settings')">
+                                <i class="fa-solid fa-gear text-secondary"></i>
+                                <span style="font-size: 13px;">Settings</span>
+                            </button>
                         </div>
                     </div>
                 </div>

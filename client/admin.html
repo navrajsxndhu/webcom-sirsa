@@ -12,13 +12,15 @@
     <link rel="stylesheet" href="style.css">
     
     <style>
-        body { background: #020617; color: #f8fafc; font-family: 'Inter', sans-serif; }
+        body { background: #020617; color: #f8fafc; font-family: 'Inter', sans-serif; overflow-x: hidden; }
         
         .admin-layout {
             display: flex;
             min-height: 100vh;
+            position: relative;
         }
 
+        /* Sidebar Responsive Logic */
         .sidebar {
             width: 280px;
             background: rgba(15, 23, 42, 0.98);
@@ -27,11 +29,12 @@
             display: flex;
             flex-direction: column;
             box-shadow: 10px 0 30px rgba(0,0,0,0.5);
-            z-index: 10;
+            z-index: 1000;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .sidebar h2 { font-weight: 900; margin-bottom: 40px; font-size: 22px; color: #fff; text-align: center; letter-spacing: 1px;}
-        .sidebar h2 span { color: #38bdf8; }
+        .sidebar h2 span, .mobile-header h4 span { color: #38bdf8; }
 
         .nav-btn {
             background: transparent;
@@ -57,6 +60,55 @@
             padding: 50px;
             overflow-y: auto;
             background: url('https://www.transparenttextures.com/patterns/cubes.png') #020617;
+            transition: padding 0.3s ease;
+        }
+
+        /* Mobile Header */
+        .mobile-header {
+            display: none;
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 900;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sidebar-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px);
+            z-index: 950;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        @media (max-width: 991px) {
+            .sidebar {
+                position: fixed;
+                left: 0;
+                top: 0;
+                bottom: 0;
+                transform: translateX(-100%);
+            }
+            .sidebar.show {
+                transform: translateX(0);
+            }
+            .sidebar-overlay.show {
+                display: block;
+                opacity: 1;
+            }
+            .main-content {
+                padding: 30px 20px;
+            }
+            .mobile-header {
+                display: flex;
+            }
         }
 
         .panel { display: none; animation: slideUp 0.5s var(--apple-spring) forwards; }
@@ -76,6 +128,21 @@
             padding: 30px;
             margin-bottom: 30px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        @media (max-width: 767px) {
+            .admin-card {
+                padding: 20px;
+                border-radius: 16px;
+            }
+            .stat-card h3 { font-size: 2rem; }
+            .table-dark td, .table-dark th {
+                padding: 12px 8px;
+                font-size: 13px;
+            }
+            .nav-btn {
+                padding: 16px 20px;
+            }
         }
 
         .stat-card {
@@ -112,20 +179,29 @@
         #cropperModal.active { display: flex; opacity: 1; }
         .cropper-container-wrapper {
             background: #0f172a; padding: 20px; border-radius: 20px;
-            max-width: 90%; width: 800px; max-height: 90vh;
+            max-width: 95%; width: 800px; max-height: 95vh;
             display: flex; flex-direction: column; gap: 20px;
             box-shadow: 0 20px 50px rgba(0,0,0,0.5);
             border: 1px solid rgba(255,255,255,0.1);
         }
-        .cropper-area { width: 100%; height: 500px; background: #020617; border-radius: 12px; overflow: hidden; }
+        .cropper-area { width: 100%; height: 400px; background: #020617; border-radius: 12px; overflow: hidden; }
+        @media (max-width: 767px) { .cropper-area { height: 300px; } }
         .cropper-area img { max-width: 100%; display: block; }
-        .cropper-actions { display: flex; justify-content: flex-end; gap: 15px; }
+        .cropper-actions { display: flex; justify-content: flex-end; gap: 10px; }
     </style>
 </head>
 <body>
 
     <div id="loader" style="position: fixed; inset: 0; background: #020617; z-index: 9999; display: flex; align-items: center; justify-content: center; color: white;">
         <h2><i class="fa-solid fa-circle-notch fa-spin text-primary"></i> <span class="ms-2">Authenticating...</span></h2>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <div class="mobile-header" id="mobileHeader" style="display: none;">
+        <h4 class="m-0 fw-bold">WEBCOM <span>CMS</span></h4>
+        <button class="btn text-white p-0 fs-3" id="sidebarToggle">
+            <i class="fa-solid fa-bars-staggered"></i>
+        </button>
     </div>
 
     <div class="admin-layout" style="display: none;" id="adminLayout">
@@ -154,6 +230,9 @@
             </button>
             <button class="nav-btn" data-target="settings-panel">
                 <i class="fa-solid fa-gear"></i> Contact Settings
+            </button>
+            <button class="nav-btn" data-target="security-panel">
+                <i class="fa-solid fa-shield-halved"></i> Security
             </button>
             
             <div style="margin-top: auto;">
@@ -408,10 +487,92 @@
                 </div>
             </div>
 
+            <!-- SECURITY PANEL -->
+            <div id="security-panel" class="panel">
+                <h2 class="fw-bold mb-2">Account Security</h2>
+                <p class="text-muted mb-5">Change your admin login credentials. You will be logged out after saving.</p>
+
+                <div class="admin-card" style="max-width: 600px;">
+                    <div class="d-flex align-items-center mb-4">
+                        <div style="width: 50px; height: 50px; border-radius: 16px; background: linear-gradient(135deg, #2563eb, #0ea5e9); display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                            <i class="fa-solid fa-key" style="font-size: 20px; color: white;"></i>
+                        </div>
+                        <div>
+                            <h5 class="mb-0 fw-bold">Change Login Credentials</h5>
+                            <small class="text-muted">Update your username and password</small>
+                        </div>
+                    </div>
+
+                    <form id="changeCredentialsForm">
+                        <div class="mb-4">
+                            <label class="text-muted mb-2 text-uppercase" style="font-size: 12px; font-weight:600;">Current Password</label>
+                            <div class="position-relative">
+                                <input type="password" id="secCurrentPass" class="form-control" placeholder="Enter your current password" required>
+                                <button type="button" class="btn btn-sm position-absolute" style="right: 10px; top: 50%; transform: translateY(-50%); color: #94a3b8; background: none; border: none;" onclick="togglePassVisibility('secCurrentPass', this)">
+                                    <i class="fa-solid fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <hr style="border-color: rgba(255,255,255,0.08); margin: 25px 0;">
+
+                        <div class="mb-4">
+                            <label class="text-muted mb-2 text-uppercase" style="font-size: 12px; font-weight:600;">New Username</label>
+                            <input type="text" id="secNewUser" class="form-control" placeholder="Choose a new username (min 4 characters)" required minlength="4">
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="text-muted mb-2 text-uppercase" style="font-size: 12px; font-weight:600;">New Password</label>
+                            <div class="position-relative">
+                                <input type="password" id="secNewPass" class="form-control" placeholder="Choose a new password (min 6 characters)" required minlength="6">
+                                <button type="button" class="btn btn-sm position-absolute" style="right: 10px; top: 50%; transform: translateY(-50%); color: #94a3b8; background: none; border: none;" onclick="togglePassVisibility('secNewPass', this)">
+                                    <i class="fa-solid fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="text-muted mb-2 text-uppercase" style="font-size: 12px; font-weight:600;">Confirm New Password</label>
+                            <div class="position-relative">
+                                <input type="password" id="secConfirmPass" class="form-control" placeholder="Re-enter your new password" required minlength="6">
+                                <button type="button" class="btn btn-sm position-absolute" style="right: 10px; top: 50%; transform: translateY(-50%); color: #94a3b8; background: none; border: none;" onclick="togglePassVisibility('secConfirmPass', this)">
+                                    <i class="fa-solid fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Password Strength Indicator -->
+                        <div class="mb-4" id="passStrengthBox" style="display:none;">
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                <div style="flex: 1; height: 4px; border-radius: 4px; background: rgba(255,255,255,0.1); overflow: hidden;">
+                                    <div id="passStrengthBar" style="height: 100%; width: 0%; border-radius: 4px; transition: all 0.4s;"></div>
+                                </div>
+                                <small id="passStrengthText" style="font-weight: 600; font-size: 12px;"></small>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary px-4 fw-bold w-100" id="saveCredentialsBtn">
+                            <i class="fa-solid fa-lock me-2"></i> Update Credentials
+                        </button>
+                    </form>
+                </div>
+
+                <div class="admin-card mt-4" style="max-width: 600px; border-color: rgba(239, 68, 68, 0.2);">
+                    <div class="d-flex align-items-center">
+                        <i class="fa-solid fa-triangle-exclamation text-warning me-3" style="font-size: 20px;"></i>
+                        <div>
+                            <h6 class="mb-1 fw-bold">Important Security Note</h6>
+                            <small class="text-muted">After changing your credentials, you will be logged out and need to sign in with your new username and password. Make sure to remember them!</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
 
         </div>
     </div>
 
+    <script src="script.js"></script>
     <script>
         const token = localStorage.getItem('webcom_admin_token');
         if(!token) {
@@ -419,18 +580,78 @@
         } else {
             document.getElementById('loader').style.display = 'none';
             document.getElementById('adminLayout').style.display = 'flex';
+            // Also show mobile header if screen is small (handled by CSS)
+            document.getElementById('mobileHeader').style.display = ''; 
         }
 
-        function showToast(title, message, type = 'success') {
-            const existingToast = document.querySelector('.apple-toast');
-            if (existingToast) existingToast.remove();
-            const toast = document.createElement('div');
-            toast.className = `apple-toast ${type}`;
-            const icon = type === 'success' ? '<i class="fa-solid fa-check-circle" style="color:#34c759"></i>' : '<i class="fa-solid fa-exclamation-circle" style="color:#ff3b30"></i>';
-            toast.innerHTML = `<div class="toast-icon">${icon}</div><div class="toast-content"><h4>${title}</h4><p>${message}</p></div>`;
-            document.body.appendChild(toast);
-            setTimeout(() => toast.classList.add('show'), 10);
-            setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 400); }, 4000);
+        // Sidebar Toggle Logic
+        const sidebar = document.querySelector('.sidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+        const toggleBtn = document.getElementById('sidebarToggle');
+
+        function toggleSidebar() {
+            sidebar.classList.toggle('show');
+            overlay.classList.toggle('show');
+            document.body.style.overflow = sidebar.classList.contains('show') ? 'hidden' : '';
+        }
+
+        toggleBtn.addEventListener('click', toggleSidebar);
+        overlay.addEventListener('click', toggleSidebar);
+
+        // Close sidebar on nav link click (mobile)
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (window.innerWidth <= 991) {
+                    toggleSidebar();
+                }
+            });
+        });
+
+        // Toggle password visibility
+        function togglePassVisibility(inputId, btn) {
+            const input = document.getElementById(inputId);
+            const icon = btn.querySelector('i');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        }
+
+        // Password strength checker
+        const newPassInput = document.getElementById('secNewPass');
+        if (newPassInput) {
+            newPassInput.addEventListener('input', () => {
+                const val = newPassInput.value;
+                const box = document.getElementById('passStrengthBox');
+                const bar = document.getElementById('passStrengthBar');
+                const txt = document.getElementById('passStrengthText');
+                
+                if (val.length === 0) { box.style.display = 'none'; return; }
+                box.style.display = 'block';
+                
+                let score = 0;
+                if (val.length >= 6) score++;
+                if (val.length >= 10) score++;
+                if (/[A-Z]/.test(val)) score++;
+                if (/[0-9]/.test(val)) score++;
+                if (/[^A-Za-z0-9]/.test(val)) score++;
+                
+                const levels = [
+                    { width: '20%', color: '#ef4444', text: 'Very Weak' },
+                    { width: '40%', color: '#f97316', text: 'Weak' },
+                    { width: '60%', color: '#eab308', text: 'Fair' },
+                    { width: '80%', color: '#22c55e', text: 'Strong' },
+                    { width: '100%', color: '#10b981', text: 'Very Strong' }
+                ];
+                const level = levels[Math.min(score, 4)];
+                bar.style.width = level.width;
+                bar.style.background = level.color;
+                txt.textContent = level.text;
+                txt.style.color = level.color;
+            });
         }
     </script>
     <!-- CROPPER MODAL -->

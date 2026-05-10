@@ -87,6 +87,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
                     ? 'http://localhost:5000/api' : 'https://webcom-sirsa.onrender.com/api';
     
+    // Make API_BASE globally available
+    window.WEBCOM_API = API_BASE;
+
     try {
         const res = await fetch(`${API_BASE}/data`);
         const data = await res.json();
@@ -101,4 +104,33 @@ document.addEventListener('DOMContentLoaded', async () => {
     } catch(e) {
         console.error("Failed to load global settings", e);
     }
+
+    // Dynamic copyright year
+    document.querySelectorAll('.dyn-year').forEach(el => el.textContent = new Date().getFullYear());
 });
+
+// --- GLOBAL TOAST NOTIFICATION ---
+function showToast(title, message, type = 'success') {
+    const existingToast = document.querySelector('.apple-toast');
+    if (existingToast) existingToast.remove();
+
+    const toast = document.createElement('div');
+    toast.className = `apple-toast ${type}`;
+    
+    const icon = type === 'success' ? '<i class="fa-solid fa-check-circle" style="color:#34c759"></i>' : '<i class="fa-solid fa-exclamation-circle" style="color:#ff3b30"></i>';
+
+    toast.innerHTML = `
+        <div class="toast-icon">${icon}</div>
+        <div class="toast-content">
+            <h4>${title}</h4>
+            <p>${message}</p>
+        </div>
+    `;
+
+    document.body.appendChild(toast);
+    setTimeout(() => toast.classList.add('show'), 10);
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 400);
+    }, 4000);
+}

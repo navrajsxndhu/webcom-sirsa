@@ -96,33 +96,8 @@
         </a>
     </div>
 
-    <!-- Apple Toast JS -->
-    <script>
-        function showToast(title, message, type = 'success') {
-            const existingToast = document.querySelector('.apple-toast');
-            if (existingToast) existingToast.remove();
-
-            const toast = document.createElement('div');
-            toast.className = `apple-toast ${type}`;
-            
-            const icon = type === 'success' ? '<i class="fa-solid fa-check-circle" style="color:#34c759"></i>' : '<i class="fa-solid fa-exclamation-circle" style="color:#ff3b30"></i>';
-
-            toast.innerHTML = `
-                <div class="toast-icon">${icon}</div>
-                <div class="toast-content">
-                    <h4>${title}</h4>
-                    <p>${message}</p>
-                </div>
-            `;
-
-            document.body.appendChild(toast);
-            setTimeout(() => toast.classList.add('show'), 10);
-            setTimeout(() => {
-                toast.classList.remove('show');
-                setTimeout(() => toast.remove(), 400);
-            }, 4000);
-        }
-    </script>
+    <!-- Shared JS (includes showToast) -->
+    <script src="script.js"></script>
     <script src="login.js"></script>
 </body>
 </html>

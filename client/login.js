@@ -15,9 +15,8 @@ document.addEventListener('DOMContentLoaded', () => {
             loginBtn.disabled = true;
 
             try {
-                const apiUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
-                                ? 'http://localhost:5000/api/login' 
-                                : 'https://webcom-sirsa.onrender.com/api/login';
+                const apiUrl = (window.WEBCOM_API || (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+                                ? 'http://localhost:5000/api' : 'https://webcom-sirsa.onrender.com/api')) + '/login';
 
                 const response = await fetch(apiUrl, {
                     method: 'POST',

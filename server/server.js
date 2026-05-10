@@ -4,9 +4,25 @@ const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
 
-// Secret key for JWT (In production, use an environment variable)
+// --- Password Hashing Helpers ---
+function hashPassword(password) {
+    const salt = crypto.randomBytes(16).toString('hex');
+    const hash = crypto.scryptSync(password, salt, 64).toString('hex');
+    return `${salt}:${hash}`;
+}
+
+function verifyPassword(password, stored) {
+    const [salt, hash] = stored.split(':');
+    const testHash = crypto.scryptSync(password, salt, 64).toString('hex');
+    return hash === testHash;
+}
+
+// Security: credentials from environment variables (set on Render dashboard)
 const JWT_SECRET = process.env.JWT_SECRET || 'webcom_super_secret_key_2026';
+const ADMIN_USER = process.env.ADMIN_USER || 'webcom_admin';
+const ADMIN_PASS = process.env.ADMIN_PASS || 'admin123';
 
 // Authentication Middleware to protect Admin API routes
 const authenticateToken = (req, res, next) => {
@@ -24,7 +40,11 @@ const authenticateToken = (req, res, next) => {
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+    origin: ['http://localhost:5000', 'http://127.0.0.1:5000', /\.vercel\.app$/],
+    methods: ['GET', 'POST'],
+    credentials: true
+}));
 app.use(express.json());
 
 // Ensure uploads directory exists
@@ -42,33 +62,64 @@ const storage = multer.diskStorage({
     destination: function(req, file, cb) {
         cb(null, path.join(__dirname, 'uploads'));
     },
-
-filename: function(req,file,cb) {
-cb(null, Date.now() + '-' + file.originalname);
-}
-
+    filename: function(req, file, cb) {
+        cb(null, Date.now() + '-' + file.originalname);
+    }
 });
 
-const upload = multer({storage});
-
-app.post('/api/upload', upload.single('file'), (req,res) => {
-    if (!req.file) {
-        return res.status(400).json({ error: 'No file uploaded' });
+// Only allow image uploads, max 5MB
+const upload = multer({
+    storage,
+    limits: { fileSize: 5 * 1024 * 1024 },
+    fileFilter: function(req, file, cb) {
+        if (!file.mimetype.startsWith('image/')) {
+            return cb(new Error('Only image files are allowed'), false);
+        }
+        cb(null, true);
     }
-    
-    // Construct the public URL for the uploaded file
-    const fileUrl = '/uploads/' + req.file.filename;
+});
 
-    res.json({
-        success: true,
-        message: 'File uploaded successfully',
-        url: fileUrl
+app.post('/api/upload', (req, res, next) => {
+    upload.single('file')(req, res, (err) => {
+        if (err) {
+            if (err.code === 'LIMIT_FILE_SIZE') {
+                return res.status(400).json({ error: 'File too large. Maximum size is 5MB.' });
+            }
+            return res.status(400).json({ error: err.message || 'Upload failed' });
+        }
+        if (!req.file) {
+            return res.status(400).json({ error: 'No file uploaded' });
+        }
+        
+        // Construct the public URL for the uploaded file
+        const fileUrl = '/uploads/' + req.file.filename;
+
+        res.json({
+            success: true,
+            message: 'File uploaded successfully',
+            url: fileUrl
+        });
     });
 });
 
-// In-memory array for contact inquiries (can be replaced by DB later)
-const inquiries = [];
+// --- DATABASE LOGIC ---
+const dataFilePath = path.join(__dirname, 'data.json');
 
+const readData = () => {
+    try {
+        const rawData = fs.readFileSync(dataFilePath);
+        return JSON.parse(rawData);
+    } catch (error) {
+        console.error("Error reading database:", error);
+        return { settings: {}, courses: [], gallery: [], staff: [], testimonials: [], inquiries: [] };
+    }
+};
+
+const writeData = (data) => {
+    fs.writeFileSync(dataFilePath, JSON.stringify(data, null, 2));
+};
+
+// Inquiries are now persisted to data.json so they survive server restarts
 app.post('/api/contact', (req, res) => {
     const { name, email, phone, course, message } = req.body;
     
@@ -77,7 +128,12 @@ app.post('/api/contact', (req, res) => {
     }
 
     const newInquiry = { id: Date.now(), name, email, phone, course, message, date: new Date() };
-    inquiries.push(newInquiry);
+    
+    // Persist to data.json
+    const data = readData();
+    if (!data.inquiries) data.inquiries = [];
+    data.inquiries.push(newInquiry);
+    writeData(data);
     
     console.log("New Inquiry Received:", newInquiry);
 
@@ -89,7 +145,9 @@ app.post('/api/contact', (req, res) => {
 
 // Protected Route: Fetch Inquiries
 app.get('/api/inquiries', authenticateToken, (req, res) => {
-    // Send the in-memory inquiries array (most recent first)
+    const data = readData();
+    const inquiries = data.inquiries || [];
+    // Send inquiries (most recent first)
     res.json(inquiries.slice().reverse());
 });
 
@@ -97,43 +155,75 @@ app.get('/api/inquiries', authenticateToken, (req, res) => {
 app.post('/api/login', (req, res) => {
     const { username, password } = req.body;
 
-    // Hardcoded credentials for Webcom Director
-    if (username === 'webcom_admin' && password === 'admin123') {
-        // Generate JWT Token valid for 24 hours
+    // Check data.json for custom credentials first (set via Change Password)
+    const data = readData();
+    if (data.admin && data.admin.username && data.admin.passwordHash) {
+        if (username === data.admin.username && verifyPassword(password, data.admin.passwordHash)) {
+            const token = jwt.sign({ role: 'admin' }, JWT_SECRET, { expiresIn: '24h' });
+            return res.status(200).json({ success: true, message: 'Login successful', token });
+        }
+        return res.status(401).json({ error: 'Invalid username or password' });
+    }
+
+    // Fallback to environment variable defaults (first-time setup)
+    if (username === ADMIN_USER && password === ADMIN_PASS) {
         const token = jwt.sign({ role: 'admin' }, JWT_SECRET, { expiresIn: '24h' });
-        
-        return res.status(200).json({ 
-            success: true, 
-            message: 'Login successful',
-            token: token 
-        });
+        return res.status(200).json({ success: true, message: 'Login successful', token });
     }
 
     return res.status(401).json({ error: 'Invalid username or password' });
 });
 
-// (authenticateToken moved to top)
+// Protected Route: Change Admin Credentials
+app.post('/api/change-credentials', authenticateToken, (req, res) => {
+    const { currentPassword, newUsername, newPassword } = req.body;
 
-// --- DATABASE LOGIC ---
-const dataFilePath = path.join(__dirname, 'data.json');
-
-const readData = () => {
-    try {
-        const rawData = fs.readFileSync(dataFilePath);
-        return JSON.parse(rawData);
-    } catch (error) {
-        console.error("Error reading database:", error);
-        return { settings: {}, courses: [], gallery: [], staff: [], testimonials: [] };
+    if (!currentPassword || !newUsername || !newPassword) {
+        return res.status(400).json({ error: 'All fields are required.' });
     }
-};
 
-const writeData = (data) => {
-    fs.writeFileSync(dataFilePath, JSON.stringify(data, null, 2));
-};
+    if (newUsername.length < 4) {
+        return res.status(400).json({ error: 'Username must be at least 4 characters.' });
+    }
 
-// Public Route: Fetch all dynamic data
+    if (newPassword.length < 6) {
+        return res.status(400).json({ error: 'Password must be at least 6 characters.' });
+    }
+
+    // Verify current password
+    const data = readData();
+    let isValid = false;
+
+    if (data.admin && data.admin.username && data.admin.passwordHash) {
+        // Check against stored hashed credentials
+        isValid = verifyPassword(currentPassword, data.admin.passwordHash);
+    } else {
+        // Check against env var defaults (first-time change)
+        isValid = (currentPassword === ADMIN_PASS);
+    }
+
+    if (!isValid) {
+        return res.status(401).json({ error: 'Current password is incorrect.' });
+    }
+
+    // Save new credentials (hashed)
+    data.admin = {
+        username: newUsername.trim().toLowerCase(),
+        passwordHash: hashPassword(newPassword),
+        updatedAt: new Date().toISOString()
+    };
+    writeData(data);
+
+    res.json({ success: true, message: 'Credentials updated successfully! Please login again.' });
+});
+
+
+
+// Public Route: Fetch all dynamic data (excluding private inquiries)
 app.get('/api/data', (req, res) => {
-    res.json(readData());
+    const data = readData();
+    const { inquiries, ...publicData } = data;
+    res.json(publicData);
 });
 
 // Protected Route: Update Settings
@@ -196,7 +286,13 @@ app.post('/api/gallery', authenticateToken, (req, res) => {
     res.json({ success: true, message: 'Gallery updated successfully' });
 });
 
+// Global Error Handler
+app.use((err, req, res, next) => {
+    console.error('Server Error:', err.message);
+    res.status(500).json({ error: 'Internal server error' });
+});
+
 const port = process.env.PORT || 5000;
 app.listen(port, '0.0.0.0', () => {
-console.log(`Server running on port ${port}`);
+    console.log(`Server running on port ${port}`);
 });

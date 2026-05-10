@@ -42,9 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             } catch (error) {
                 console.error('Submission Error:', error);
-                // Even if network fails locally without the backend running, show success for demonstration purposes if they are just testing frontend
-                showToast('Success', 'Your inquiry has been sent! We will contact you soon.', 'success');
-                contactForm.reset();
+                showToast('Error', 'Failed to connect to server. Please try again or contact us directly.', 'error');
             } finally {
                 submitBtn.innerHTML = originalText;
                 submitBtn.disabled = false;
@@ -52,34 +50,3 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
-
-// Apple-like Haptic Toast Notification
-function showToast(title, message, type = 'success') {
-    // Remove existing toast if any
-    const existingToast = document.querySelector('.apple-toast');
-    if (existingToast) existingToast.remove();
-
-    const toast = document.createElement('div');
-    toast.className = `apple-toast ${type}`;
-    
-    const icon = type === 'success' ? '<i class="fa-solid fa-check-circle" style="color:#34c759"></i>' : '<i class="fa-solid fa-exclamation-circle" style="color:#ff3b30"></i>';
-
-    toast.innerHTML = `
-        <div class="toast-icon">${icon}</div>
-        <div class="toast-content">
-            <h4>${title}</h4>
-            <p>${message}</p>
-        </div>
-    `;
-
-    document.body.appendChild(toast);
-
-    // Animate in
-    setTimeout(() => toast.classList.add('show'), 10);
-
-    // Remove after 3 seconds
-    setTimeout(() => {
-        toast.classList.remove('show');
-        setTimeout(() => toast.remove(), 400); // Wait for transition
-    }, 4000);
-}

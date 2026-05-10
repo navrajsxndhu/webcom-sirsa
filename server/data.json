@@ -8,184 +8,25 @@
     "youtube": "https://youtube.com/@shipramiglani_?si=L1jy2Nm3yGIeIItU"
   },
   "courses": [
-    {
-      "id": 1,
-      "title": "IELTS Coaching",
-      "price": "12,000 / month",
-      "duration": "3 Months",
-      "icon": "fa-earth-americas"
-    },
-    {
-      "id": 2,
-      "title": "PTE Coaching",
-      "price": "10,000 / month",
-      "duration": "2 Months",
-      "icon": "fa-microphone"
-    },
-    {
-      "id": 3,
-      "title": "Spoken English",
-      "price": "5,000 / month",
-      "duration": "3 Months",
-      "icon": "fa-language"
-    }
+    { "id": 1, "title": "IELTS Coaching", "price": "12,000 / month", "duration": "3 Months", "icon": "fa-earth-americas" },
+    { "id": 2, "title": "PTE Coaching", "price": "10,000 / month", "duration": "2 Months", "icon": "fa-microphone" },
+    { "id": 3, "title": "Spoken English", "price": "5,000 / month", "duration": "3 Months", "icon": "fa-language" }
   ],
   "gallery": [
-    {
-      "id": 101,
-      "url": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAFoG4B--ek4jSsb_6thRQCJAy-Qv0UB_hWCQOrtFvmKYfVyOdCvw1mJArmrJ1GGljISKp60M0brWvS6GxTspFJswWWeO8XQbulNJ9I0PeRnhPuObraLdvcWg8qHU71XPmkVO-ifkw=s1600",
-      "category": "building"
-    },
-    {
-      "id": 102,
-      "url": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAEl1gHnzw-yD-U9czYIqjsYIzHKZ6po685Fu0LAnbF1cKjtaTTmDlPxuQ8gwsbdhRfuaIjlrSsdFDPtkFc_OQZLpu85hVd1fnsft-arq4K7m4S_KSmuhjPgnIcolR7CzdvfCosU=s1600",
-      "category": "building"
-    },
-    {
-      "id": 103,
-      "url": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAGNqXA-oNO5lnrTIP6tZiOpE8ym7JBv5JvXMRMiPITNs9bby8kpEhDKkinuoXqzPVhdfDlkGuoQ_xGUeyw7Jqf2XiocdPgIwpn4gKVsbDnfltLH7XTefm6wEaBTrMVvyMaz5_cT=s1600",
-      "category": "building"
-    },
-    {
-      "id": 104,
-      "url": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAF0AHEhTJnTWhsZNlymtqql3dTwJR1jzzzo3_lCZIvIwuFOBkW2Y8GWdY8m77s_h0XDiTfivtfilOMcmm4EQSAppu-jWSb0t-wXtSHnHId-Ed8RTzn3YMcqSTk6OJUl8EOjQp8g=s1600",
-      "category": "student"
-    },
-    {
-      "id": 105,
-      "url": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAFvn-puvw-tOQVsqCdAVu-Cu2FO-4NhUS_gd56aYFRc9XaJR4WEfMuim1CY6EDjk81BPRGRuH-DgS1bvzqI5cBw9tGhPHwa8481s8qKlN3IEOVawU61JHYMX6Ai6EvBz4ZUmn7ccg=s1600",
-      "category": "student"
-    },
-    {
-      "id": 106,
-      "url": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAGYo07iqPbesrrZ83sBb6rc-m9bGaSvrmuNr6b7WOro251R4FbgS4PzBwJQf4-3zzmfglGkS19jnT6WtAvBVq7_xEMLuKqAQ_y4Cp4enOUoipFC9Kal1XQZqxvsc5Vyo99UxjmA=s1600",
-      "category": "student"
-    },
-    {
-      "id": 107,
-      "url": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAFvn-puvw-tOQVsqCdAVu-Cu2FO-4NhUS_gd56aYFRc9XaJR4WEfMuim1CY6EDjk81BPRGRuH-DgS1bvzqI5cBw9tGhPHwa8481s8qKlN3IEOVawU61JHYMX6Ai6EvBz4ZUmn7ccg=s1600",
-      "category": "classroom"
-    },
-    {
-      "id": 108,
-      "url": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAGNqXA-oNO5lnrTIP6tZiOpE8ym7JBv5JvXMRMiPITNs9bby8kpEhDKkinuoXqzPVhdfDlkGuoQ_xGUeyw7Jqf2XiocdPgIwpn4gKVsbDnfltLH7XTefm6wEaBTrMVvyMaz5_cT=s1600",
-      "category": "classroom"
-    },
-    {
-      "id": 109,
-      "url": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAGYo07iqPbesrrZ83sBb6rc-m9bGaSvrmuNr6b7WOro251R4FbgS4PzBwJQf4-3zzmfglGkS19jnT6WtAvBVq7_xEMLuKqAQ_y4Cp4enOUoipFC9Kal1XQZqxvsc5Vyo99UxjmA=s1600",
-      "category": "classroom"
-    },
-    {
-      "id": 110,
-      "url": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAF_slyiSh6IrgXLb_VzeJWa1P0B_GzgPqJkCrjSr5EbpCjXmT9SFpHXx3u72PuungkmhvG7vhu-Q16pBf_kRcVUFwIBdkWyw9-RO-fURaO5_TOKTtAiBET_o4hWmqayqzuz4DFq=s1600",
-      "category": "building"
-    },
-    {
-      "id": 111,
-      "url": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAFY99OF_v-eOBk-bKSQRhMM96-nDongKgHxuOSv2knlCX8EzXwpqxsUgay9G2p83KPfoC2r9jplggD8q9-Pb_yD4xazwI__oGb0s4yOa-xfZPGOSyVJYf7Y31BbrvsD1NYWdTeE7Q=s1600",
-      "category": "building"
-    },
-    {
-      "id": 112,
-      "url": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAGCUcbAhKnuwsC7vRRVpkNNqT-XsgJ8eMSuVMuZqgfEPsh_4Vi6t263yPyv4NOKNFgjpzpRT4T3tgIi8AxyFZyLV6ah54_nsqr4wN4UJ_EejFoAhPFXbuVD825HqpVcCnjsrd7o=s1600",
-      "category": "student"
-    },
-    {
-      "id": 113,
-      "url": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAHEoTOruh-7-iaa4a9q-WGpsSnV58en0S7jQkHmTbynOpdsN01-J6nz0yDdbxnTlicz6wSefvjta_sw9ESps7O_Np01QxKpqZODZu_5OER45X3hRXzkFaP5iPCWqYcH3Emf3Q7t=s1600",
-      "category": "student"
-    },
-    {
-      "id": 114,
-      "url": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAFolZX2e-I-s_ol5sHuqjwjFpNh5Bgs2b4PA4xnOblvNUvKO5ExRjBEUPHb9VKAZ01B0iLDpTxXJnW_Oc8I6JAHXx9fnxfEAkkiOWIvhXg-FcWbr_MlodSWiyevpK5xtRKSdLKA=s1600",
-      "category": "classroom"
-    }
+    { "id": 101, "url": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAFoG4B--ek4jSsb_6thRQCJAy-Qv0UB_hWCQOrtFvmKYfVyOdCvw1mJArmrJ1GGljISKp60M0brWvS6GxTspFJswWWeO8XQbulNJ9I0PeRnhPuObraLdvcWg8qHU71XPmkVO-ifkw=s1600", "category": "building" },
+    { "id": 102, "url": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAEl1gHnzw-yD-U9czYIqjsYIzHKZ6po685Fu0LAnbF1cKjtaTTmDlPxuQ8gwsbdhRfuaIjlrSsdFDPtkFc_OQZLpu85hVd1fnsft-arq4K7m4S_KSmuhjPgnIcolR7CzdvfCosU=s1600", "category": "building" }
   ],
   "staff": [
-    {
-      "name": "Shipra Miglani",
-      "role": "Director",
-      "bio": "Expert in reading and writing modules with 8+ years of experience helping students achieve 8.0+ bands.",
-      "photo": "https://play-lh.googleusercontent.com/zT--a5G3ULjLBdoiNcOZ58e7ijV3cLD4iKKl6J8QnztOGMU96j1y1QrA9clLQjDTseA"
-    },
-    {
-      "name": "Simran Kaur",
-      "role": "PTE Expert",
-      "bio": "Specializes in AI-based mock testing and spoken English fluency. Has guided over 500 students to success.",
-      "photo": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3337351659851608795"
-    },
-    {
-      "name": "Arshdeep Gill",
-      "role": "Visa Counselor",
-      "bio": "Dedicated to helping students with university admissions, SOP writing, and final embassy interview preparations.",
-      "photo": "https://content3.jdmagicbox.com/v2/comp/sirsa-haryana/u6/9999p1666.1666.181003115136.j8u6/catalogue/webcom-sirsa-ho-sirsa-haryana-language-classes-for-english-conversation-0ycc47evwm.jpg"
-    }
+    { "id": 1, "name": "Rahul Sharma", "role": "Senior IELTS Trainer", "bio": "Ex-British Council certified trainer with 8+ years of experience.", "photo": "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=600&auto=format&fit=crop" },
+    { "id": 2, "name": "Simran Kaur", "role": "PTE Expert", "bio": "Specialist in AI scoring algorithms and spoken English fluency.", "photo": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=600&auto=format&fit=crop" }
   ],
   "testimonials": [
-    {
-      "student": "Dhruv Tiwari",
-      "score": "PTE 90",
-      "review": "The mock tests were exactly like the real exam. Scored way above my expectations.",
-      "photo": "https://placehold.co/600x800/171717/f472b6.png?text=PTE%2090&font=montserrat"
-    },
-    {
-      "student": "Riya Gupta",
-      "score": "PTE 90",
-      "review": "They focus on your weak points and give targeted feedback. Brilliant experience.",
-      "photo": "https://placehold.co/600x800/18181b/f472b6.png?text=PTE%2090&font=montserrat"
-    },
-    {
-      "student": "Prabhjot Grewal",
-      "score": "PTE 90",
-      "review": "Achieved my dream score on the first attempt thanks to the personalized coaching.",
-      "photo": "https://placehold.co/600x800/1e293b/fbbf24.png?text=PTE%2090&font=montserrat"
-    },
-    {
-      "student": "Rajveer Grewal",
-      "score": "IELTS 7.5 Bands",
-      "review": "Achieved my dream score on the first attempt thanks to the personalized coaching.",
-      "photo": "https://placehold.co/600x800/171717/fbbf24.png?text=IELTS%207.5%20Bands&font=montserrat"
-    },
-    {
-      "student": "Gurleen Kaur",
-      "score": "PTE 85+",
-      "review": "Excellent environment and state-of-the-art facilities for PTE practice.",
-      "photo": "https://placehold.co/600x800/0f172a/f472b6.png?text=PTE%2085%2B&font=montserrat"
-    },
-    {
-      "student": "Amanpreet Sidhu",
-      "score": "IELTS 7.0 Bands",
-      "review": "They focus on your weak points and give targeted feedback. Brilliant experience.",
-      "photo": "https://placehold.co/600x800/171717/34d399.png?text=IELTS%207.0%20Bands&font=montserrat"
-    },
-    {
-      "student": "Krishna Gupta",
-      "score": "PTE 79+",
-      "review": "Best institute in Sirsa! The faculty is incredibly supportive and knowledgeable.",
-      "photo": "https://placehold.co/600x800/0f172a/38bdf8.png?text=PTE%2079%2B&font=montserrat"
-    },
-    {
-      "student": "Tara Kumar",
-      "score": "IELTS 8.0 Bands",
-      "review": "Best institute in Sirsa! The faculty is incredibly supportive and knowledgeable.",
-      "photo": "https://placehold.co/600x800/171717/38bdf8.png?text=IELTS%208.0%20Bands&font=montserrat"
-    },
-    {
-      "student": "Riya Tiwari",
-      "score": "PTE 65+",
-      "review": "I struggled with reading, but their techniques made it so easy. Got my desired score!",
-      "photo": "https://placehold.co/600x800/18181b/f472b6.png?text=PTE%2065%2B&font=montserrat"
-    }
+    { "id": 1, "score": "8 Bands IELTS", "review": "Amazing trainers and speaking practice sessions.", "student": "Amanpreet Singh" },
+    { "id": 2, "score": "79+ PTE", "review": "AI mock tests helped me improve very quickly.", "student": "Priya Verma" },
+    { "id": 3, "score": "Canada Visa Approved", "review": "Professional support from admission to visa.", "student": "Gurleen Brar" }
   ],
   "eventVideos": [
-    {
-      "id": 1,
-      "url": "assets/videos/event1.mp4"
-    },
-    {
-      "id": 2,
-      "url": "assets/videos/event2.mp4"
-    }
+    { "id": 1, "url": "assets/videos/event1.mp4" },
+    { "id": 2, "url": "assets/videos/event2.mp4" }
   ]
 }

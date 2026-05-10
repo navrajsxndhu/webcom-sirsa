@@ -427,6 +427,37 @@ border-radius:20px;
     position: absolute;
     inset: 0;
     background: radial-gradient(circle at center, rgba(255,255,255,0.1) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.cta-section .container {
+    position: relative;
+    z-index: 2;
+}
+
+/* STATS SECTION (About Page) */
+.stats-section {
+    background: rgba(15, 23, 42, 0.4);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 40px;
+    margin: 40px 20px;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.stats-section h2 {
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: #38bdf8;
+    margin-bottom: 5px;
+}
+
+.stats-section p {
+    color: #94a3b8;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 @keyframes gradientMove {

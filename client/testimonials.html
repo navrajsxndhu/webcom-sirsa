@@ -217,10 +217,13 @@
                         mediaHtml = `<img src="${photoUrl}" alt="${test.student} result">`;
                     } else {
                         // Score Placeholder
-                        const scoreColor = test.score.includes('90') || test.score.includes('8') ? '#ff477e' : '#f59e0b';
+                        let colorClass = 'score-gold';
+                        if (test.score.includes('90') || test.score.includes('8')) colorClass = 'score-pink';
+                        if (test.score.toLowerCase().includes('ielts')) colorClass = 'score-blue';
+
                         mediaHtml = `
-                        <div class="score-placeholder-wrapper" style="height: 280px; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.2);">
-                            <div class="score-placeholder" style="color: ${scoreColor}; margin: 0;">${test.score}</div>
+                        <div class="score-placeholder-wrapper" style="height: 280px;">
+                            <div class="score-placeholder ${colorClass}">${test.score}</div>
                         </div>`;
                     }
                     

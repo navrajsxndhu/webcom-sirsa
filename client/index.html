@@ -629,10 +629,15 @@ document.addEventListener('DOMContentLoaded', async () => {
                 mediaHtml = `<img src="${photoUrl}" alt="${test.student}" class="testimonial-photo mb-3">`;
             } else {
                 // PREMIUM SCORE PLACEHOLDER (Requested)
-                const scoreColor = test.score.includes('90') || test.score.includes('8') ? '#ff477e' : '#f59e0b';
+                let colorClass = 'score-gold';
+                if (test.score.includes('90') || test.score.includes('8')) colorClass = 'score-pink';
+                if (test.score.toLowerCase().includes('ielts')) colorClass = 'score-blue';
+                
                 mediaHtml = `
-                <div class="score-placeholder mb-3" style="color: ${scoreColor};">
-                    ${test.score}
+                <div class="score-placeholder-wrapper" style="height: 180px;">
+                    <div class="score-placeholder ${colorClass}">
+                        ${test.score}
+                    </div>
                 </div>`;
             }
 

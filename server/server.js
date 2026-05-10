@@ -67,7 +67,6 @@ const storage = multer.diskStorage({
     }
 });
 
-// Only allow image uploads, max 5MB
 const upload = multer({
     storage,
     limits: { fileSize: 5 * 1024 * 1024 },
@@ -90,82 +89,162 @@ app.post('/api/upload', (req, res, next) => {
         if (!req.file) {
             return res.status(400).json({ error: 'No file uploaded' });
         }
-        
-        // Construct the public URL for the uploaded file
         const fileUrl = '/uploads/' + req.file.filename;
-
-        res.json({
-            success: true,
-            message: 'File uploaded successfully',
-            url: fileUrl
-        });
+        res.json({ success: true, message: 'File uploaded successfully', url: fileUrl });
     });
 });
 
+const mongoose = require('mongoose');
+
 // --- DATABASE LOGIC ---
 const dataFilePath = path.join(__dirname, 'data.json');
+const MONGODB_URI = process.env.MONGODB_URI;
 
-const readData = () => {
+// MongoDB Schemas
+const adminSchema = new mongoose.Schema({
+    username: { type: String, required: true },
+    passwordHash: { type: String, required: true },
+    updatedAt: { type: Date, default: Date.now }
+});
+
+const inquirySchema = new mongoose.Schema({
+    name: String,
+    email: String,
+    phone: String,
+    course: String,
+    message: String,
+    date: { type: Date, default: Date.now }
+});
+
+const webDataSchema = new mongoose.Schema({
+    settings: Object,
+    courses: Array,
+    gallery: Array,
+    staff: Array,
+    testimonials: Array,
+    eventVideos: Array
+});
+
+const Admin = mongoose.model('Admin', adminSchema);
+const Inquiry = mongoose.model('Inquiry', inquirySchema);
+const WebData = mongoose.model('WebData', webDataSchema);
+
+let isMongoConnected = false;
+
+if (MONGODB_URI) {
+    mongoose.connect(MONGODB_URI)
+        .then(() => {
+            console.log("Connected to MongoDB Atlas");
+            isMongoConnected = true;
+            migrateDataIfNeeded();
+        })
+        .catch(err => console.error("MongoDB connection error:", err));
+} else {
+    console.log("No MONGODB_URI found. Falling back to data.json (Non-persistent on Vercel)");
+}
+
+// Migration Logic: Move data from JSON to MongoDB
+async function migrateDataIfNeeded() {
+    try {
+        const count = await WebData.countDocuments();
+        if (count === 0) {
+            console.log("Migrating data from data.json to MongoDB...");
+            const localData = JSON.parse(fs.readFileSync(dataFilePath));
+            const { inquiries, admin, ...publicData } = localData;
+            
+            await new WebData(publicData).save();
+            if (inquiries) await Inquiry.insertMany(inquiries);
+            if (admin) await new Admin(admin).save();
+            console.log("Migration successful.");
+        }
+    } catch (err) {
+        console.error("Migration failed:", err);
+    }
+}
+
+const readData = async () => {
+    if (isMongoConnected) {
+        const dbData = await WebData.findOne();
+        return dbData ? dbData.toObject() : { settings: {}, courses: [], gallery: [], staff: [], testimonials: [], eventVideos: [] };
+    }
     try {
         const rawData = fs.readFileSync(dataFilePath);
         return JSON.parse(rawData);
     } catch (error) {
-        console.error("Error reading database:", error);
-        return { settings: {}, courses: [], gallery: [], staff: [], testimonials: [], inquiries: [] };
+        return { settings: {}, courses: [], gallery: [], staff: [], testimonials: [], eventVideos: [], inquiries: [] };
     }
 };
 
-const writeData = (data) => {
+const writeData = async (data) => {
+    if (isMongoConnected) {
+        const { inquiries, admin, ...publicData } = data;
+        await WebData.findOneAndUpdate({}, publicData, { upsert: true });
+        return;
+    }
     fs.writeFileSync(dataFilePath, JSON.stringify(data, null, 2));
 };
 
-// Inquiries are now persisted to data.json so they survive server restarts
-app.post('/api/contact', (req, res) => {
+// --- ROUTES ---
+
+// Inquiries are now persisted to MongoDB if available
+app.post('/api/contact', async (req, res) => {
     const { name, email, phone, course, message } = req.body;
     
     if(!name || !phone) {
         return res.status(400).json({ error: 'Name and Phone are required.' });
     }
 
-    const newInquiry = { id: Date.now(), name, email, phone, course, message, date: new Date() };
+    const newInquiry = { name, email, phone, course, message, date: new Date() };
     
-    // Persist to data.json
-    const data = readData();
-    if (!data.inquiries) data.inquiries = [];
-    data.inquiries.push(newInquiry);
-    writeData(data);
+    if (isMongoConnected) {
+        await new Inquiry(newInquiry).save();
+    } else {
+        const data = await readData();
+        if (!data.inquiries) data.inquiries = [];
+        data.inquiries.push({ ...newInquiry, id: Date.now() });
+        await writeData(data);
+    }
     
-    console.log("New Inquiry Received:", newInquiry);
+    console.log("New Inquiry Received:", name);
 
-    // Simulate network delay for realistic loading state
     setTimeout(() => {
         res.status(200).json({ success: true, message: 'Inquiry received successfully!' });
     }, 800);
 });
 
 // Protected Route: Fetch Inquiries
-app.get('/api/inquiries', authenticateToken, (req, res) => {
-    const data = readData();
+app.get('/api/inquiries', authenticateToken, async (req, res) => {
+    if (isMongoConnected) {
+        const inquiries = await Inquiry.find().sort({ date: -1 });
+        return res.json(inquiries);
+    }
+    const data = await readData();
     const inquiries = data.inquiries || [];
-    // Send inquiries (most recent first)
     res.json(inquiries.slice().reverse());
 });
 
 // Admin Login Route
-app.post('/api/login', (req, res) => {
+app.post('/api/login', async (req, res) => {
     const { username, password } = req.body;
 
-    // Check data.json for custom credentials first (set via Change Password)
-    const data = readData();
-    if (data.admin && data.admin.username && data.admin.passwordHash) {
-        if (username === data.admin.username && verifyPassword(password, data.admin.passwordHash)) {
+    if (isMongoConnected) {
+        const dbAdmin = await Admin.findOne({ username });
+        if (dbAdmin && verifyPassword(password, dbAdmin.passwordHash)) {
             const token = jwt.sign({ role: 'admin' }, JWT_SECRET, { expiresIn: '24h' });
             return res.status(200).json({ success: true, message: 'Login successful', token });
         }
-        return res.status(401).json({ error: 'Invalid username or password' });
+    } else {
+        const data = await readData();
+        if (data.admin && data.admin.username && data.admin.passwordHash) {
+            if (username === data.admin.username && verifyPassword(password, data.admin.passwordHash)) {
+                const token = jwt.sign({ role: 'admin' }, JWT_SECRET, { expiresIn: '24h' });
+                return res.status(200).json({ success: true, message: 'Login successful', token });
+            }
+            return res.status(401).json({ error: 'Invalid username or password' });
+        }
     }
 
-    // Fallback to environment variable defaults (first-time setup)
+    // Fallback to environment variable defaults
     if (username === ADMIN_USER && password === ADMIN_PASS) {
         const token = jwt.sign({ role: 'admin' }, JWT_SECRET, { expiresIn: '24h' });
         return res.status(200).json({ success: true, message: 'Login successful', token });
@@ -175,126 +254,101 @@ app.post('/api/login', (req, res) => {
 });
 
 // Protected Route: Change Admin Credentials
-app.post('/api/change-credentials', authenticateToken, (req, res) => {
+app.post('/api/change-credentials', authenticateToken, async (req, res) => {
     const { currentPassword, newUsername, newPassword } = req.body;
 
     if (!currentPassword || !newUsername || !newPassword) {
         return res.status(400).json({ error: 'All fields are required.' });
     }
 
-    if (newUsername.length < 4) {
-        return res.status(400).json({ error: 'Username must be at least 4 characters.' });
-    }
-
-    if (newPassword.length < 6) {
-        return res.status(400).json({ error: 'Password must be at least 6 characters.' });
-    }
-
     // Verify current password
-    const data = readData();
     let isValid = false;
-
-    if (data.admin && data.admin.username && data.admin.passwordHash) {
-        // Check against stored hashed credentials
-        isValid = verifyPassword(currentPassword, data.admin.passwordHash);
+    if (isMongoConnected) {
+        const dbAdmin = await Admin.findOne(); // Assuming single admin
+        isValid = dbAdmin ? verifyPassword(currentPassword, dbAdmin.passwordHash) : (currentPassword === ADMIN_PASS);
     } else {
-        // Check against env var defaults (first-time change)
-        isValid = (currentPassword === ADMIN_PASS);
+        const data = await readData();
+        isValid = (data.admin && data.admin.passwordHash) ? verifyPassword(currentPassword, data.admin.passwordHash) : (currentPassword === ADMIN_PASS);
     }
 
-    if (!isValid) {
-        return res.status(401).json({ error: 'Current password is incorrect.' });
-    }
+    if (!isValid) return res.status(401).json({ error: 'Current password is incorrect.' });
 
-    // Save new credentials (hashed)
-    data.admin = {
+    // Save new credentials
+    const newCreds = {
         username: newUsername.trim().toLowerCase(),
         passwordHash: hashPassword(newPassword),
         updatedAt: new Date().toISOString()
     };
-    writeData(data);
+
+    if (isMongoConnected) {
+        await Admin.findOneAndUpdate({}, newCreds, { upsert: true });
+    } else {
+        const data = await readData();
+        data.admin = newCreds;
+        await writeData(data);
+    }
 
     res.json({ success: true, message: 'Credentials updated successfully! Please login again.' });
 });
 
-
-
-// Public Route: Fetch all dynamic data (excluding private inquiries)
-app.get('/api/data', (req, res) => {
-    const data = readData();
-    const { inquiries, ...publicData } = data;
+// Public Route: Fetch all dynamic data
+app.get('/api/data', async (req, res) => {
+    const data = await readData();
+    const { inquiries, admin, ...publicData } = data;
     res.json(publicData);
 });
 
 // Protected Route: Update Settings
-app.post('/api/settings', authenticateToken, (req, res) => {
+app.post('/api/settings', authenticateToken, async (req, res) => {
     const { settings } = req.body;
-    if(!settings || typeof settings !== 'object') return res.status(400).json({ error: 'Invalid settings data' });
-
-    const data = readData();
+    const data = await readData();
     data.settings = { ...data.settings, ...settings };
-    writeData(data);
-
+    await writeData(data);
     res.json({ success: true, message: 'Settings updated successfully' });
 });
 
 // Protected Route: Update Courses
-app.post('/api/courses', authenticateToken, (req, res) => {
+app.post('/api/courses', authenticateToken, async (req, res) => {
     const { courses } = req.body;
-    if(!courses || !Array.isArray(courses)) return res.status(400).json({ error: 'Invalid courses data' });
-
-    const data = readData();
+    const data = await readData();
     data.courses = courses;
-    writeData(data);
-
+    await writeData(data);
     res.json({ success: true, message: 'Courses updated successfully' });
 });
 
 // Protected Route: Update Staff
-app.post('/api/staff', authenticateToken, (req, res) => {
+app.post('/api/staff', authenticateToken, async (req, res) => {
     const { staff } = req.body;
-    if(!staff || !Array.isArray(staff)) return res.status(400).json({ error: 'Invalid staff data' });
-
-    const data = readData();
+    const data = await readData();
     data.staff = staff;
-    writeData(data);
-
+    await writeData(data);
     res.json({ success: true, message: 'Staff updated successfully' });
 });
 
 // Protected Route: Update Testimonials
-app.post('/api/testimonials', authenticateToken, (req, res) => {
+app.post('/api/testimonials', authenticateToken, async (req, res) => {
     const { testimonials } = req.body;
-    if(!testimonials || !Array.isArray(testimonials)) return res.status(400).json({ error: 'Invalid testimonials data' });
-
-    const data = readData();
+    const data = await readData();
     data.testimonials = testimonials;
-    writeData(data);
-
+    await writeData(data);
     res.json({ success: true, message: 'Testimonials updated successfully' });
 });
 
 // Protected Route: Update Gallery
-app.post('/api/gallery', authenticateToken, (req, res) => {
+app.post('/api/gallery', authenticateToken, async (req, res) => {
     const { gallery } = req.body;
-    if(!gallery || !Array.isArray(gallery)) return res.status(400).json({ error: 'Invalid gallery data' });
-
-    const data = readData();
+    const data = await readData();
     data.gallery = gallery;
-    writeData(data);
-
+    await writeData(data);
     res.json({ success: true, message: 'Gallery updated successfully' });
 });
 
 // Protected Route: Update Event Videos
-app.post('/api/event-videos', authenticateToken, (req, res) => {
+app.post('/api/event-videos', authenticateToken, async (req, res) => {
     const { eventVideos } = req.body;
-    if(!eventVideos || !Array.isArray(eventVideos)) return res.status(400).json({ error: 'Invalid video data' });
-
-    const data = readData();
+    const data = await readData();
     data.eventVideos = eventVideos;
-    writeData(data);
-
+    await writeData(data);
     res.json({ success: true, message: 'Event videos updated successfully' });
 });
 

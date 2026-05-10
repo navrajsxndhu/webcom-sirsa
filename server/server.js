@@ -96,6 +96,25 @@ app.post('/api/upload', (req, res, next) => {
 
 const mongoose = require('mongoose');
 
+app.post('/api/recover-access', async (req, res) => {
+    const { recoveryKey, newUsername, newPassword } = req.body;
+    
+    try {
+        const admin = await Admin.findOne({ recoveryKey });
+        if (!admin) {
+            return res.status(401).json({ error: 'Invalid master recovery key' });
+        }
+
+        admin.username = newUsername;
+        admin.passwordHash = hashPassword(newPassword);
+        await admin.save();
+
+        res.json({ success: true, message: 'Credentials reset successfully' });
+    } catch (error) {
+        res.status(500).json({ error: 'Recovery failed' });
+    }
+});
+
 // --- DATABASE LOGIC ---
 const dataFilePath = path.join(__dirname, 'data.json');
 const MONGODB_URI = process.env.MONGODB_URI;

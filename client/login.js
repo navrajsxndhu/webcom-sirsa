@@ -49,4 +49,69 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+    const forgotBtn = document.getElementById('forgotBtn');
+    const backToLogin = document.getElementById('backToLogin');
+    const loginView = document.getElementById('loginView');
+    const recoverView = document.getElementById('recoverView');
+    const recoverForm = document.getElementById('recoverForm');
+    const recoverBtn = document.getElementById('recoverBtn');
+
+    // Toggle Views
+    if(forgotBtn) {
+        forgotBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            loginView.style.display = 'none';
+            recoverView.style.display = 'block';
+        });
+    }
+
+    if(backToLogin) {
+        backToLogin.addEventListener('click', (e) => {
+            e.preventDefault();
+            recoverView.style.display = 'none';
+            loginView.style.display = 'block';
+        });
+    }
+
+    // Recovery Logic
+    if(recoverForm) {
+        recoverForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const originalText = recoverBtn.innerHTML;
+            recoverBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Resetting Access...';
+            recoverBtn.disabled = true;
+
+            const payload = {
+                recoveryKey: document.getElementById('recoverKey').value.trim(),
+                newUsername: document.getElementById('resetUser').value.trim(),
+                newPassword: document.getElementById('resetPass').value.trim()
+            };
+
+            try {
+                const apiUrl = (window.WEBCOM_API || (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+                                ? 'http://localhost:5000/api' : 'https://webcom-sirsa.onrender.com/api')) + '/recover-access';
+
+                const res = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await res.json();
+
+                if(res.ok) {
+                    showToast('Success', 'Credentials reset! Please login now.', 'success');
+                    recoverForm.reset();
+                    backToLogin.click();
+                } else {
+                    showToast('Error', data.error || 'Recovery failed.', 'error');
+                }
+            } catch (err) {
+                showToast('Error', 'Connection failed.', 'error');
+            } finally {
+                recoverBtn.innerHTML = originalText;
+                recoverBtn.disabled = false;
+            }
+        });
+    }
 });

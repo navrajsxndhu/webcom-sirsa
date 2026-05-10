@@ -244,6 +244,9 @@
                 </div>
 
 
+                <div class="text-end mb-4">
+                    <a href="#" id="forgotBtn" class="text-muted small text-decoration-none hover-glow" style="font-weight: 600; transition: all 0.3s;">Forgot Access?</a>
+                </div>
                 
                 <button type="submit" id="loginBtn" class="btn btn-primary w-100 login-btn">
                     Authorize Access <i class="fa-solid fa-key ms-2"></i>
@@ -251,10 +254,41 @@
             </form>
         </div>
 
+        <!-- RECOVERY VIEW -->
+        <div id="recoverView" style="display: none;">
+            <h2 class="text-warning"><i class="fa-solid fa-life-ring me-2"></i>Recovery Mode</h2>
+            <p>Use your master key to reset access.</p>
 
+            <form id="recoverForm">
+                <div class="form-floating mb-3">
+                    <input type="text" id="recoverKey" class="form-control" placeholder="Master Recovery Key" required>
+                    <label for="recoverKey">Master Recovery Key</label>
+                </div>
+                
+                <hr class="border-secondary opacity-25 my-4">
 
-        <a href="index.html" class="back-link text-decoration-none" id="returnToSiteLink">
-            <i class="fa-solid fa-arrow-left me-2"></i> Return to Site
+                <div class="form-floating mb-3">
+                    <input type="text" id="resetUser" class="form-control" placeholder="New Username" required>
+                    <label for="resetUser">New Username</label>
+                </div>
+
+                <div class="form-floating mb-4">
+                    <input type="password" id="resetPass" class="form-control" placeholder="New Password" required minlength="6">
+                    <label for="resetPass">New Password</label>
+                </div>
+                
+                <button type="submit" id="recoverBtn" class="btn btn-warning w-100 login-btn" style="background: linear-gradient(135deg, #f59e0b, #d97706); box-shadow: 0 15px 30px rgba(245, 158, 11, 0.3);">
+                    Reset Credentials <i class="fa-solid fa-rotate ms-2"></i>
+                </button>
+
+                <div class="mt-4">
+                    <a href="#" id="backToLogin" class="text-muted small text-decoration-none" style="font-weight: 600;"><i class="fa-solid fa-arrow-left me-1"></i> Back to Login</a>
+                </div>
+            </form>
+        </div>
+
+        <a href="index.html" class="back-link">
+            <i class="fa-solid fa-arrow-left me-2"></i> Return to Main Website
         </a>
     </div>
 

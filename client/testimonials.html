@@ -214,7 +214,7 @@
                     let mediaHtml = '';
                     if (test.photo && !test.photo.includes('placehold.co') && !test.photo.includes('fakeimg.pl')) {
                         const photoUrl = test.photo.startsWith('http') ? test.photo : BACKEND_URL + test.photo;
-                        mediaHtml = `<img src="${photoUrl}" alt="${test.student} result" class="testimonial-photo">`;
+                        mediaHtml = `<img loading="lazy" src="${photoUrl}" alt="${test.student} result" class="testimonial-photo">`;
                     } else {
                         // Score Placeholder
                         let colorClass = 'score-gold';

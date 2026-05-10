@@ -235,7 +235,7 @@
     <!-- CINEMATIC LIGHTBOX MODAL -->
     <div id="lightbox">
         <button id="lightbox-close"><i class="fa-solid fa-times"></i></button>
-        <img id="lightbox-img" src="" alt="Full Screen Image">
+        <img loading="lazy" id="lightbox-img" src="" alt="Full Screen Image">
     </div>
 
     <!-- JS -->
@@ -266,7 +266,7 @@
                     const category = imgObj.category || 'other';
                     const itemHtml = `
                         <div class="masonry-item reveal reveal-delay-${delay} gallery-item" data-img="${photoUrl}" data-category="${category}">
-                            <img src="${photoUrl}" alt="Gallery Image ${imgObj.id}">
+                            <img loading="lazy" src="${photoUrl}" alt="Gallery Image ${imgObj.id}">
                             <div class="masonry-overlay">
                                 <div class="masonry-icon">
                                     <i class="fa-solid fa-eye"></i>

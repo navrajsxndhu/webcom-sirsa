@@ -646,14 +646,24 @@
                                     <label class="text-muted mb-2 text-uppercase" style="font-size: 11px; font-weight:700;">New Username</label>
                                     <input type="text" id="newAdminUser" class="form-control" placeholder="Enter new username" required>
                                 </div>
-                                <div class="mb-3">
+                                 <div class="mb-3">
                                     <label class="text-muted mb-2 text-uppercase" style="font-size: 11px; font-weight:700;">New Password</label>
-                                    <input type="password" id="newAdminPass" class="form-control" placeholder="Minimum 6 characters" required minlength="6">
+                                    <div class="position-relative">
+                                        <input type="password" id="newAdminPass" class="form-control pe-5" placeholder="Minimum 6 characters" required minlength="6">
+                                        <button type="button" class="btn position-absolute end-0 top-50 translate-middle-y border-0 text-muted" onclick="togglePassVisibility('newAdminPass', this)">
+                                            <i class="fa-solid fa-eye"></i>
+                                        </button>
+                                    </div>
                                 </div>
                                 <hr class="border-secondary opacity-25 my-4">
                                 <div class="mb-4">
                                     <label class="text-muted mb-2 text-uppercase" style="font-size: 11px; font-weight:700; color: #ef4444 !important;">Current Password (To Confirm)</label>
-                                    <input type="password" id="currentAdminPass" class="form-control border-danger border-opacity-25" placeholder="Verification required" required>
+                                    <div class="position-relative">
+                                        <input type="password" id="currentAdminPass" class="form-control border-danger border-opacity-25 pe-5" placeholder="Verification required" required>
+                                        <button type="button" class="btn position-absolute end-0 top-50 translate-middle-y border-0 text-muted" onclick="togglePassVisibility('currentAdminPass', this)">
+                                            <i class="fa-solid fa-eye"></i>
+                                        </button>
+                                    </div>
                                 </div>
                                 <button type="submit" class="btn btn-warning w-100 fw-bold" style="border-radius: 12px;">Update Credentials</button>
                                 <p class="text-center mt-3 text-muted small"><i class="fa-solid fa-circle-info me-1"></i> You will be logged out after updating.</p>

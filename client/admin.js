@@ -66,16 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             renderDashboard();
 
-            // Fetch Admin Profile (Username, Recovery Key)
-            const resProf = await fetch(`${API_BASE}/admin-profile`, {
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
-            if(resProf.ok) {
-                const profile = await resProf.json();
-                if(document.getElementById('displayRecoveryKey')) {
-                    document.getElementById('displayRecoveryKey').innerText = profile.recoveryKey;
-                }
-            }
+
 
         } catch(e) {
             console.error("Failed to load CMS data", e);
@@ -84,11 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- UTILS ---
-    window.copyRecoveryKey = () => {
-        const key = document.getElementById('displayRecoveryKey').innerText;
-        navigator.clipboard.writeText(key);
-        showToast('Copied', 'Recovery key copied to clipboard!', 'success');
-    };
+
 
     // --- RENDER LOGIC ---
     function renderDashboard() {
@@ -554,52 +541,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // --- CHANGE CREDENTIALS ---
-    const changeCredsForm = document.getElementById('changeCredentialsForm');
-    if (changeCredsForm) {
-        changeCredsForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const btn = document.getElementById('saveCredentialsBtn');
-            const originalHtml = btn.innerHTML;
 
-            const currentPassword = document.getElementById('secCurrentPass').value;
-            const newUsername = document.getElementById('secNewUser').value;
-            const newPassword = document.getElementById('secNewPass').value;
-            const confirmPassword = document.getElementById('secConfirmPass').value;
-
-            if (newPassword !== confirmPassword) {
-                showToast('Error', 'New passwords do not match.', 'error');
-                return;
-            }
-
-            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin me-2"></i>Updating...';
-            btn.disabled = true;
-
-            try {
-                const res = await fetch(`${API_BASE}/change-credentials`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-                    body: JSON.stringify({ currentPassword, newUsername, newPassword })
-                });
-
-                const data = await res.json();
-
-                if (res.ok) {
-                    showToast('Success', 'Credentials updated! Logging out...', 'success');
-                    setTimeout(() => {
-                        localStorage.removeItem('webcom_admin_token');
-                        window.location.href = 'login.html';
-                    }, 2000);
-                } else {
-                    showToast('Error', data.error || 'Failed to update credentials.', 'error');
-                }
-            } catch (err) {
-                showToast('Error', 'Network connection failed.', 'error');
-            } finally {
-                btn.innerHTML = originalHtml;
-                btn.disabled = false;
-            }
-        });
-    }
 
     // --- UPLOAD EVENT VIDEOS ---
     async function handleVideoUpload(formId, inputId, videoId) {

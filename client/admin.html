@@ -231,9 +231,7 @@
             <button class="nav-btn" data-target="settings-panel">
                 <i class="fa-solid fa-gear"></i> Contact Settings
             </button>
-            <button class="nav-btn" data-target="security-panel">
-                <i class="fa-solid fa-shield-halved"></i> Security
-            </button>
+
             
             <div style="margin-top: auto;">
                 <button class="nav-btn text-danger w-100" id="logoutBtn" style="background: rgba(239, 68, 68, 0.1);">
@@ -515,112 +513,7 @@
             </div>
 
             <!-- SECURITY PANEL -->
-            <div id="security-panel" class="panel">
-                <h2 class="fw-bold mb-2">Account Security</h2>
-                <p class="text-muted mb-5">Change your admin login credentials. You will be logged out after saving.</p>
 
-                <div class="admin-card" style="max-width: 600px;">
-                    <div class="d-flex align-items-center mb-4">
-                        <div style="width: 50px; height: 50px; border-radius: 16px; background: linear-gradient(135deg, #2563eb, #0ea5e9); display: flex; align-items: center; justify-content: center; margin-right: 15px;">
-                            <i class="fa-solid fa-key" style="font-size: 20px; color: white;"></i>
-                        </div>
-                        <div>
-                            <h5 class="mb-0 fw-bold">Change Login Credentials</h5>
-                            <small class="text-muted">Update your username and password</small>
-                        </div>
-                    </div>
-
-                    <form id="changeCredentialsForm">
-                        <div class="mb-4">
-                            <label class="text-muted mb-2 text-uppercase" style="font-size: 12px; font-weight:600;">Current Password</label>
-                            <div class="position-relative">
-                                <input type="password" id="secCurrentPass" class="form-control" placeholder="Enter your current password" required>
-                                <button type="button" class="btn btn-sm position-absolute" style="right: 10px; top: 50%; transform: translateY(-50%); color: #94a3b8; background: none; border: none;" onclick="togglePassVisibility('secCurrentPass', this)">
-                                    <i class="fa-solid fa-eye"></i>
-                                </button>
-                            </div>
-                        </div>
-
-                        <hr style="border-color: rgba(255,255,255,0.08); margin: 25px 0;">
-
-                        <div class="mb-4">
-                            <label class="text-muted mb-2 text-uppercase" style="font-size: 12px; font-weight:600;">New Username</label>
-                            <input type="text" id="secNewUser" class="form-control" placeholder="Choose a new username (min 4 characters)" required minlength="4">
-                        </div>
-
-                        <div class="mb-4">
-                            <label class="text-muted mb-2 text-uppercase" style="font-size: 12px; font-weight:600;">New Password</label>
-                            <div class="position-relative">
-                                <input type="password" id="secNewPass" class="form-control" placeholder="Choose a new password (min 6 characters)" required minlength="6">
-                                <button type="button" class="btn btn-sm position-absolute" style="right: 10px; top: 50%; transform: translateY(-50%); color: #94a3b8; background: none; border: none;" onclick="togglePassVisibility('secNewPass', this)">
-                                    <i class="fa-solid fa-eye"></i>
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="mb-4">
-                            <label class="text-muted mb-2 text-uppercase" style="font-size: 12px; font-weight:600;">Confirm New Password</label>
-                            <div class="position-relative">
-                                <input type="password" id="secConfirmPass" class="form-control" placeholder="Re-enter your new password" required minlength="6">
-                                <button type="button" class="btn btn-sm position-absolute" style="right: 10px; top: 50%; transform: translateY(-50%); color: #94a3b8; background: none; border: none;" onclick="togglePassVisibility('secConfirmPass', this)">
-                                    <i class="fa-solid fa-eye"></i>
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Password Strength Indicator -->
-                        <div class="mb-4" id="passStrengthBox" style="display:none;">
-                            <div class="d-flex align-items-center gap-2 mb-2">
-                                <div style="flex: 1; height: 4px; border-radius: 4px; background: rgba(255,255,255,0.1); overflow: hidden;">
-                                    <div id="passStrengthBar" style="height: 100%; width: 0%; border-radius: 4px; transition: all 0.4s;"></div>
-                                </div>
-                                <small id="passStrengthText" style="font-weight: 600; font-size: 12px;"></small>
-                            </div>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary px-4 fw-bold w-100" id="saveCredentialsBtn">
-                            <i class="fa-solid fa-lock me-2"></i> Update Credentials
-                        </button>
-                    </form>
-                </div>
-
-                <div class="admin-card mt-4" style="max-width: 600px;">
-                    <div class="d-flex align-items-center mb-4">
-                        <div style="width: 50px; height: 50px; border-radius: 16px; background: linear-gradient(135deg, #f59e0b, #ef4444); display: flex; align-items: center; justify-content: center; margin-right: 15px;">
-                            <i class="fa-solid fa-shield-heart" style="font-size: 20px; color: white;"></i>
-                        </div>
-                        <div>
-                            <h5 class="mb-0 fw-bold">Master Recovery Key</h5>
-                            <small class="text-muted">Used to reset access if you forget your password</small>
-                        </div>
-                    </div>
-
-                    <div class="p-3 rounded bg-dark bg-opacity-50 border border-secondary border-opacity-25 mb-3">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <small class="text-muted d-block mb-1 text-uppercase fw-bold" style="font-size: 10px;">Your Active Recovery Key</small>
-                                <code id="displayRecoveryKey" style="font-size: 18px; color: #f59e0b; letter-spacing: 1px;">WEBCOM-RESET-2026</code>
-                            </div>
-                            <button class="btn btn-sm btn-outline-warning" onclick="copyRecoveryKey()">
-                                <i class="fa-solid fa-copy me-1"></i> Copy
-                            </button>
-                        </div>
-                    </div>
-                    <p class="text-muted small mb-0">
-                        <i class="fa-solid fa-circle-info me-1"></i> Keep this key in a safe place. If you sell this website, give this key to the new owner.
-                    </p>
-                </div>
-
-                <div class="admin-card mt-4" style="max-width: 600px; border-color: rgba(239, 68, 68, 0.2);">
-                    <div class="d-flex align-items-center">
-                        <i class="fa-solid fa-triangle-exclamation text-warning me-3" style="font-size: 20px;"></i>
-                        <div>
-                            <h6 class="mb-1 fw-bold">Important Security Note</h6>
-                            <small class="text-muted">After changing your credentials, you will be logged out and need to sign in with your new username and password. Make sure to remember them!</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
 
         </div>

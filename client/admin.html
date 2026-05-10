@@ -276,16 +276,17 @@
             
             <!-- OVERVIEW PANEL -->
             <div id="overview-panel" class="panel active">
-                <div class="d-flex align-items-center gap-3 mb-2">
-                    <div class="logo-shield" style="width: 40px; height: 40px; font-size: 20px; margin: 0; transform: none;">
-                        <i class="fa-solid fa-shield-halved"></i>
+                <div class="d-flex align-items-center justify-content-between mb-5">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="logo-shield" style="width: 45px; height: 45px; font-size: 20px; margin: 0; transform: none; flex-shrink: 0;">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+                        <div>
+                            <h2 class="fw-bold mb-0" id="welcomeMessage">Welcome back, Director!</h2>
+                            <p class="text-muted mb-0 small">System operational. Here is your current snapshot.</p>
+                        </div>
                     </div>
-                <div class="d-flex justify-content-between align-items-center mb-5">
-                    <div>
-                        <h2 class="fw-bold mb-1" id="welcomeMessage">Welcome back, Director!</h2>
-                        <p class="text-muted mb-0">System operational. Here is your current snapshot.</p>
-                    </div>
-                    <div id="dbStatusBadge" class="badge rounded-pill px-3 py-2" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); font-size: 13px; font-weight: 500;">
+                    <div id="dbStatusBadge" class="badge rounded-pill px-3 py-2" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); font-size: 12px; font-weight: 500; letter-spacing: 0.5px;">
                         <i class="fa-solid fa-circle-notch fa-spin me-2 text-info"></i>Checking Storage...
                     </div>
                 </div>

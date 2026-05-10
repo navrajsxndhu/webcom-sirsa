@@ -77,6 +77,34 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- UTILS ---
 
 
+    // --- DELETE EVENT VIDEO ---
+    window.deleteEventVideo = async (videoId) => {
+        if (!confirm('Are you sure you want to remove this video from the homepage?')) return;
+
+        try {
+            const vidIdx = globalData.eventVideos.findIndex(v => v.id === videoId);
+            if (vidIdx !== -1) {
+                globalData.eventVideos[vidIdx].url = null; // Clear the URL
+            }
+
+            const saveRes = await fetch(`${API_BASE}/event-videos`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                body: JSON.stringify({ eventVideos: globalData.eventVideos })
+            });
+
+            if (saveRes.ok) {
+                showToast('Success', 'Video removed successfully!', 'success');
+                renderDashboard();
+            } else {
+                throw new Error('Failed to remove video');
+            }
+        } catch (error) {
+            console.error(error);
+            showToast('Error', error.message, 'error');
+        }
+    };
+
     // --- RENDER LOGIC ---
     function renderDashboard() {
         // Overview Stats

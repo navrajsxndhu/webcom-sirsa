@@ -608,13 +608,25 @@ document.addEventListener('DOMContentLoaded', async () => {
             const BACKEND_URL = API_BASE.replace('/api', '');
             data.eventVideos.forEach(vid => {
                 const videoEl = document.getElementById(`eventVideo${vid.id}`);
-                if(videoEl) {
+                const videoCol = videoEl ? videoEl.closest('.col-md-6') : null;
+                
+                if(videoEl && vid.url) {
                     const sourceEl = videoEl.querySelector('source');
                     const videoUrl = vid.url.startsWith('http') ? vid.url : BACKEND_URL + vid.url;
                     sourceEl.src = videoUrl;
-                    videoEl.load(); // Reload the video with new source
+                    videoEl.load();
+                    if(videoCol) videoCol.style.display = 'block';
+                } else if(videoCol) {
+                    videoCol.style.display = 'none'; // Hide if no video
                 }
             });
+            
+            // Hide section if all videos are hidden
+            const activeVids = data.eventVideos.filter(v => v.url);
+            const videoSection = document.querySelector('.video-section');
+            if(activeVids.length === 0 && videoSection) {
+                videoSection.style.display = 'none';
+            }
         }
 
         const container = document.getElementById('testimonialsContainer');

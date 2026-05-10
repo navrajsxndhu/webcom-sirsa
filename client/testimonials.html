@@ -197,7 +197,6 @@
                 const res = await fetch(`${API_BASE}/data`);
                 const data = await res.json();
                 
-                document.getElementById('loadingIndicator').style.display = 'none';
                 const container = document.getElementById('resultsContainer');
                 
                 if(!data.testimonials || data.testimonials.length === 0) {
@@ -229,7 +228,7 @@
                     
                     const html = `
                         <div class="col-md-6 col-lg-4">
-                            <div class="testimonial-page-card reveal reveal-delay-${delay} active">
+                            <div class="testimonial-page-card reveal reveal-delay-${delay}">
                                 <div class="t-photo-wrapper">
                                     <div class="t-score-badge"><i class="fa-solid fa-star text-warning me-1"></i> ${test.score}</div>
                                     ${mediaHtml}
@@ -242,7 +241,13 @@
                             </div>
                         </div>
                     `;
-                    container.innerHTML += html;
+                    container.insertAdjacentHTML('beforeend', html);
+
+                    // Observe new element
+                    const newItem = container.lastElementChild.querySelector('.reveal');
+                    if (window.revealObserver) {
+                        window.revealObserver.observe(newItem);
+                    }
                 });
                 // Attach Video Button Event Listeners
                 document.querySelectorAll('.play-video-btn').forEach(btn => {

@@ -132,6 +132,29 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    window.deleteGalleryPhoto = async (index) => {
+        if (!confirm('Are you sure you want to delete this photo from the gallery?')) return;
+        
+        try {
+            globalData.gallery.splice(index, 1);
+            const res = await fetch(`${API_BASE}/gallery`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                body: JSON.stringify({ gallery: globalData.gallery })
+            });
+
+            if (res.ok) {
+                showToast('Success', 'Photo removed successfully!', 'success');
+                renderDashboard();
+            } else {
+                throw new Error('Failed to update gallery');
+            }
+        } catch (error) {
+            console.error(error);
+            showToast('Error', error.message, 'error');
+        }
+    };
+
     // --- RENDER LOGIC ---
     function renderDashboard() {
         // Overview Stats
@@ -237,6 +260,35 @@ document.addEventListener('DOMContentLoaded', () => {
                 </tr>
             `;
         });
+
+        // 6. Gallery Grid
+        const galleryGrid = document.getElementById('galleryGrid');
+        if (galleryGrid) {
+            galleryGrid.innerHTML = '';
+            if (globalData.gallery.length === 0) {
+                galleryGrid.innerHTML = '<div class="col-12 text-center text-muted py-4">No gallery photos yet.</div>';
+            } else {
+                globalData.gallery.forEach((img, index) => {
+                    const apiBase = API_BASE || '';
+                    const backendOrigin = apiBase.replace(/\/api$/, '');
+                    let photoUrl = img.url || '';
+                    if (photoUrl && !photoUrl.startsWith('http')) {
+                        if (!photoUrl.startsWith('/')) photoUrl = '/' + photoUrl;
+                        photoUrl = backendOrigin + photoUrl;
+                    }
+                    galleryGrid.innerHTML += `
+                        <div class="col-6 col-md-4 col-lg-3">
+                            <div class="position-relative group">
+                                <img src="${photoUrl}" class="rounded w-100" style="height: 120px; object-fit: cover; border: 1px solid rgba(255,255,255,0.1);" onerror="this.src='https://via.placeholder.com/150?text=Broken+Image'">
+                                <button class="btn btn-danger btn-sm position-absolute top-0 end-0 m-1 delete-gallery-btn" data-index="${index}" style="padding: 2px 6px;">
+                                    <i class="fa-solid fa-trash" style="font-size: 10px;"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+        }
     }
 
     // --- UPDATE COURSES ---
@@ -346,6 +398,14 @@ document.addEventListener('DOMContentLoaded', () => {
             else showToast('Error', 'Failed to publish changes.', 'error');
         } catch(e) { showToast('Error', 'Network connection failed.', 'error'); }
         finally { btn.innerHTML = originalHtml; btn.disabled = false; }
+    });
+
+    // Delegation for delete buttons
+    document.addEventListener('click', (e) => {
+        if (e.target.closest('.delete-gallery-btn')) {
+            const index = e.target.closest('.delete-gallery-btn').getAttribute('data-index');
+            window.deleteGalleryPhoto(index);
+        }
     });
 
     // --- UPDATE TESTIMONIALS ---

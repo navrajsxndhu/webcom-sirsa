@@ -171,7 +171,8 @@
                 </a>
             </div>
         </div>
-    </nav>`n    <main>
+    </nav>
+    <main>
 
     <!-- HERO -->
     <section class="hero py-5">
@@ -225,10 +226,11 @@
     </section>
 
     <!-- FOOTER -->
-        </main>`n<footer class="footer mt-5">
+        </main>
+<footer class="footer mt-5">
         <div class="container text-center">
             <h3>Webcom Sirsa</h3>
-            <p>Premium IELTS â€¢ PTE â€¢ Spoken English Institute</p>
+            <p>Premium IELTS • PTE • Spoken English Institute</p>
         </div>
     
         <div class="container mt-4 pt-4 pb-4 border-top" style="border-color: rgba(255,255,255,0.1) !important;">
@@ -276,12 +278,12 @@
             ];
 
             // Show Skeleton Grid while loading
-            container.innerHTML = `
+            container.innerHTML = 
                 <div class="masonry-item"><div class="skeleton" style="height: 300px; width: 100%;"></div></div>
                 <div class="masonry-item"><div class="skeleton" style="height: 200px; width: 100%;"></div></div>
                 <div class="masonry-item"><div class="skeleton" style="height: 350px; width: 100%;"></div></div>
                 <div class="masonry-item"><div class="skeleton" style="height: 250px; width: 100%;"></div></div>
-            `;
+            ;
 
             // 1. Fetch Dynamic Data (Instantly from cache if available)
             try {
@@ -309,7 +311,7 @@
                     }
 
                     const category = imgObj.category || 'other';
-                    const itemHtml = `
+                    const itemHtml = 
                         <div class="masonry-item reveal reveal-delay-${delay} gallery-item" data-img="${photoUrl}" data-category="${category}">
                             <img loading="lazy" src="${photoUrl}" alt="Gallery Image ${imgObj.id}">
                             <div class="masonry-overlay">
@@ -318,7 +320,7 @@
                                 </div>
                             </div>
                         </div>
-                    `;
+                    ;
                     container.insertAdjacentHTML('beforeend', itemHtml);
                     
                     const newItem = container.lastElementChild;
@@ -381,6 +383,9 @@
 
 </body>
 </html>
+
+
+
 
 
 

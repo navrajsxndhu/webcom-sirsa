@@ -49,11 +49,24 @@ document.addEventListener('DOMContentLoaded', () => {
     scrollBar.id = 'scrollProgress';
     body.prepend(scrollBar);
 
+    // 1. Active Link Highlighting
+    const currentPath = window.location.pathname;
+    const pageName = currentPath.split("/").pop() || 'index.html';
+    
+    document.querySelectorAll('.nav-link').forEach(link => {
+        const linkPath = link.getAttribute('href');
+        if (linkPath === pageName || (pageName === 'index.html' && linkPath === 'index.html')) {
+            link.classList.add('active');
+        } else {
+            link.classList.remove('active');
+        }
+    });
+
     // Check if it's a touch device
     const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
     if (!isTouchDevice) {
-        // Custom Cursor
+        // 2. Custom Cursor Logic
         const cursor = document.createElement('div');
         cursor.className = 'custom-cursor';
         body.appendChild(cursor);

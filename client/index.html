@@ -620,7 +620,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         const container = document.getElementById('testimonialsContainer');
         
         container.innerHTML = '';
-        data.testimonials.forEach((test, index) => {
+        const testimonialsToShow = data.testimonials.slice(0, 6);
+        testimonialsToShow.forEach((test, index) => {
             const delay = index + 1;
             const BACKEND_URL = API_BASE.replace('/api', '') + '/';
             

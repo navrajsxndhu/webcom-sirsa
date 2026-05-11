@@ -201,3 +201,26 @@ function showToast(title, message, type = 'success') {
         setTimeout(() => toast.remove(), 500);
     }, 4500);
 }
+// --- SCROLL TO TOP BUTTON ---
+const createScrollTop = () => {
+    const btn = document.createElement('a');
+    btn.innerHTML = '<i class="fa-solid fa-arrow-up"></i>';
+    btn.className = 'scroll-top-btn';
+    btn.setAttribute('aria-label', 'Scroll to Top');
+    btn.href = '#';
+    document.body.appendChild(btn);
+
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 500) {
+            btn.classList.add('visible');
+        } else {
+            btn.classList.remove('visible');
+        }
+    });
+
+    btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+};
+createScrollTop();

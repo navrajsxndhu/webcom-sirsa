@@ -127,6 +127,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.querySelectorAll('.dyn-whatsapp-btn').forEach(el => el.href = `https://wa.me/${data.settings.whatsapp || '919050700577'}`);
         document.querySelectorAll('.dyn-youtube').forEach(el => el.href = data.settings.youtube || '#');
         document.querySelectorAll('.dyn-instagram').forEach(el => el.href = data.settings.instagram || '#');
+        document.querySelectorAll('.dyn-facebook').forEach(el => el.href = data.settings.facebook || '#');
     }
 
     // Dynamic copyright year

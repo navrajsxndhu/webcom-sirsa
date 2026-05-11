@@ -210,6 +210,14 @@
         document.addEventListener('DOMContentLoaded', loadTestimonials);
         async function loadTestimonials() {
             const container = document.getElementById('resultsContainer');
+            
+            // Show Skeleton Cards while loading
+            container.innerHTML = `
+                <div class="col-md-6 col-lg-4"><div class="skeleton-card"><div class="skeleton skeleton-img"></div><div class="skeleton skeleton-text"></div><div class="skeleton skeleton-text-sm"></div></div></div>
+                <div class="col-md-6 col-lg-4"><div class="skeleton-card"><div class="skeleton skeleton-img"></div><div class="skeleton skeleton-text"></div><div class="skeleton skeleton-text-sm"></div></div></div>
+                <div class="col-md-6 col-lg-4"><div class="skeleton-card"><div class="skeleton skeleton-img"></div><div class="skeleton skeleton-text"></div><div class="skeleton skeleton-text-sm"></div></div></div>
+            `;
+
             const fallbackResults = []; // Removed AI placeholders
 
             try {

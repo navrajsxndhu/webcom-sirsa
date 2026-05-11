@@ -277,6 +277,14 @@
                 { "id": 105, "url": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAFoG4B--ek4jSsb_6thRQCJAy-Qv0UB_hWCQOrtFvmKYfVyOdCvw1mJArmrJ1GGljISKp60M0brWvS6GxTspFJswWWeO8XQbulNJ9I0PeRnhPuObraLdvcWg8qHU71XPmkVO-ifkw=s0", "category": "building" }
             ];
 
+            // Show Skeleton Grid while loading
+            container.innerHTML = `
+                <div class="masonry-item"><div class="skeleton" style="height: 300px; width: 100%;"></div></div>
+                <div class="masonry-item"><div class="skeleton" style="height: 200px; width: 100%;"></div></div>
+                <div class="masonry-item"><div class="skeleton" style="height: 350px; width: 100%;"></div></div>
+                <div class="masonry-item"><div class="skeleton" style="height: 250px; width: 100%;"></div></div>
+            `;
+
             // 1. Fetch Dynamic Data (Instantly from cache if available)
             try {
                 let data = await getWebcomData();

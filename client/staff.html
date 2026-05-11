@@ -274,6 +274,13 @@
         async function loadStaff() {
             const container = document.getElementById('staffContainer');
             
+            // Show Skeleton Cards while loading
+            container.innerHTML = `
+                <div class="col-md-6 col-lg-4"><div class="skeleton-card"><div class="skeleton skeleton-img"></div><div class="skeleton skeleton-text"></div><div class="skeleton skeleton-text-sm"></div></div></div>
+                <div class="col-md-6 col-lg-4"><div class="skeleton-card"><div class="skeleton skeleton-img"></div><div class="skeleton skeleton-text"></div><div class="skeleton skeleton-text-sm"></div></div></div>
+                <div class="col-md-6 col-lg-4"><div class="skeleton-card"><div class="skeleton skeleton-img"></div><div class="skeleton skeleton-text"></div><div class="skeleton skeleton-text-sm"></div></div></div>
+            `;
+
             // FALLBACK DATA (To ensure it looks "cool" even if server is off)
             const fallbackStaff = [
                 { "name": "Shipra Miglani", "role": "Founder & Director", "bio": "A visionary educator dedicated to empowering students with world-class language training and personal mentorship.", "photo": "https://yt3.googleusercontent.com/rzYRjcNBOX1EVxYGyolcKjwiknQgnEXTeDaftq4CRi8L21E36d4IJ4PCV7nF99J8Cz5YZDaN-2s=s900-c-k-c0x00ffffff-no-rj" }

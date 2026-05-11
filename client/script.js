@@ -97,6 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // --- GLOBAL DATA FETCH & CACHE ---
 async function getWebcomData() {
+    const CACHE_KEY = 'webcom_data_cache';
     const isLocal = window.location.hostname === 'localhost' || 
                     window.location.hostname === '127.0.0.1' || 
                     window.location.protocol === 'file:';
@@ -109,14 +110,29 @@ async function getWebcomData() {
     
     window.WEBCOM_API = API_BASE;
 
-    try {
-        const res = await fetch(`${API_BASE}/data`);
-        const data = await res.json();
-        return data;
-    } catch(e) {
-        console.error("Failed to fetch data", e);
-        return null;
+    // 1. Try to return cached data immediately
+    const cachedData = localStorage.getItem(CACHE_KEY);
+    const parsedCache = cachedData ? JSON.parse(cachedData) : null;
+
+    // 2. Fetch fresh data in the background
+    const fetchPromise = fetch(`${API_BASE}/data`)
+        .then(res => res.json())
+        .then(data => {
+            localStorage.setItem(CACHE_KEY, JSON.stringify(data));
+            return data;
+        })
+        .catch(e => {
+            console.error("Background fetch failed", e);
+            return parsedCache; // Fallback to cache if fetch fails
+        });
+
+    // If we have cache, return it and let the background fetch update the UI later if needed
+    // But for the initial call, we usually want to wait if no cache exists
+    if (parsedCache) {
+        return parsedCache;
     }
+
+    return await fetchPromise;
 }
 
 document.addEventListener('DOMContentLoaded', async () => {

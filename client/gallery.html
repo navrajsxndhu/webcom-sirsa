@@ -292,7 +292,8 @@
                 
                 const galleryList = (data && data.gallery && data.gallery.length > 0) ? data.gallery : fallbackGallery;
 
-                // 2. Render Masonry Grid
+                // 2. Clear skeletons and Render Masonry Grid
+                container.innerHTML = '';
                 galleryList.forEach((imgObj, index) => {
                     const delay = (index % 5) + 1; 
                     const apiBase = window.WEBCOM_API || '';

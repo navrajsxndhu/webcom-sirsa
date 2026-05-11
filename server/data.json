@@ -13,35 +13,26 @@
     { "id": 3, "title": "Spoken English", "price": "5,000 / month", "duration": "3 Months", "icon": "fa-language" }
   ],
   "gallery": [
-    { "id": 101, "url": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAFoG4B--ek4jSsb_6thRQCJAy-Qv0UB_hWCQOrtFvmKYfVyOdCvw1mJArmrJ1GGljISKp60M0brWvS6GxTspFJswWWeO8XQbulNJ9I0PeRnhPuObraLdvcWg8qHU71XPmkVO-ifkw=s0", "category": "building" },
-    { "id": 102, "url": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAF_slyiSh6IrgXLb_VzeJWa1P0B_GzgPqJkCrjSr5EbpCjXmT9SFpHXx3u72PuungkmhvG7vhu-Q16pBf_kRcVUFwIBdkWyw9-RO-fURaO5_TOKTtAiBET_o4hWmqayqzuz4DFq=s0", "category": "building" },
-    { "id": 103, "url": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAFdOMtqSh8qUl1XzoLrapM-EJevD4ctr8v1KBGW29oKbHTDzszXnufcbQzzN2i8LV8077H8Ysi1MlnFNy8mSWQwsokyb7Eonp8TqRQ8OgUB_yzFVlu-w0HW_IXZum4LtLCvr3tU=s0", "category": "building" },
-    { "id": 104, "url": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAGCUcbAhKnuwsC7vRRVpkNNqT-XsgJ8eMSuVMuZqgfEPsh_4Vi6t263yPyv4NOKNFgjpzpRT4T3tgIi8AxyFZyLV6ah54_nsqr4wN4UJ_EejFoAhPFXbuVD825HqpVcCnjsrd7o=s0", "category": "classroom" },
-    { "id": 105, "url": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAGZFbHH5x9ce7mOHBviWS1BGPbdCO30WixF3eDnQuXUjABJ-aDc30lOt0v76fkruF0Hv1MJMP-T4aAfCy51Fvq2Nez2F1-lczJ4Z3TBkotKKzLms9gKyQt5ipbCcJxq0WUecqYQQg=s0", "category": "classroom" },
-    { "id": 106, "url": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAFGtZpi-Oq5r1oUCTLrUeeV86-g9uif8ED8EpgPZa80z1kNqDjO3KTC0wo5-AZusomOwIQJ7AtKT3tR_DwyqJu0z2sU5zOagH_O06o80lODRZE6IISxcrragvC_T9ZZ8Wm7reU2=s0", "category": "classroom" },
-    { "id": 107, "url": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAHEoTOruh-7-iaa4a9q-WGpsSnV58en0S7jQkHmTbynOpdsN01-J6nz0yDdbxnTlicz6wSefvjta_sw9ESps7O_Np01QxKpqZODZu_5OER45X3hRXzkFaP5iPCWqYcH3Emf3Q7t=s0", "category": "classroom" },
-    { "id": 108, "url": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAFolZX2e-I-s_ol5sHuqjwjFpNh5Bgs2b4PA4xnOblvNUvKO5ExRjBEUPHb9VKAZ01B0iLDpTxXJnW_Oc8I6JAHXx9fnxfEAkkiOWIvhXg-FcWbr_MlodSWiyevpK5xtRKSdLKA=s0", "category": "student" },
-    { "id": 109, "url": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAH2oI7rkTU5T46BhUmgvKOMgRGYOxb6VASETVSFdUmzqi1pKdfVN-FEnVMBwVbfo96IxDOBD-oJ-puP_4fPob2Xl4sWNWpZdypgCgEkEyeGolaVxjb3cENNeb6EtuiFOTjRxP4FDg=s0", "category": "student" },
-    { "id": 110, "url": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAFGWGK8N8wrRWXxEstZiaH5DPB1zmGvu0QbST2SJ8GmdAWYQC3Rgzo5wcJxOmu0goPwne-8h-cMkNWMlZiUn0gpZ7frGxQmA_GqbqBO_jLXM3T33FMZ0B1kbGzFz_Kw_VOMrGQ5rw=s0", "category": "student" }
+    { "id": 101, "url": "assets/images/gallery/building1.png", "category": "building" },
+    { "id": 102, "url": "assets/images/gallery/classroom1.png", "category": "classroom" },
+    { "id": 103, "url": "assets/images/gallery/student1.png", "category": "student" },
+    { "id": 104, "url": "assets/images/gallery/student2.png", "category": "student" },
+    { "id": 105, "url": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAFoG4B--ek4jSsb_6thRQCJAy-Qv0UB_hWCQOrtFvmKYfVyOdCvw1mJArmrJ1GGljISKp60M0brWvS6GxTspFJswWWeO8XQbulNJ9I0PeRnhPuObraLdvcWg8qHU71XPmkVO-ifkw=s0", "category": "building" },
+    { "id": 106, "url": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAGCUcbAhKnuwsC7vRRVpkNNqT-XsgJ8eMSuVMuZqgfEPsh_4Vi6t263yPyv4NOKNFgjpzpRT4T3tgIi8AxyFZyLV6ah54_nsqr4wN4UJ_EejFoAhPFXbuVD825HqpVcCnjsrd7o=s0", "category": "classroom" },
+    { "id": 107, "url": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAFGWGK8N8wrRWXxEstZiaH5DPB1zmGvu0QbST2SJ8GmdAWYQC3Rgzo5wcJxOmu0goPwne-8h-cMkNWMlZiUn0gpZ7frGxQmA_GqbqBO_jLXM3T33FMZ0B1kbGzFz_Kw_VOMrGQ5rw=s0", "category": "student" }
   ],
   "staff": [
-    { "id": 0, "name": "Shipra Miglani", "role": "Founder & Director", "bio": "A visionary educator dedicated to empowering students with world-class language training and personal mentorship.", "photo": "https://yt3.googleusercontent.com/rzYRjcNBOX1EVxYGyolcKjwiknQgnEXTeDaftq4CRi8L21E36d4IJ4PCV7nF99J8Cz5YZDaN-2s=s900-c-k-c0x00ffffff-no-rj" },
-    { "id": 1, "name": "Rahul Sharma", "role": "Senior IELTS Trainer", "bio": "Ex-British Council certified trainer with 8+ years of experience.", "photo": "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=600&auto=format&fit=crop" },
-    { "id": 2, "name": "Simran Kaur", "role": "PTE Expert", "bio": "Specialist in AI scoring algorithms and spoken English fluency.", "photo": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=600&auto=format&fit=crop" }
+    { "id": 0, "name": "Shipra Miglani", "role": "Founder & Director", "bio": "A visionary educator dedicated to empowering students with world-class language training and personal mentorship.", "photo": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=800&auto=format&fit=crop" },
+    { "id": 1, "name": "Rahul Sharma", "role": "Senior IELTS Trainer", "bio": "Ex-British Council certified trainer with 8+ years of experience in helping students achieve Band 8+.", "photo": "assets/staff/staff2.png" },
+    { "id": 2, "name": "Simran Kaur", "role": "PTE Expert", "bio": "Specialist in AI scoring algorithms and spoken English fluency with a track record of 79+ scores.", "photo": "assets/staff/staff3.png" },
+    { "id": 3, "name": "David Miller", "role": "Speaking Coach", "bio": "Native fluency expert focusing on accent reduction and confidence building for international interviews.", "photo": "assets/staff/staff4.png" }
   ],
   "testimonials": [
-    { "id": 1, "score": "8 Bands IELTS", "review": "Amazing trainers and speaking practice sessions.", "student": "Amanpreet Singh", "photo": "" },
-    { "id": 2, "score": "79+ PTE", "review": "AI mock tests helped me improve very quickly.", "student": "Priya Verma", "photo": "" },
-    { "id": 3, "score": "Canada Visa Approved", "review": "Professional support from admission to visa.", "student": "Gurleen Brar", "photo": "" },
-    { "id": 4, "score": "8.5 Bands IELTS", "review": "The intensive training at Webcom helped me achieve my target score for Canada PR. Highly recommend!", "student": "Arjun Mehra", "photo": "" },
-    { "id": 5, "score": "82 Score PTE", "review": "AI mock tests were a game changer. I improved from 65 to 82 in just 4 weeks.", "student": "Sanya Goyal", "photo": "" },
-    { "id": 6, "score": "UK Study Visa Approved", "review": "Excellent guidance for university selection and visa interview preparation.", "student": "Karan Dhillon", "photo": "" },
-    { "id": 7, "score": "7.5 Bands IELTS", "review": "Spoken English classes boosted my confidence. The trainers are very supportive.", "student": "Ishani Verma", "photo": "" },
-    { "id": 8, "score": "79+ PTE", "review": "Best PTE coaching in Sirsa. The lab facilities and AI software are top-notch.", "student": "Rohan Singhal", "photo": "" },
-    { "id": 9, "score": "Australia Visa Approved", "review": "Transparent process and genuine advice. Thank you Webcom team for my visa!", "student": "Mehak Preet", "photo": "" },
-    { "id": 10, "score": "8 Bands IELTS", "review": "The 1-on-1 writing feedback helped me overcome my plateau. Great experience.", "student": "Deepak Hooda", "photo": "" },
-    { "id": 11, "score": "78 PTE", "review": "Friendly environment and flexible timings made it easy to balance work and studies.", "student": "Navdeep Kaur", "photo": "" },
-    { "id": 12, "score": "USA Visa Success", "review": "Guided me through every step of the F1 visa process. Very happy with the result!", "student": "Sahil Bansal", "photo": "" }
+    { "id": 1, "score": "8.5 Bands IELTS", "review": "The intensive training at Webcom helped me achieve my target score for Canada PR. Highly recommend!", "student": "Amanpreet Singh", "photo": "assets/students/student1.png" },
+    { "id": 2, "score": "82 Score PTE", "review": "AI mock tests were a game changer. I improved from 65 to 82 in just 4 weeks.", "student": "Priya Verma", "photo": "assets/students/student2.png" },
+    { "id": 3, "score": "Canada Visa Approved", "review": "Professional support from admission to visa. The team is very helpful and knowledgeable.", "student": "Gurleen Brar", "photo": "" },
+    { "id": 4, "score": "UK Study Visa Approved", "review": "Excellent guidance for university selection and visa interview preparation.", "student": "Karan Dhillon", "photo": "" },
+    { "id": 5, "score": "7.5 Bands IELTS", "review": "Spoken English classes boosted my confidence. The trainers are very supportive.", "student": "Ishani Verma", "photo": "" }
   ],
   "eventVideos": [
     { "id": 1, "url": "assets/videos/event1.mp4" },

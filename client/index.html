@@ -622,7 +622,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         container.innerHTML = '';
         data.testimonials.forEach((test, index) => {
             const delay = index + 1;
-            const BACKEND_URL = API_BASE.replace('/api', '');
+            const BACKEND_URL = API_BASE.replace('/api', '') + '/';
             
             const student = test.student || 'Successful Student';
             const score = test.score || 'Achiever';

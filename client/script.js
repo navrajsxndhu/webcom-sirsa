@@ -67,10 +67,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 3. Cursor Hover Effect on links/buttons
         setTimeout(() => {
-            const interactiveElements = document.querySelectorAll('a, button, input, select, textarea, .course-card, .gallery-card, .feature-card');
+            const interactiveElements = document.querySelectorAll('a, button, input, select, textarea, .course-card, .gallery-card, .feature-card, .staff-card, .testimonial-card, .testimonial-page-card');
             interactiveElements.forEach(el => {
                 el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
                 el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+                
+                // Mouse follow for radial gradient
+                if (el.classList.contains('course-card') || el.classList.contains('feature-card') || el.classList.contains('staff-card') || el.classList.contains('testimonial-card') || el.classList.contains('testimonial-page-card')) {
+                    el.addEventListener('mousemove', (e) => {
+                        const rect = el.getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+                        el.style.setProperty('--x', `${x}px`);
+                        el.style.setProperty('--y', `${y}px`);
+                    });
+                }
             });
         }, 1000);
     }
@@ -86,21 +97,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // --- GLOBAL DATA FETCH & CACHE ---
 async function getWebcomData() {
-    const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
-                    ? 'http://localhost:5000/api' : 'https://webcom-sirsa.onrender.com/api';
+    const isLocal = window.location.hostname === 'localhost' || 
+                    window.location.hostname === '127.0.0.1' || 
+                    window.location.protocol === 'file:';
+    
+    const API_BASE = isLocal 
+                    ? 'http://localhost:5000/api' 
+                    : 'https://webcom-sirsa.onrender.com/api';
     
     window.WEBCOM_API = API_BASE;
-
-    // Check session cache first
-    const cached = sessionStorage.getItem('webcom_data_cache');
-    if (cached) {
-        return JSON.parse(cached);
-    }
 
     try {
         const res = await fetch(`${API_BASE}/data`);
         const data = await res.json();
-        sessionStorage.setItem('webcom_data_cache', JSON.stringify(data));
         return data;
     } catch(e) {
         console.error("Failed to fetch data", e);

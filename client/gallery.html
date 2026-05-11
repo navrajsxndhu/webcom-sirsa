@@ -199,7 +199,19 @@
             </div>
             
             <div class="masonry-grid" id="galleryContainer">
-                <!-- Populated by JavaScript -->
+                <!-- Hardcoded Meaningful Content -->
+                <div class="masonry-item gallery-item" data-img="assets/images/gallery/building1.png" data-category="building" style="opacity: 1 !important; transform: none !important;">
+                    <img src="assets/images/gallery/building1.png" alt="Campus">
+                    <div class="masonry-overlay"><div class="masonry-icon"><i class="fa-solid fa-eye"></i></div></div>
+                </div>
+                <div class="masonry-item gallery-item" data-img="assets/images/gallery/classroom1.png" data-category="classroom" style="opacity: 1 !important; transform: none !important;">
+                    <img src="assets/images/gallery/classroom1.png" alt="Classroom">
+                    <div class="masonry-overlay"><div class="masonry-icon"><i class="fa-solid fa-eye"></i></div></div>
+                </div>
+                <div class="masonry-item gallery-item" data-img="assets/images/gallery/student1.png" data-category="student" style="opacity: 1 !important; transform: none !important;">
+                    <img src="assets/images/gallery/student1.png" alt="Students">
+                    <div class="masonry-overlay"><div class="masonry-icon"><i class="fa-solid fa-eye"></i></div></div>
+                </div>
             </div>
         </div>
     </section>
@@ -251,18 +263,27 @@
             const lightboxImg = document.getElementById('lightbox-img');
             const closeBtn = document.getElementById('lightbox-close');
 
+            const fallbackGallery = [
+                { "id": 101, "url": "assets/images/gallery/building1.png", "category": "building" },
+                { "id": 102, "url": "assets/images/gallery/classroom1.png", "category": "classroom" },
+                { "id": 103, "url": "assets/images/gallery/student1.png", "category": "student" },
+                { "id": 104, "url": "assets/images/gallery/student2.png", "category": "student" }
+            ];
+
             // 1. Fetch Dynamic Data (Instantly from cache if available)
             try {
-                const data = await getWebcomData();
-                if (!data) throw new Error("No data found");
-                
+                let data = await getWebcomData();
                 loading.style.display = 'none';
+                
+                const galleryList = (data && data.gallery && data.gallery.length > 0) ? data.gallery : fallbackGallery;
 
                 // 2. Render Masonry Grid
-                data.gallery.forEach((imgObj, index) => {
+                galleryList.forEach((imgObj, index) => {
                     const delay = (index % 5) + 1; 
-                    const BACKEND_URL = window.WEBCOM_API.replace('/api', '');
-                    const photoUrl = imgObj.url ? (imgObj.url.startsWith('http') ? imgObj.url : BACKEND_URL + imgObj.url) : '';
+                    const BACKEND_URL = (window.WEBCOM_API) ? window.WEBCOM_API.replace('/api', '') + '/' : '';
+                    let photoUrl = imgObj.url ? (imgObj.url.startsWith('http') ? imgObj.url : BACKEND_URL + imgObj.url) : '';
+                    if (!BACKEND_URL && imgObj.url && !imgObj.url.startsWith('http')) photoUrl = imgObj.url;
+
                     const category = imgObj.category || 'other';
                     const itemHtml = `
                         <div class="masonry-item reveal reveal-delay-${delay} gallery-item" data-img="${photoUrl}" data-category="${category}">

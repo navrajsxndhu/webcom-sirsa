@@ -48,6 +48,18 @@ document.addEventListener('DOMContentLoaded', () => {
             const course = document.getElementById('contactCourse').value;
             const message = document.getElementById('contactMessage').value;
 
+            // Simple Validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                showToast('Error', 'Please enter a valid email address.', 'error');
+                return;
+            }
+
+            if (phone.length < 10) {
+                showToast('Error', 'Please enter a valid phone number.', 'error');
+                return;
+            }
+
             // Loading state
             const originalText = submitBtn.innerHTML;
             submitBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Sending...';

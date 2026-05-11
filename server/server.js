@@ -5,6 +5,9 @@ const jwt = require('jsonwebtoken');
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
+const helmet = require('helmet');
+const xss = require('xss-clean');
+const rateLimit = require('express-rate-limit');
 
 // --- Password Hashing Helpers ---
 function hashPassword(password) {
@@ -19,10 +22,15 @@ function verifyPassword(password, stored) {
     return hash === testHash;
 }
 
-// Security: credentials from environment variables (set on Render dashboard)
-const JWT_SECRET = process.env.JWT_SECRET || 'webcom_super_secret_key_2026';
-const ADMIN_USER = process.env.ADMIN_USER || 'webcom_admin';
-const ADMIN_PASS = process.env.ADMIN_PASS || 'admin123';
+// Security: credentials from environment variables
+const JWT_SECRET = process.env.JWT_SECRET;
+const ADMIN_USER = process.env.ADMIN_USER;
+const ADMIN_PASS = process.env.ADMIN_PASS;
+
+if (!JWT_SECRET || !ADMIN_USER || !ADMIN_PASS) {
+    console.error('FATAL ERROR: Environment variables JWT_SECRET, ADMIN_USER, or ADMIN_PASS are not defined.');
+    if (process.env.NODE_ENV === 'production') process.exit(1);
+}
 
 // Authentication Middleware to protect Admin API routes
 const authenticateToken = (req, res, next) => {
@@ -40,12 +48,21 @@ const authenticateToken = (req, res, next) => {
 
 const app = express();
 
+app.use(helmet()); // Security Headers
+app.use(xss());    // Data Sanitization against XSS
 app.use(cors({
     origin: ['http://localhost:5000', 'http://127.0.0.1:5000', 'http://localhost:5500', 'http://127.0.0.1:5500', /\.vercel\.app$/, /onrender\.com$/],
     methods: ['GET', 'POST'],
     credentials: true
 }));
-app.use(express.json());
+app.use(express.json({ limit: '10kb' })); // Limit body size to prevent DoS
+
+// Rate Limiting for Contact Form
+const contactLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 5, // Limit each IP to 5 requests per window
+    message: { error: 'Too many inquiries from this IP, please try again after 15 minutes.' }
+});
 
 // Ensure uploads directory exists
 const uploadDir = path.join(__dirname, 'uploads');
@@ -100,7 +117,7 @@ const upload = multer({
     }
 });
 
-app.post('/api/upload', (req, res, next) => {
+app.post('/api/upload', authenticateToken, (req, res, next) => {
     upload.single('file')(req, res, (err) => {
         if (err) {
             if (err.code === 'LIMIT_FILE_SIZE') {
@@ -151,7 +168,7 @@ const MONGODB_URI = process.env.MONGODB_URI;
 const adminSchema = new mongoose.Schema({
     username: { type: String, required: true },
     passwordHash: { type: String, required: true },
-    recoveryKey: { type: String, default: 'WEBCOM-RESET-2026' }, // New field
+    recoveryKey: { type: String, required: true }, // Required and not defaulted in schema anymore
     updatedAt: { type: Date, default: Date.now }
 });
 
@@ -185,16 +202,18 @@ if (MONGODB_URI) {
     const maskedUri = MONGODB_URI.replace(/\/\/.*@/, "//****:****@");
     console.log("Connecting to:", maskedUri);
 
-    mongoose.connect(MONGODB_URI)
-        .then(() => {
+    const connectMongo = async () => {
+        try {
+            await mongoose.connect(MONGODB_URI);
             console.log("✅ SUCCESS: Connected to MongoDB Atlas");
             isMongoConnected = true;
-            migrateDataIfNeeded();
-        })
-        .catch(err => {
+            await migrateDataIfNeeded();
+        } catch (err) {
             console.error("❌ FAILED: MongoDB connection error:", err.message);
             isMongoConnected = false;
-        });
+        }
+    };
+    connectMongo();
 } else {
     console.log("⚠️ WARNING: No MONGODB_URI found in environment variables. Falling back to local data.json.");
 }
@@ -271,7 +290,7 @@ const writeData = async (data) => {
 // --- ROUTES ---
 
 // Inquiries are now persisted to MongoDB if available
-app.post('/api/contact', async (req, res) => {
+app.post('/api/contact', contactLimiter, async (req, res) => {
     const { name, email, phone, course, message } = req.body;
     
     if(!name || !phone) {

@@ -3,7 +3,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if(!token) return;
 
     const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
-                    ? 'http://localhost:5000/api' : 'https://webcom-sirsa.onrender.com/api';
+                    ? 'http://localhost:5000/api' 
+                    : (window.location.origin.includes('vercel.app') 
+                        ? 'https://webcom-sirsa.onrender.com/api' 
+                        : window.location.origin + '/api');
 
     // --- NAVIGATION LOGIC ---
     const navBtns = document.querySelectorAll('.nav-btn[data-target]');
@@ -181,13 +184,26 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
         });
 
-        // Render Staff Table
+        // 4. Staff
         const staffBody = document.getElementById('staffTableBody');
         staffBody.innerHTML = '';
         globalData.staff.forEach((member, index) => {
+            const apiBase = API_BASE || '';
+            const backendOrigin = apiBase.replace(/\/api$/, '');
+            let photoUrl = member.photo || '';
+            if (photoUrl && !photoUrl.startsWith('http')) {
+                if (!photoUrl.startsWith('/')) photoUrl = '/' + photoUrl;
+                photoUrl = backendOrigin + photoUrl;
+            }
+
             staffBody.innerHTML += `
                 <tr>
-                    <td><input type="text" class="form-control mb-0 staff-name" data-index="${index}" value="${member.name}"></td>
+                    <td>
+                        <div class="d-flex align-items-center gap-2">
+                            <img src="${photoUrl}" class="rounded-circle" width="40" height="40" style="object-fit:cover; border: 1px solid rgba(255,255,255,0.1);" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}'">
+                            <input type="text" class="form-control mb-0 s-name" data-index="${index}" value="${member.name}">
+                        </div>
+                    </td>
                     <td><input type="text" class="form-control mb-0 staff-role" data-index="${index}" value="${member.role}"></td>
                     <td><input type="text" class="form-control mb-0 staff-bio" data-index="${index}" value="${member.bio}"></td>
                     <td><button class="btn btn-outline-danger btn-sm delete-staff-btn" data-index="${index}"><i class="fa-solid fa-trash"></i></button></td>
@@ -195,13 +211,26 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
         });
 
-        // Render Testimonials Table
+        // 5. Testimonials
         const testimonialsBody = document.getElementById('testimonialsTableBody');
         testimonialsBody.innerHTML = '';
         globalData.testimonials.forEach((testimonial, index) => {
+            const apiBase = API_BASE || '';
+            const backendOrigin = apiBase.replace(/\/api$/, '');
+            let photoUrl = testimonial.photo || '';
+            if (photoUrl && !photoUrl.startsWith('http')) {
+                if (!photoUrl.startsWith('/')) photoUrl = '/' + photoUrl;
+                photoUrl = backendOrigin + photoUrl;
+            }
+
             testimonialsBody.innerHTML += `
                 <tr>
-                    <td><input type="text" class="form-control mb-0 t-student" data-index="${index}" value="${testimonial.student}"></td>
+                    <td>
+                        <div class="d-flex align-items-center gap-2">
+                            ${photoUrl ? `<img src="${photoUrl}" class="rounded" width="40" height="40" style="object-fit:cover; border: 1px solid rgba(255,255,255,0.1);" onerror="this.style.display='none'">` : '<div class="bg-secondary rounded" style="width:40px; height:40px;"></div>'}
+                            <input type="text" class="form-control mb-0 t-student" data-index="${index}" value="${testimonial.student}">
+                        </div>
+                    </td>
                     <td><input type="text" class="form-control mb-0 t-score" data-index="${index}" value="${testimonial.score}"></td>
                     <td><input type="text" class="form-control mb-0 t-review" data-index="${index}" value="${testimonial.review}"></td>
                     <td><button class="btn btn-outline-danger btn-sm delete-test-btn" data-index="${index}"><i class="fa-solid fa-trash"></i></button></td>

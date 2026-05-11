@@ -256,6 +256,8 @@
                     <div class="d-flex gap-3 ms-md-2">
                         <a href="https://github.com/navrajsxndhu" target="_blank" class="footer-social-icon"><i class="fa-brands fa-github"></i></a>
                         <a href="https://instagram.com/navraj_sxndhu" target="_blank" class="footer-social-icon insta"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" target="_blank" class="footer-social-icon fb dyn-facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" target="_blank" class="footer-social-icon channel dyn-channel" title="Broadcast Channel"><i class="fa-solid fa-tower-broadcast"></i></a>
                         <a href="mailto:navysandhu970@gmail.com" class="footer-social-icon mail"><i class="fa-solid fa-envelope"></i></a>
                         <a href="tel:+919017851916" class="footer-social-icon phone"><i class="fa-solid fa-phone"></i></a>
                         <a href="https://wa.me/919017851916" target="_blank" class="footer-social-icon wa"><i class="fa-brands fa-whatsapp"></i></a>
@@ -275,7 +277,7 @@
             // FALLBACK DATA (To ensure it looks "cool" even if server is off)
             const fallbackStaff = [
                 { "name": "Shipra Miglani", "role": "Founder & Director", "bio": "A visionary educator dedicated to empowering students with world-class language training and personal mentorship.", "photo": "https://yt3.googleusercontent.com/rzYRjcNBOX1EVxYGyolcKjwiknQgnEXTeDaftq4CRi8L21E36d4IJ4PCV7nF99J8Cz5YZDaN-2s=s900-c-k-c0x00ffffff-no-rj" }
-            ];      ];
+            ];
 
             try {
                 let data = await getWebcomData();
@@ -284,13 +286,19 @@
                 container.innerHTML = '';
                 staffList.forEach((member, index) => {
                     const delay = (index % 4) + 1;
-                    const BACKEND_URL = (window.WEBCOM_API) ? window.WEBCOM_API.replace('/api', '') + '/' : '';
+                    const apiBase = window.WEBCOM_API || '';
+                    const backendOrigin = apiBase.replace(/\/api$/, '');
+                    const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
                     let photoUrl = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(member.name) + '&background=1e293b&color=38bdf8&size=512';
                     
                     if (member.photo) {
-                        photoUrl = member.photo.startsWith('http') ? member.photo : (BACKEND_URL + member.photo);
-                        // If no backend URL (fetch failed), just use the relative path
-                        if (!BACKEND_URL && !member.photo.startsWith('http')) photoUrl = member.photo;
+                        photoUrl = member.photo;
+                        if (!photoUrl.startsWith('http')) {
+                            photoUrl = backendOrigin + (photoUrl.startsWith('/') ? photoUrl : '/' + photoUrl);
+                        }
+                        if (!isLocal && photoUrl.includes('localhost')) {
+                            photoUrl = photoUrl.replace(/http:\/\/localhost:\d+/, backendOrigin);
+                        }
                     }
                     const html = '<div class="col-md-6 col-lg-4 d-flex align-items-stretch">' +
                         '<div class="staff-card reveal reveal-delay-' + delay + ' w-100">' +

@@ -103,7 +103,9 @@ async function getWebcomData() {
     
     const API_BASE = isLocal 
                     ? 'http://localhost:5000/api' 
-                    : 'https://webcom-sirsa.onrender.com/api';
+                    : (window.location.origin.includes('vercel.app') 
+                        ? 'https://webcom-sirsa.onrender.com/api' 
+                        : window.location.origin + '/api');
     
     window.WEBCOM_API = API_BASE;
 

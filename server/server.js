@@ -41,7 +41,7 @@ const authenticateToken = (req, res, next) => {
 const app = express();
 
 app.use(cors({
-    origin: ['http://localhost:5000', 'http://127.0.0.1:5000', 'http://localhost:5500', 'http://127.0.0.1:5500', /\.vercel\.app$/],
+    origin: ['http://localhost:5000', 'http://127.0.0.1:5000', 'http://localhost:5500', 'http://127.0.0.1:5500', /\.vercel\.app$/, /onrender\.com$/],
     methods: ['GET', 'POST'],
     credentials: true
 }));
@@ -50,13 +50,35 @@ app.use(express.json());
 // Ensure uploads directory exists
 const uploadDir = path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadDir)){
-    fs.mkdirSync(uploadDir);
+    fs.mkdirSync(uploadDir, { recursive: true });
 }
 
-// Serve the frontend client files automatically
+// --- CORE MIDDLEWARE ---
+
+// Serve uploaded files publicly with explicit CORS
+app.use('/uploads', express.static(uploadDir, {
+    setHeaders: (res) => {
+        res.set('Access-Control-Allow-Origin', '*');
+    }
+}));
+// Serve the frontend client files
 app.use(express.static(path.join(__dirname, '../client')));
-// Serve uploaded files publicly
-app.use('/uploads', express.static(uploadDir));
+
+// 3. Simple Connectivity Tests
+app.get('/api/ping', (req, res) => res.send('pong'));
+
+app.get('/api/debug-uploads', (req, res) => {
+    try {
+        const files = fs.readdirSync(uploadDir);
+        res.json({ 
+            uploadDir, 
+            exists: fs.existsSync(uploadDir),
+            files: files.slice(-15)
+        });
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
 
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
@@ -89,8 +111,14 @@ app.post('/api/upload', (req, res, next) => {
         if (!req.file) {
             return res.status(400).json({ error: 'No file uploaded' });
         }
+        const protocol = req.headers['x-forwarded-proto'] || req.protocol;
+        const host = req.get('host');
+        // Prefer RENDER_EXTERNAL_URL if set (provided by Render)
+        const fullOrigin = process.env.RENDER_EXTERNAL_URL || `${protocol}://${host}`;
         const fileUrl = '/uploads/' + req.file.filename;
-        res.json({ success: true, message: 'File uploaded successfully', url: fileUrl });
+        const absoluteUrl = fullOrigin + fileUrl;
+        
+        res.json({ success: true, message: 'File uploaded successfully', url: absoluteUrl });
     });
 });
 
@@ -479,4 +507,5 @@ setInterval(async () => {
 const port = process.env.PORT || 5000;
 app.listen(port, '0.0.0.0', () => {
     console.log(`Server running on port ${port}`);
+    console.log(`Uploads path: ${uploadDir}`);
 });

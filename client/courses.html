@@ -461,6 +461,8 @@ Contact
                     <div class="d-flex gap-3 ms-md-2">
                         <a href="https://github.com/navrajsxndhu" target="_blank" class="footer-social-icon"><i class="fa-brands fa-github"></i></a>
                         <a href="https://instagram.com/navraj_sxndhu" target="_blank" class="footer-social-icon insta"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" target="_blank" class="footer-social-icon fb dyn-facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" target="_blank" class="footer-social-icon channel dyn-channel" title="Broadcast Channel"><i class="fa-solid fa-tower-broadcast"></i></a>
                         <a href="mailto:navysandhu970@gmail.com" class="footer-social-icon mail"><i class="fa-solid fa-envelope"></i></a>
                         <a href="tel:+919017851916" class="footer-social-icon phone"><i class="fa-solid fa-phone"></i></a>
                         <a href="https://wa.me/919017851916" target="_blank" class="footer-social-icon wa"><i class="fa-brands fa-whatsapp"></i></a>
@@ -486,7 +488,10 @@ href="#" class="dyn-whatsapp-btn whatsapp-btn">
 <script>
 document.addEventListener('DOMContentLoaded', async () => {
     const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
-                    ? 'http://localhost:5000/api' : 'https://webcom-sirsa.onrender.com/api';
+                    ? 'http://localhost:5000/api' 
+                    : (window.location.origin.includes('vercel.app') 
+                        ? 'https://webcom-sirsa.onrender.com/api' 
+                        : window.location.origin + '/api');
     
     try {
         const res = await fetch(`${API_BASE}/data`);

@@ -54,12 +54,14 @@ document.addEventListener('DOMContentLoaded', () => {
             submitBtn.disabled = true;
 
             try {
-                // Determine API URL (localhost for testing, relative or vercel url later)
-                const apiUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
-                                ? 'http://localhost:5000/api/contact' 
-                                : 'https://webcom-sirsa.onrender.com/api/contact';
+                // Determine API URL
+                const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+                    ? 'http://localhost:5000/api' 
+                    : (window.location.origin.includes('vercel.app') 
+                        ? 'https://webcom-sirsa.onrender.com/api' 
+                        : window.location.origin + '/api');
 
-                const response = await fetch(apiUrl, {
+                const response = await fetch(`${API_BASE}/contact`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

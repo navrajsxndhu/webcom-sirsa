@@ -632,7 +632,7 @@ border-radius:20px;
 .footer-social-icon.phone:hover { color: #38bdf8; }
 .footer-social-icon.wa:hover { color: #25D366; }
 
-}
+/* Fixed stray bracket */
 
 /* PREMIUM WHATSAPP BUTTON */
 .whatsapp-btn {
@@ -1281,4 +1281,5 @@ font-size:2rem;
     box-shadow: 0 15px 30px rgba(56, 189, 248, 0.4);
     border-color: #38bdf8;
 }
+
 

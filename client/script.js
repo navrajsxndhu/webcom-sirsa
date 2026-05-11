@@ -42,12 +42,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const blobs = document.createElement('div');
     blobs.className = 'bg-blobs';
     blobs.innerHTML = '<div class="blob blob-1"></div><div class="blob blob-2"></div>';
-    body.prepend(blobs);
+    if (!document.querySelector('.bg-blobs')) body.prepend(blobs);
 
     // Scroll Progress
-    const scrollBar = document.createElement('div');
-    scrollBar.id = 'scrollProgress';
-    body.prepend(scrollBar);
+    if (!document.getElementById('scrollProgress')) {
+        const scrollBar = document.createElement('div');
+        scrollBar.id = 'scrollProgress';
+        body.prepend(scrollBar);
+    }
 
     // 1. Active Link Highlighting
     const currentPath = window.location.pathname;
@@ -67,44 +69,47 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!isTouchDevice) {
         // 2. Custom Cursor Logic
-        const cursor = document.createElement('div');
-        cursor.className = 'custom-cursor';
-        body.appendChild(cursor);
-        body.style.cursor = 'none'; // Only hide default cursor here
+        if (!document.querySelector('.custom-cursor')) {
+            const cursor = document.createElement('div');
+            cursor.className = 'custom-cursor';
+            body.appendChild(cursor);
+            body.style.cursor = 'none'; // Only hide default cursor here
 
-        // 2. Cursor Movement Logic
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-        });
-
-        // 3. Cursor Hover Effect on links/buttons
-        setTimeout(() => {
-            const interactiveElements = document.querySelectorAll('a, button, input, select, textarea, .course-card, .gallery-card, .feature-card, .staff-card, .testimonial-card, .testimonial-page-card');
-            interactiveElements.forEach(el => {
-                el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
-                el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
-                
-                // Mouse follow for radial gradient
-                if (el.classList.contains('course-card') || el.classList.contains('feature-card') || el.classList.contains('staff-card') || el.classList.contains('testimonial-card') || el.classList.contains('testimonial-page-card')) {
-                    el.addEventListener('mousemove', (e) => {
-                        const rect = el.getBoundingClientRect();
-                        const x = e.clientX - rect.left;
-                        const y = e.clientY - rect.top;
-                        el.style.setProperty('--x', `${x}px`);
-                        el.style.setProperty('--y', `${y}px`);
-                    });
-                }
+            // 2. Cursor Movement Logic
+            document.addEventListener('mousemove', (e) => {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
             });
-        }, 1000);
+
+            // 3. Cursor Hover Effect on links/buttons
+            setTimeout(() => {
+                const interactiveElements = document.querySelectorAll('a, button, input, select, textarea, .course-card, .gallery-card, .feature-card, .staff-card, .testimonial-card, .testimonial-page-card');
+                interactiveElements.forEach(el => {
+                    el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+                    el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+                    
+                    // Mouse follow for radial gradient
+                    if (el.classList.contains('course-card') || el.classList.contains('feature-card') || el.classList.contains('staff-card') || el.classList.contains('testimonial-card') || el.classList.contains('testimonial-page-card')) {
+                        el.addEventListener('mousemove', (e) => {
+                            const rect = el.getBoundingClientRect();
+                            const x = e.clientX - rect.left;
+                            const y = e.clientY - rect.top;
+                            el.style.setProperty('--x', `${x}px`);
+                            el.style.setProperty('--y', `${y}px`);
+                        });
+                    }
+                });
+            }, 1000);
+        }
     }
 
     // 4. Scroll Progress Logic
     window.addEventListener('scroll', () => {
+        const scrollBar = document.getElementById('scrollProgress');
         const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
         const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
         const scrolled = (winScroll / height) * 100;
-        scrollBar.style.width = scrolled + "%";
+        if (scrollBar) scrollBar.style.width = scrolled + "%";
     });
 });
 
@@ -115,47 +120,54 @@ async function getWebcomData() {
                     window.location.hostname === '127.0.0.1' || 
                     window.location.protocol === 'file:';
     
+    // Hardcoded production URL for absolute reliability across domains
     const API_BASE = isLocal 
                     ? 'http://localhost:5000/api' 
-                    : (window.location.origin.includes('vercel.app') 
-                        ? 'https://webcom-sirsa.onrender.com/api' 
-                        : window.location.origin + '/api');
+                    : 'https://webcom-sirsa.onrender.com/api';
     
     window.WEBCOM_API = API_BASE;
 
-    // 1. Try to return cached data immediately
+    // 1. Try to return cached data immediately for speed
     const cachedData = localStorage.getItem(CACHE_KEY);
     const parsedCache = cachedData ? JSON.parse(cachedData) : null;
 
-    // 2. Fetch fresh data in the background
-    const fetchPromise = fetch(`${API_BASE}/data`)
-        .then(res => res.json())
-        .then(data => {
+    // 2. Define fetch logic
+    const fetchData = async () => {
+        try {
+            const res = await fetch(`${API_BASE}/data`);
+            if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+            const data = await res.json();
             localStorage.setItem(CACHE_KEY, JSON.stringify(data));
             return data;
-        })
-        .catch(e => {
+        } catch (e) {
             console.error("Background fetch failed", e);
             return parsedCache; // Fallback to cache if fetch fails
-        });
+        }
+    };
 
-    // If we have cache, return it and let the background fetch update the UI later if needed
-    // But for the initial call, we usually want to wait if no cache exists
+    // If we have cache, return it immediately to avoid "Loading" hangs
+    // But pages should ideally have logic to re-render if fresh data arrives
     if (parsedCache) {
+        // Kick off a background refresh anyway
+        fetchData(); 
         return parsedCache;
     }
 
-    return await fetchPromise;
+    // If no cache, we MUST wait for the fetch
+    return await fetchData();
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
-    // 1. Initial background fetch to warm up Render server & cache
+    // 1. Initial fetch to warm up Render server & cache
     const data = await getWebcomData();
     
     if (data && data.settings) {
         document.querySelectorAll('.dyn-phone').forEach(el => el.innerText = data.settings.phone || '+91 90507 00577');
         document.querySelectorAll('.dyn-address').forEach(el => el.innerText = data.settings.address || 'Opp. Town Park Road, Sirsa');
-        document.querySelectorAll('.dyn-whatsapp-btn').forEach(el => el.href = `https://wa.me/${data.settings.whatsapp || '919050700577'}`);
+        document.querySelectorAll('.dyn-whatsapp-btn').forEach(el => {
+            const waNumber = data.settings.whatsapp || '919050700577';
+            el.href = `https://wa.me/${waNumber.replace(/[^0-9]/g, '')}`;
+        });
         document.querySelectorAll('.dyn-youtube').forEach(el => el.href = data.settings.youtube || '#');
         document.querySelectorAll('.dyn-instagram').forEach(el => el.href = data.settings.instagram || '#');
         document.querySelectorAll('.dyn-facebook').forEach(el => el.href = data.settings.facebook || '#');
@@ -182,7 +194,6 @@ function showToast(title, message, type = 'success') {
     } else if (type === 'warning') {
         icon = '<i class="fa-solid fa-triangle-exclamation" style="color:#ff9f0a"></i>';
     } else {
-        // info or default
         icon = '<i class="fa-solid fa-circle-info" style="color:#007aff"></i>';
     }
 
@@ -203,6 +214,7 @@ function showToast(title, message, type = 'success') {
 }
 // --- SCROLL TO TOP BUTTON ---
 const createScrollTop = () => {
+    if (document.querySelector('.scroll-top-btn')) return;
     const btn = document.createElement('a');
     btn.innerHTML = '<i class="fa-solid fa-arrow-up"></i>';
     btn.className = 'scroll-top-btn';

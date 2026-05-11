@@ -2,11 +2,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const token = localStorage.getItem('webcom_admin_token');
     if(!token) return;
 
-    const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+    const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    const API_BASE = isLocal 
                     ? 'http://localhost:5000/api' 
-                    : (window.location.origin.includes('vercel.app') 
-                        ? 'https://webcom-sirsa.onrender.com/api' 
-                        : window.location.origin + '/api');
+                    : 'https://webcom-sirsa.onrender.com/api';
 
     // --- NAVIGATION LOGIC ---
     const navBtns = document.querySelectorAll('.nav-btn[data-target]');

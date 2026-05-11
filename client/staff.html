@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ï»¿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -275,7 +275,7 @@
 <footer class="footer mt-5">
         <div class="container text-center">
             <h3>Webcom Sirsa</h3>
-            <p>Premium IELTS • PTE • Spoken English Institute</p>
+            <p>Premium IELTS â€¢ PTE â€¢ Spoken English Institute</p>
         </div>
     
         <div class="container mt-4 pt-4 pb-4 border-top" style="border-color: rgba(255,255,255,0.1) !important;">
@@ -304,19 +304,19 @@
 
     <!-- JS -->
     <script src="script.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', loadStaff);
+        <script>
+        document.addEventListener(`DOMContentLoaded`, loadStaff);
         async function loadStaff() {
-            const container = document.getElementById('staffContainer');
+            const container = document.getElementById(`staffContainer`);
+            if (!container) return;
             
             // Show Skeleton Cards while loading
-            container.innerHTML = 
+            container.innerHTML = `
                 <div class="col-md-6 col-lg-4"><div class="skeleton-card"><div class="skeleton skeleton-img"></div><div class="skeleton skeleton-text"></div><div class="skeleton skeleton-text-sm"></div></div></div>
                 <div class="col-md-6 col-lg-4"><div class="skeleton-card"><div class="skeleton skeleton-img"></div><div class="skeleton skeleton-text"></div><div class="skeleton skeleton-text-sm"></div></div></div>
-                <div class="col-md-6 col-lg-4"><div class="skeleton-card"><div class="skeleton skeleton-img"></div><div class="skeleton skeleton-text"></div><div class="skeleton skeleton-text-sm"></div></div></div>
-            ;
+                <div class="col-md-6 col-lg-4"><div class="skeleton-card"><div class="skeleton skeleton-img"></div><div class="skeleton skeleton-text"></div><div class="skeleton skeleton-text-sm"></div></div></div>`;
 
-            // FALLBACK DATA (To ensure it looks "cool" even if server is off)
+            // FALLBACK DATA
             const fallbackStaff = [
                 { "name": "Shipra Miglani", "role": "Founder & Director", "bio": "A visionary educator dedicated to empowering students with world-class language training and personal mentorship.", "photo": "https://yt3.googleusercontent.com/rzYRjcNBOX1EVxYGyolcKjwiknQgnEXTeDaftq4CRi8L21E36d4IJ4PCV7nF99J8Cz5YZDaN-2s=s900-c-k-c0x00ffffff-no-rj" }
             ];
@@ -325,42 +325,43 @@
                 let data = await getWebcomData();
                 let staffList = (data && data.staff && data.staff.length > 0) ? data.staff : fallbackStaff;
                 
-                container.innerHTML = '';
+                container.innerHTML = ``;
                 staffList.forEach((member, index) => {
                     const delay = (index % 4) + 1;
-                    const apiBase = window.WEBCOM_API || '';
-                    const backendOrigin = apiBase.replace(/\/api$/, '');
-                    const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-                    let photoUrl = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(member.name) + '&background=1e293b&color=38bdf8&size=512';
+                    const apiBase = window.WEBCOM_API || ``;
+                    const backendOrigin = apiBase.replace(/\/api$/, ``);
+                    const isLocal = window.location.hostname === `localhost` || window.location.hostname === `127.0.0.1`;
+                    let photoUrl = `https://ui-avatars.com/api/?name=` + encodeURIComponent(member.name) + `&background=1e293b&color=38bdf8&size=512`;
                     
                     if (member.photo) {
                         photoUrl = member.photo;
-                        if (!photoUrl.startsWith('http')) {
-                            photoUrl = backendOrigin + (photoUrl.startsWith('/') ? photoUrl : '/' + photoUrl);
+                        if (!photoUrl.startsWith(`http`)) {
+                            photoUrl = backendOrigin + (photoUrl.startsWith(`/`) ? photoUrl : `/` + photoUrl);
                         }
-                        if (!isLocal && photoUrl.includes('localhost')) {
+                        if (!isLocal && photoUrl.includes(`localhost`)) {
                             photoUrl = photoUrl.replace(/http:\/\/localhost:\d+/, backendOrigin);
                         }
                     }
-                    const html = '<div class="col-md-6 col-lg-4 d-flex align-items-stretch">' +
-                        '<div class="staff-card reveal reveal-delay-' + delay + ' w-100">' +
-                            '<div class="staff-photo-container">' +
-                                '<img loading="lazy" src="' + photoUrl + '" alt="' + member.name + '">' +
-                                '<div class="staff-social">' +
-                                    '<a href="#"><i class="fa-brands fa-linkedin-in"></i></a>' +
-                                    '<a href="#"><i class="fa-brands fa-twitter"></i></a>' +
-                                    '<a href="mailto:contact@webcomsirsa.com"><i class="fa-solid fa-envelope"></i></a>' +
-                                '</div>' +
-                            '</div>' +
-                            '<div class="staff-details">' +
-                                '<div><span class="staff-role-badge">' + member.role + '</span></div>' +
-                                '<h3>' + member.name + '</h3>' +
-                                '<p>' + member.bio + '</p>' +
-                            '</div>' +
-                        '</div>' +
-                    '</div>';
-                    container.insertAdjacentHTML('beforeend', html);
-                    const newItem = container.lastElementChild.querySelector('.reveal');
+                    const html = `
+                    <div class="col-md-6 col-lg-4 d-flex align-items-stretch">
+                        <div class="staff-card reveal reveal-delay-${delay} w-100">
+                            <div class="staff-photo-container">
+                                <img loading="lazy" src="${photoUrl}" alt="${member.name}">
+                                <div class="staff-social">
+                                    <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+                                    <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                                    <a href="mailto:contact@webcomsirsa.com"><i class="fa-solid fa-envelope"></i></a>
+                                </div>
+                            </div>
+                            <div class="staff-details">
+                                <div><span class="staff-role-badge">${member.role}</span></div>
+                                <h3>${member.name}</h3>
+                                <p>${member.bio}</p>
+                            </div>
+                        </div>
+                    </div>`;
+                    container.insertAdjacentHTML(`beforeend`, html);
+                    const newItem = container.lastElementChild.querySelector(`.reveal`);
                     if (window.revealObserver) window.revealObserver.observe(newItem);
                 });
             } catch (error) {
@@ -372,6 +373,10 @@
 
 </body>
 </html>
+
+
+
+
 
 
 

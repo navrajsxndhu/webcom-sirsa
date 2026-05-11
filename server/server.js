@@ -10,6 +10,11 @@ const xss = require('xss-clean');
 const rateLimit = require('express-rate-limit');
 
 // --- Password Hashing Helpers ---
+/**
+ * Hashes a plain text password using scrypt.
+ * @param {string} password - The plain text password.
+ * @returns {string} - The salted and hashed password (salt:hash).
+ */
 function hashPassword(password) {
     const salt = crypto.randomBytes(16).toString('hex');
     const hash = crypto.scryptSync(password, salt, 64).toString('hex');
@@ -22,10 +27,13 @@ function verifyPassword(password, stored) {
     return hash === testHash;
 }
 
-// Security: credentials from environment variables
+// --- CONFIGURATION & SECRETS ---
 const JWT_SECRET = process.env.JWT_SECRET;
 const ADMIN_USER = process.env.ADMIN_USER;
 const ADMIN_PASS = process.env.ADMIN_PASS;
+const PORT = process.env.PORT || 5000;
+const INQUIRY_EXPIRY_HOURS = 50; // Hours until inquiry is deleted
+const CLEANUP_CHECK_INTERVAL = 1 * 60 * 60 * 1000; // 1 Hour
 
 if (!JWT_SECRET || !ADMIN_USER || !ADMIN_PASS) {
     console.error('FATAL ERROR: Environment variables JWT_SECRET, ADMIN_USER, or ADMIN_PASS are not defined.');
@@ -51,9 +59,19 @@ const app = express();
 app.use(helmet()); // Security Headers
 app.use(xss());    // Data Sanitization against XSS
 app.use(cors({
-    origin: ['http://localhost:5000', 'http://127.0.0.1:5000', 'http://localhost:5500', 'http://127.0.0.1:5500', /\.vercel\.app$/, /onrender\.com$/],
-    methods: ['GET', 'POST'],
-    credentials: true
+    origin: [
+        'http://localhost:5000', 
+        'http://127.0.0.1:5000', 
+        'http://localhost:5500', 
+        'http://127.0.0.1:5500', 
+        /\.vercel\.app$/, 
+        /onrender\.com$/,
+        /webcomsirsa\.in$/,
+        /www\.webcomsirsa\.in$/
+    ],
+    methods: ['GET', 'POST', 'OPTIONS'],
+    credentials: true,
+    allowedHeaders: ['Content-Type', 'Authorization']
 }));
 app.use(express.json({ limit: '10kb' })); // Limit body size to prevent DoS
 
@@ -310,9 +328,7 @@ app.post('/api/contact', contactLimiter, async (req, res) => {
     
     console.log("New Inquiry Received:", name);
 
-    setTimeout(() => {
-        res.status(200).json({ success: true, message: 'Inquiry received successfully!' });
-    }, 800);
+    res.status(200).json({ success: true, message: 'Inquiry received successfully!' });
 });
 
 // Protected Route: Fetch Inquiries
@@ -483,9 +499,8 @@ app.use((err, req, res, next) => {
     res.status(500).json({ error: 'Internal server error' });
 });
 
-// --- AUTO-DELETE OLD INQUIRIES (50 Hour Cleanup) ---
-const CLEANUP_INTERVAL = 1 * 60 * 60 * 1000; // Check every 1 hour
-const EXPIRY_TIME = 50 * 60 * 60 * 1000;    // 50 Hours in milliseconds
+// --- AUTO-DELETE OLD INQUIRIES (Cleanup Task) ---
+const EXPIRY_TIME = INQUIRY_EXPIRY_HOURS * 60 * 60 * 1000;
 
 setInterval(async () => {
     console.log("Running inquiry cleanup task...");
@@ -521,7 +536,7 @@ setInterval(async () => {
     } catch (err) {
         console.error("Local Cleanup Error:", err);
     }
-}, CLEANUP_INTERVAL);
+}, CLEANUP_CHECK_INTERVAL);
 
 const port = process.env.PORT || 5000;
 app.listen(port, '0.0.0.0', () => {

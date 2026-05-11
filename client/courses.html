@@ -222,7 +222,7 @@ Modern learning experience with AI mock tests, expert trainers and real exam str
                         </div>
                         <div class="mb-4">
                             <h5 style="color: #94a3b8; font-size: 14px;">Course Fee</h5>
-                            <p class="fs-3 fw-bold text-info">?15,000</p>
+                            <p class="fs-3 fw-bold text-info">₹15,000</p>
                         </div>
                         <a href="contact.html" class="btn btn-primary w-100">Enroll Now</a>
                     </div>
@@ -242,7 +242,7 @@ Modern learning experience with AI mock tests, expert trainers and real exam str
                         </div>
                         <div class="mb-4">
                             <h5 style="color: #94a3b8; font-size: 14px;">Course Fee</h5>
-                            <p class="fs-3 fw-bold text-info">?12,000</p>
+                            <p class="fs-3 fw-bold text-info">₹12,000</p>
                         </div>
                         <a href="contact.html" class="btn btn-primary w-100">Enroll Now</a>
                     </div>
@@ -510,11 +510,10 @@ href="#" class="dyn-whatsapp-btn whatsapp-btn">
 
     <script>
     document.addEventListener(`DOMContentLoaded`, async () => {
-        const API_BASE = window.location.hostname === `localhost` || window.location.hostname === `127.0.0.1` 
+                const isLocal = window.location.hostname === `localhost` || window.location.hostname === `127.0.0.1`;
+        const API_BASE = isLocal 
                         ? `http://localhost:5000/api` 
-                        : (window.location.origin.includes(`vercel.app`) 
-                            ? `https://webcom-sirsa.onrender.com/api` 
-                            : window.location.origin + `/api`);
+                        : `https://webcom-sirsa.onrender.com/api`;
         
         try {
             const res = await fetch(`${API_BASE}/data`);
@@ -544,7 +543,7 @@ href="#" class="dyn-whatsapp-btn whatsapp-btn">
                         </div>
                         <div class="mb-4">
                             <h5 style="color: #94a3b8; font-size: 14px;">Course Fee</h5>
-                            <p class="fs-3 fw-bold text-info">${course.price}</p>
+                            <p class="fs-3 fw-bold text-info">₹${course.price}</p>
                         </div>
                         <a href="contact.html" class="btn btn-primary w-100">Enroll Now</a>
                     </div>
@@ -563,6 +562,10 @@ src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.j
 
 </body>
 </html>
+
+
+
+
 
 
 

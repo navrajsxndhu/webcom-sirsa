@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ï»¿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -265,7 +265,7 @@
 <footer class="footer mt-5">
         <div class="container text-center">
             <h3>Webcom Sirsa</h3>
-            <p>Premium IELTS • PTE • Spoken English Institute</p>
+            <p>Premium IELTS â€¢ PTE â€¢ Spoken English Institute</p>
         </div>
     
         <div class="container mt-4 pt-4 pb-4 border-top" style="border-color: rgba(255,255,255,0.1) !important;">
@@ -300,53 +300,44 @@
 
     <!-- JS -->
     <script src="script.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', async () => {
-            const container = document.getElementById('galleryContainer');
-            const loading = document.getElementById('loadingIndicator');
-            const lightbox = document.getElementById('lightbox');
-            const lightboxImg = document.getElementById('lightbox-img');
-            const closeBtn = document.getElementById('lightbox-close');
+        <script>
+        document.addEventListener(`DOMContentLoaded`, async () => {
+            const container = document.getElementById(`galleryContainer`);
+            const loading = document.getElementById(`loadingIndicator`);
+            const lightbox = document.getElementById(`lightbox`);
+            const lightboxImg = document.getElementById(`lightboxImg`);
+            const closeBtn = document.querySelector(`.lightbox-close`);
+            if (!container) return;
 
             const fallbackGallery = [
-                { "id": 105, "url": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAFoG4B--ek4jSsb_6thRQCJAy-Qv0UB_hWCQOrtFvmKYfVyOdCvw1mJArmrJ1GGljISKp60M0brWvS6GxTspFJswWWeO8XQbulNJ9I0PeRnhPuObraLdvcWg8qHU71XPmkVO-ifkw=s0", "category": "building" }
+                { "id": 1, "url": "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=800", "category": "classroom" },
+                { "id": 2, "url": "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=800", "category": "campus" },
+                { "id": 3, "url": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=800", "category": "event" }
             ];
 
-            // Show Skeleton Grid while loading
-            container.innerHTML = 
-                <div class="masonry-item"><div class="skeleton" style="height: 300px; width: 100%;"></div></div>
-                <div class="masonry-item"><div class="skeleton" style="height: 200px; width: 100%;"></div></div>
-                <div class="masonry-item"><div class="skeleton" style="height: 350px; width: 100%;"></div></div>
-                <div class="masonry-item"><div class="skeleton" style="height: 250px; width: 100%;"></div></div>
-            ;
-
-            // 1. Fetch Dynamic Data (Instantly from cache if available)
             try {
-                let data = await getWebcomData();
-                loading.style.display = 'none';
-                
+                const data = await getWebcomData();
                 const galleryList = (data && data.gallery && data.gallery.length > 0) ? data.gallery : fallbackGallery;
-
-                // 2. Clear skeletons and Render Masonry Grid
-                container.innerHTML = '';
+                
+                loading.style.display = `none`;
                 galleryList.forEach((imgObj, index) => {
-                    const delay = (index % 5) + 1; 
-                    const apiBase = window.WEBCOM_API || '';
-                    const backendOrigin = apiBase.replace(/\/api$/, '');
-                    const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+                    const delay = (index % 4) + 1;
+                    const apiBase = window.WEBCOM_API || ``;
+                    const backendOrigin = apiBase.replace(/\/api$/, ``);
+                    const isLocal = window.location.hostname === `localhost` || window.location.hostname === `127.0.0.1`;
                     let photoUrl = imgObj.url;
                     
                     if (photoUrl) {
-                        if (!photoUrl.startsWith('http')) {
-                            photoUrl = backendOrigin + (photoUrl.startsWith('/') ? photoUrl : '/' + photoUrl);
+                        if (!photoUrl.startsWith(`http`)) {
+                            photoUrl = backendOrigin + (photoUrl.startsWith(`/`) ? photoUrl : `/` + photoUrl);
                         }
-                        if (!isLocal && photoUrl.includes('localhost')) {
+                        if (!isLocal && photoUrl.includes(`localhost`)) {
                             photoUrl = photoUrl.replace(/http:\/\/localhost:\d+/, backendOrigin);
                         }
                     }
 
-                    const category = imgObj.category || 'other';
-                    const itemHtml = 
+                    const category = imgObj.category || `other`;
+                    const itemHtml = `
                         <div class="masonry-item reveal reveal-delay-${delay} gallery-item" data-img="${photoUrl}" data-category="${category}">
                             <img loading="lazy" src="${photoUrl}" alt="Gallery Image ${imgObj.id}">
                             <div class="masonry-overlay">
@@ -354,63 +345,60 @@
                                     <i class="fa-solid fa-eye"></i>
                                 </div>
                             </div>
-                        </div>
-                    ;
-                    container.insertAdjacentHTML('beforeend', itemHtml);
+                        </div>`;
+                    container.insertAdjacentHTML(`beforeend`, itemHtml);
                     
                     const newItem = container.lastElementChild;
                     if (window.revealObserver) window.revealObserver.observe(newItem);
                 });
 
-                // 3. Attach Filter Logic
-                const filterBtns = document.querySelectorAll('.filter-btn');
-                const galleryItems = document.querySelectorAll('.gallery-item');
+                // Attach Filter Logic
+                const filterBtns = document.querySelectorAll(`.filter-btn`);
+                const galleryItems = document.querySelectorAll(`.gallery-item`);
 
                 filterBtns.forEach(btn => {
-                    btn.addEventListener('click', () => {
+                    btn.addEventListener(`click`, () => {
                         filterBtns.forEach(b => {
-                            b.classList.remove('btn-primary', 'active');
-                            b.style.boxShadow = 'none';
-                            b.style.background = 'rgba(255,255,255,0.05)';
+                            b.classList.remove(`btn-primary`, `active`);
+                            b.style.boxShadow = `none`;
+                            b.style.background = `rgba(255,255,255,0.05)`;
                         });
                         
-                        btn.classList.add('btn-primary', 'active');
-                        btn.style.boxShadow = '0 5px 15px rgba(14, 165, 233, 0.4)';
-                        btn.style.background = '';
+                        btn.classList.add(`btn-primary`, `active`);
+                        btn.style.boxShadow = `0 5px 15px rgba(14, 165, 233, 0.4)`;
+                        btn.style.background = ``;
 
-                        const filterValue = btn.getAttribute('data-filter');
+                        const filterValue = btn.getAttribute(`data-filter`);
 
                         galleryItems.forEach(item => {
-                            if(filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
-                                item.style.display = 'block';
-                                setTimeout(() => item.style.opacity = '1', 50);
+                            if(filterValue === `all` || item.getAttribute(`data-category`) === filterValue) {
+                                item.style.display = `block`;
+                                setTimeout(() => item.style.opacity = `1`, 50);
                             } else {
-                                item.style.opacity = '0';
-                                setTimeout(() => item.style.display = 'none', 300);
+                                item.style.opacity = `0`;
+                                setTimeout(() => item.style.display = `none`, 300);
                             }
                         });
                     });
                 });
 
-                // 4. Attach Lightbox Events
-                const items = document.querySelectorAll('.masonry-item');
-                items.forEach(item => {
-                    item.addEventListener('click', () => {
-                        const url = item.getAttribute('data-img');
+                // Attach Lightbox Events
+                document.querySelectorAll(`.masonry-item`).forEach(item => {
+                    item.addEventListener(`click`, () => {
+                        const url = item.getAttribute(`data-img`);
                         lightboxImg.src = url;
-                        lightbox.classList.add('active');
+                        lightbox.classList.add(`active`);
                     });
                 });
 
             } catch(e) {
                 console.error("Failed to load gallery", e);
-                loading.innerHTML = "<p class='text-danger'>Failed to load gallery images.</p>";
+                loading.innerHTML = `<p class='text-danger'>Failed to load gallery images.</p>`;
             }
 
-            // Lightbox close logic
-            closeBtn.addEventListener('click', () => lightbox.classList.remove('active'));
-            lightbox.addEventListener('click', (e) => {
-                if(e.target === lightbox) lightbox.classList.remove('active');
+            closeBtn.addEventListener(`click`, () => lightbox.classList.remove(`active`));
+            lightbox.addEventListener(`click`, (e) => {
+                if(e.target === lightbox) lightbox.classList.remove(`active`);
             });
         });
     </script>
@@ -418,6 +406,10 @@
 
 </body>
 </html>
+
+
+
+
 
 
 

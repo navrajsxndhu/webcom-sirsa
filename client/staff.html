@@ -217,7 +217,7 @@
     <section class="py-5" style="min-height: 50vh;">
         <div class="container">
             <div class="row g-4" id="staffContainer">
-                <!-- Hardcoded Meaningful Content (Styled correctly) -->
+                <!-- Hardcoded Meaningful Content (Real Photos Only) -->
                 <div class="col-md-6 col-lg-4 d-flex align-items-stretch">
                     <div class="staff-card w-100" style="opacity: 1 !important; transform: none !important; visibility: visible !important;">
                         <div class="staff-photo-container">
@@ -230,30 +230,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 col-lg-4 d-flex align-items-stretch">
-                    <div class="staff-card w-100" style="opacity: 1 !important; transform: none !important; visibility: visible !important;">
-                        <div class="staff-photo-container">
-                            <img src="assets/staff/staff2.png" alt="Rahul Sharma">
-                        </div>
-                        <div class="staff-details">
-                            <div><span class="staff-role-badge">Senior IELTS Trainer</span></div>
-                            <h3>Rahul Sharma</h3>
-                            <p>Ex-British Council certified trainer with 8+ years of experience in helping students achieve Band 8+.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4 d-flex align-items-stretch">
-                    <div class="staff-card w-100" style="opacity: 1 !important; transform: none !important; visibility: visible !important;">
-                        <div class="staff-photo-container">
-                            <img src="assets/staff/staff3.png" alt="Simran Kaur">
-                        </div>
-                        <div class="staff-details">
-                            <div><span class="staff-role-badge">PTE Expert</span></div>
-                            <h3>Simran Kaur</h3>
-                            <p>Specialist in AI scoring algorithms and spoken English fluency with a track record of 79+ scores.</p>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </section>
@@ -262,7 +238,7 @@
     <footer class="footer mt-5">
         <div class="container text-center">
             <h3>Webcom Sirsa</h3>
-            <p>Premium IELTS â€¢ PTE â€¢ Spoken English Institute</p>
+            <p>Premium IELTS • PTE • Spoken English Institute</p>
         </div>
     
         <div class="container mt-4 pt-4 pb-4 border-top" style="border-color: rgba(255,255,255,0.1) !important;">
@@ -298,11 +274,8 @@
             
             // FALLBACK DATA (To ensure it looks "cool" even if server is off)
             const fallbackStaff = [
-                { "name": "Shipra Miglani", "role": "Founder & Director", "bio": "A visionary educator dedicated to empowering students with world-class language training and personal mentorship.", "photo": "https://yt3.googleusercontent.com/rzYRjcNBOX1EVxYGyolcKjwiknQgnEXTeDaftq4CRi8L21E36d4IJ4PCV7nF99J8Cz5YZDaN-2s=s900-c-k-c0x00ffffff-no-rj" },
-                { "name": "Rahul Sharma", "role": "Senior IELTS Trainer", "bio": "Ex-British Council certified trainer with 8+ years of experience in helping students achieve Band 8+.", "photo": "assets/staff/staff2.png" },
-                { "name": "Simran Kaur", "role": "PTE Expert", "bio": "Specialist in AI scoring algorithms and spoken English fluency with a track record of 79+ scores.", "photo": "assets/staff/staff3.png" },
-                { "name": "David Miller", "role": "Speaking Coach", "bio": "Native fluency expert focusing on accent reduction and confidence building for international interviews.", "photo": "assets/staff/staff4.png" }
-            ];
+                { "name": "Shipra Miglani", "role": "Founder & Director", "bio": "A visionary educator dedicated to empowering students with world-class language training and personal mentorship.", "photo": "https://yt3.googleusercontent.com/rzYRjcNBOX1EVxYGyolcKjwiknQgnEXTeDaftq4CRi8L21E36d4IJ4PCV7nF99J8Cz5YZDaN-2s=s900-c-k-c0x00ffffff-no-rj" }
+            ];      ];
 
             try {
                 let data = await getWebcomData();

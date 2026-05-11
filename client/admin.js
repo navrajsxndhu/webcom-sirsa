@@ -144,6 +144,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if(document.getElementById('setAddress')) document.getElementById('setAddress').value = globalData.settings.address || '';
             if(document.getElementById('setInstagram')) document.getElementById('setInstagram').value = globalData.settings.instagram || '';
             if(document.getElementById('setYoutube')) document.getElementById('setYoutube').value = globalData.settings.youtube || '';
+            if(document.getElementById('setFacebook')) document.getElementById('setFacebook').value = globalData.settings.facebook || '';
+            if(document.getElementById('setChannel')) document.getElementById('setChannel').value = globalData.settings.channel || '';
         }
 
         // Render Inquiries Table
@@ -267,7 +269,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 email: document.getElementById('setEmail').value,
                 address: document.getElementById('setAddress').value,
                 instagram: document.getElementById('setInstagram').value,
-                youtube: document.getElementById('setYoutube').value
+                youtube: document.getElementById('setYoutube').value,
+                facebook: document.getElementById('setFacebook').value,
+                channel: document.getElementById('setChannel').value
             };
 
             try {

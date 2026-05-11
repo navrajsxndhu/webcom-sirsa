@@ -128,6 +128,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.querySelectorAll('.dyn-youtube').forEach(el => el.href = data.settings.youtube || '#');
         document.querySelectorAll('.dyn-instagram').forEach(el => el.href = data.settings.instagram || '#');
         document.querySelectorAll('.dyn-facebook').forEach(el => el.href = data.settings.facebook || '#');
+        document.querySelectorAll('.dyn-channel').forEach(el => el.href = data.settings.channel || '#');
     }
 
     // Dynamic copyright year

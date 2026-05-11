@@ -572,13 +572,13 @@
 
     <script src="script.js"></script>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', async () => {
-            const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-                ? 'http://localhost:5000/api'
-                : (window.location.origin.includes('vercel.app')
-                    ? 'https://webcom-sirsa.onrender.com/api'
-                    : window.location.origin + '/api');
+        <script>
+        document.addEventListener(`DOMContentLoaded`, async () => {
+            const API_BASE = window.location.hostname === `localhost` || window.location.hostname === `127.0.0.1`
+                ? `http://localhost:5000/api`
+                : (window.location.origin.includes(`vercel.app`)
+                    ? `https://webcom-sirsa.onrender.com/api`
+                    : window.location.origin + `/api`);
 
             try {
                 const res = await fetch(`${API_BASE}/data`);
@@ -586,115 +586,87 @@
 
                 // --- RENDER EVENT VIDEOS ---
                 if (data.eventVideos && data.eventVideos.length > 0) {
-                    const BACKEND_URL = API_BASE.replace('/api', '');
+                    const BACKEND_URL = API_BASE.replace(`/api`, ``);
                     data.eventVideos.forEach(vid => {
                         const videoEl = document.getElementById(`eventVideo${vid.id}`);
-                        const videoCol = videoEl ? videoEl.closest('.col-md-6') : null;
+                        const videoCol = videoEl ? videoEl.closest(`.col-md-6`) : null;
 
                         if (videoEl && vid.url) {
-                            const sourceEl = videoEl.querySelector('source');
-                            const videoUrl = vid.url.startsWith('http') ? vid.url : BACKEND_URL + vid.url;
+                            const sourceEl = videoEl.querySelector(`source`);
+                            const videoUrl = vid.url.startsWith(`http`) ? vid.url : BACKEND_URL + vid.url;
                             sourceEl.src = videoUrl;
                             videoEl.load();
-                            if (videoCol) videoCol.style.display = 'block';
+                            if (videoCol) videoCol.style.display = `block`;
                         } else if (videoCol) {
-                            videoCol.style.display = 'none'; // Hide if no video
+                            videoCol.style.display = `none`;
                         }
                     });
 
-                    // Hide section if all videos are hidden
                     const activeVids = data.eventVideos.filter(v => v.url);
-                    const videoSection = document.querySelector('.video-section');
+                    const videoSection = document.querySelector(`.video-section`);
                     if (activeVids.length === 0 && videoSection) {
-                        videoSection.style.display = 'none';
+                        videoSection.style.display = `none`;
                     }
                 }
 
-                const container = document.getElementById('testimonialsContainer');
+                const container = document.getElementById(`testimonialsContainer`);
+                if (!container) return;
 
-                container.innerHTML = '';
+                container.innerHTML = ``;
                 const testimonialsToShow = data.testimonials.slice(0, 6);
                 testimonialsToShow.forEach((test, index) => {
                     const delay = index + 1;
-                    const BACKEND_URL = API_BASE.replace('/api', '') + '/';
+                    const student = test.student || `Successful Student`;
+                    const score = test.score || `Achiever`;
+                    const review = test.review || `Excellent coaching and support.`;
 
-                    const student = test.student || 'Successful Student';
-                    const score = test.score || 'Achiever';
-                    const review = test.review || 'Excellent coaching and support from the entire team.';
-
-                    const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
                     let photoUrl = test.photo;
-                    let mediaHtml = '';
+                    let mediaHtml = ``;
 
                     if (photoUrl) {
-                        const backendOrigin = API_BASE.replace(/\/api$/, '');
-                        if (!photoUrl.startsWith('http')) {
-                            photoUrl = backendOrigin + (photoUrl.startsWith('/') ? photoUrl : '/' + photoUrl);
-                        }
-                        if (!isLocal && photoUrl.includes('localhost')) {
-                            photoUrl = photoUrl.replace(/http:\/\/localhost:\d+/, backendOrigin);
+                        const backendOrigin = API_BASE.replace(/\/api$/, ``);
+                        if (!photoUrl.startsWith(`http`)) {
+                            photoUrl = backendOrigin + (photoUrl.startsWith(`/`) ? photoUrl : `/` + photoUrl);
                         }
                     }
 
-                    if (photoUrl && !photoUrl.includes('placehold.co') && !photoUrl.includes('fakeimg.pl')) {
-                        mediaHtml = <img loading="lazy" src="${photoUrl}" alt="${student}" class="testimonial-photo mb-3">;
+                    if (photoUrl && !photoUrl.includes(`placehold.co`)) {
+                        mediaHtml = `<img loading="lazy" src="${photoUrl}" alt="${student}" class="testimonial-photo mb-3">`;
                     } else {
-                        // PREMIUM SCORE PLACEHOLDER
-                        let colorClass = 'score-gold';
-                        if (score.includes('90') || score.includes('8')) colorClass = 'score-pink';
-                        if (score.toLowerCase().includes('ielts')) colorClass = 'score-blue';
-
-                        mediaHtml = 
-                <div class="score-placeholder-wrapper" style="height: 180px;">
-                    <div class="score-placeholder ${colorClass}">
-                        ${score}
-                    </div>
-                </div>;
+                        let colorClass = `score-gold`;
+                        if (score.includes(`90`) || score.includes(`8`)) colorClass = `score-pink`;
+                        mediaHtml = `
+                            <div class="score-placeholder-wrapper" style="height: 180px;">
+                                <div class="score-placeholder ${colorClass}">${score}</div>
+                            </div>`;
                     }
 
-                    const videoBtnHtml = test.videoUrl ? <br><button class="btn btn-sm btn-outline-info mt-3 fw-bold play-video-btn" data-video="${test.videoUrl}"><i class="fa-solid fa-play me-2"></i>Watch Video</button> : '';
-                    const testimonialHtml = 
-            <div class="col-md-4">
-                <div class="testimonial-card reveal reveal-delay-${delay} text-center">
-                    <div class="testimonial-badge">${score}</div>
-                    ${mediaHtml}
-                    <p class="mt-3">“${review}”</p>
-                    <h5 class="fw-bold">— ${student}</h5>
-                    ${videoBtnHtml}
-                </div>
-            </div>;
-                    container.insertAdjacentHTML('beforeend', testimonialHtml);
-                    // Observe the new element
-                    const newElement = container.lastElementChild.querySelector('.reveal');
-                    if (window.revealObserver && newElement) {
-                        window.revealObserver.observe(newElement);
-                    }
+                    const videoBtnHtml = test.videoUrl ? `<br><button class="btn btn-sm btn-outline-info mt-3 fw-bold play-video-btn" data-video="${test.videoUrl}"><i class="fa-solid fa-play me-2"></i>Watch Video</button>` : ``;
+                    
+                    const testimonialHtml = `
+                        <div class="col-md-4">
+                            <div class="testimonial-card reveal reveal-delay-${delay} text-center">
+                                <div class="testimonial-badge">${score}</div>
+                                ${mediaHtml}
+                                <p class="mt-3">“${review}”</p>
+                                <h5 class="fw-bold">— ${student}</h5>
+                                ${videoBtnHtml}
+                            </div>
+                        </div>`;
+                    container.insertAdjacentHTML(`beforeend`, testimonialHtml);
+                    const newElement = container.lastElementChild.querySelector(`.reveal`);
+                    if (window.revealObserver && newElement) window.revealObserver.observe(newElement);
                 });
 
-                // Attach Video Button Event Listeners
-                document.querySelectorAll('.play-video-btn').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        let videoUrl = e.currentTarget.getAttribute('data-video');
-                        // Convert standard youtube link to embed link
-                        if (videoUrl.includes('watch?v=')) {
-                            videoUrl = videoUrl.replace('watch?v=', 'embed/');
-                        } else if (videoUrl.includes('youtu.be/')) {
-                            videoUrl = videoUrl.replace('youtu.be/', 'youtube.com/embed/');
-                        }
-                        document.getElementById('videoIframe').src = videoUrl;
-                        const modal = new bootstrap.Modal(document.getElementById('videoModal'));
-                        modal.show();
+                document.querySelectorAll(`.play-video-btn`).forEach(btn => {
+                    btn.addEventListener(`click`, (e) => {
+                        let videoUrl = e.currentTarget.getAttribute(`data-video`);
+                        if (videoUrl.includes(`watch?v=`)) videoUrl = videoUrl.replace(`watch?v=`, `embed/`);
+                        document.getElementById(`videoIframe`).src = videoUrl;
+                        new bootstrap.Modal(document.getElementById(`videoModal`)).show();
                     });
                 });
-
-                // Clear iframe src on modal close to stop audio
-                document.getElementById('videoModal').addEventListener('hidden.bs.modal', function () {
-                    document.getElementById('videoIframe').src = '';
-                });
-
-            } catch (e) {
-                console.error("Failed to load testimonials", e);
-            }
+            } catch (e) { console.error("CMS Error:", e); }
         });
     </script>
 
@@ -722,6 +694,7 @@
 </body>
 
 </html>
+
 
 
 

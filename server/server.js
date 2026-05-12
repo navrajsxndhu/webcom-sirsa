@@ -73,7 +73,7 @@ app.use(cors({
     credentials: true,
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
-app.use(express.json({ limit: '10kb' })); // Limit body size to prevent DoS
+app.use(express.json({ limit: '50mb' })); // Increased limit for Base64 image/video storage
 
 // Rate Limiting for Contact Form
 const contactLimiter = rateLimit({
@@ -126,7 +126,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({
     storage,
-    limits: { fileSize: 100 * 1024 * 1024 }, // 100MB limit for videos
+    limits: { fileSize: 12 * 1024 * 1024 }, // 12MB limit (Safe for MongoDB Base64 storage)
     fileFilter: function(req, file, cb) {
         if (!file.mimetype.startsWith('image/') && !file.mimetype.startsWith('video/')) {
             return cb(new Error('Only image and video files are allowed'), false);
@@ -139,7 +139,7 @@ app.post('/api/upload', authenticateToken, (req, res, next) => {
     upload.single('file')(req, res, (err) => {
         if (err) {
             if (err.code === 'LIMIT_FILE_SIZE') {
-                return res.status(400).json({ error: 'File too large. Maximum size is 5MB.' });
+                return res.status(400).json({ error: 'File too large. Maximum size for persistent storage is 12MB.' });
             }
             return res.status(400).json({ error: err.message || 'Upload failed' });
         }

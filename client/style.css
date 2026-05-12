@@ -579,6 +579,7 @@ border-radius:20px;
     background: linear-gradient(90deg, #38bdf8, #818cf8, #38bdf8);
     background-size: 200% auto;
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
     animation: shine 3s linear infinite;
     text-shadow: 0 0 20px rgba(56, 189, 248, 0.2);
@@ -1061,6 +1062,7 @@ font-size:2rem;
     font-family: 'Inter', sans-serif;
     background: linear-gradient(135deg, #fff 30%, rgba(255,255,255,0.5));
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
     filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
     margin: 0;
@@ -1068,9 +1070,9 @@ font-size:2rem;
 }
 
 /* Color Overrides for Scores */
-.score-pink { background: linear-gradient(135deg, #ff477e, #ff85a1) !important; -webkit-background-clip: text !important; }
-.score-gold { background: linear-gradient(135deg, #f59e0b, #fbbf24) !important; -webkit-background-clip: text !important; }
-.score-blue { background: linear-gradient(135deg, #38bdf8, #0ea5e9) !important; -webkit-background-clip: text !important; }
+.score-pink { background: linear-gradient(135deg, #ff477e, #ff85a1) !important; -webkit-background-clip: text !important; background-clip: text !important; }
+.score-gold { background: linear-gradient(135deg, #f59e0b, #fbbf24) !important; -webkit-background-clip: text !important; background-clip: text !important; }
+.score-blue { background: linear-gradient(135deg, #38bdf8, #0ea5e9) !important; -webkit-background-clip: text !important; background-clip: text !important; }
 
 @media (max-width: 768px) {
     .score-placeholder { font-size: 42px; }

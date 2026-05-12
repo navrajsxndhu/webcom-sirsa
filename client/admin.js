@@ -256,13 +256,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 galleryGrid.innerHTML = '<div class="col-12 text-center text-muted py-4">No gallery photos yet.</div>';
             } else {
                 globalData.gallery.forEach((img, index) => {
-                    const apiBase = API_BASE || '';
-                    const backendOrigin = apiBase.replace(/\/api$/, '');
-                    let photoUrl = img.url || '';
-                    if (photoUrl && !photoUrl.startsWith('http')) {
-                        if (!photoUrl.startsWith('/')) photoUrl = '/' + photoUrl;
-                        photoUrl = backendOrigin + photoUrl;
-                    }
+                    let photoUrl = resolveWebcomImageUrl(img.url);
                     galleryGrid.innerHTML += `
                         <div class="col-6 col-md-4 col-lg-3">
                             <div class="position-relative group">
@@ -276,6 +270,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
         }
+        // 7. Event Videos Preview
+        [1, 2].forEach(id => {
+            const vid = globalData.eventVideos.find(v => v.id === id);
+            const previewContainer = document.getElementById(`video${id}Preview`);
+            if (previewContainer) {
+                if (vid && vid.url) {
+                    const videoUrl = resolveWebcomImageUrl(vid.url);
+                    previewContainer.innerHTML = `
+                        <video controls class="w-100 rounded mb-2" style="max-height: 150px; background: #000;">
+                            <source src="${videoUrl}">
+                        </video>
+                    `;
+                } else {
+                    previewContainer.innerHTML = '<div class="text-muted small mb-2"><i class="fa-solid fa-video-slash me-1"></i> No video uploaded</div>';
+                }
+            }
+        });
     }
 
     // --- UPDATE COURSES ---

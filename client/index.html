@@ -620,7 +620,7 @@
 
                         if (videoEl && vid.url) {
                             const sourceEl = videoEl.querySelector(`source`);
-                            const videoUrl = vid.url.startsWith(`http`) ? vid.url : BACKEND_URL + vid.url;
+                            const videoUrl = resolveWebcomImageUrl(vid.url);
                             sourceEl.src = videoUrl;
                             videoEl.load();
                             if (videoCol) videoCol.style.display = `block`;

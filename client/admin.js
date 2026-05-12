@@ -244,7 +244,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
         }
-        }
     }
 
     // --- UPDATE COURSES ---

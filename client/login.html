@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -99,32 +99,24 @@
         }
 
         .login-card .logo-shield {
-            width: 90px;
-            height: 90px;
-            background: linear-gradient(135deg, #3b82f6, #06b6d4);
-            border-radius: 28px;
+            margin: 0 auto 35px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 35px;
-            font-size: 40px;
-            color: white;
-            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.4);
             animation: float3D 6s infinite ease-in-out;
-            transform-style: preserve-3d;
         }
-
+        
         @keyframes float3D {
             0%, 100% { transform: translateY(0) rotateY(-10deg) rotateX(5deg); }
             50% { transform: translateY(-15px) rotateY(15deg) rotateX(-10deg); }
         }
 
-        .login-card h2 { font-weight: 900; letter-spacing: -1.5px; margin-bottom: 12px; font-size: 2.4rem; background: linear-gradient(to right, #fff, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .login-card h2 { font-weight: 900; letter-spacing: -1.5px; margin-bottom: 12px; font-size: 2.4rem; background: linear-gradient(to right, #fff, #94a3b8); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
         .login-card p { color: #64748b; margin-bottom: 45px; font-weight: 500; font-size: 1.1rem; letter-spacing: 0.5px; }
 
         .form-floating > .form-control {
             background: rgba(0,0,0,0.3) !important;
-            border: 1px solid rgba(255,255,255,0.08) !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
             color: white !important;
             border-radius: 20px;
             padding: 20px 24px;
@@ -274,8 +266,9 @@
     </div>
 
     <div class="login-card" id="loginCard">
-        <div class="logo-shield">
-            <i class="fa-solid fa-shield-halved"></i>
+        <div class="logo-shield d-flex align-items-center justify-content-center gap-3">
+            <img src="assets/logo.png?v=3.0" alt="Webcom Logo" style="height: 60px; filter: brightness(0) invert(1);">
+            <span class="text-white fw-900 fs-1" style="letter-spacing: -2px;">WEBCOM</span>
         </div>
         
         <!-- LOGIN VIEW -->
@@ -356,8 +349,6 @@
     <script src="script.js"></script>
     <script src="login.js"></script>
     <script>
-
-
         // Toggle Password Visibility
         const toggleBtn = document.getElementById('togglePass');
         const passInput = document.getElementById('password');
@@ -376,23 +367,3 @@
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -37,7 +37,7 @@
         }
 
         .sidebar h2 { font-weight: 900; margin-bottom: 40px; font-size: 22px; color: #fff; text-align: center; letter-spacing: 1px;}
-        .sidebar h2 span, .mobile-header h4 span { color: #38bdf8; }
+        .sidebar h2 span.cms-text, .mobile-header h4 span.cms-text { color: #38bdf8; }
 
         .nav-btn {
             background: transparent;
@@ -262,7 +262,11 @@
 
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
     <div class="mobile-header" id="mobileHeader" style="display: none;">
-        <h4 class="m-0 fw-bold">WEBCOM <span>CMS</span></h4>
+        <h4 class="m-0 fw-bold d-flex align-items-center gap-2">
+            <img src="assets/logo.png?v=3.0" alt="Webcom Logo" style="height: 35px; filter: brightness(0) invert(1);">
+            <span class="text-white">WEBCOM</span>
+            <span class="cms-text">CMS</span>
+        </h4>
         <button class="btn text-white p-0 fs-3" id="sidebarToggle">
             <i class="fa-solid fa-bars-staggered"></i>
         </button>
@@ -272,7 +276,11 @@
         
         <!-- Sidebar -->
         <div class="sidebar">
-            <h2>WEBCOM <span>CMS</span></h2>
+            <h2 class="d-flex align-items-center justify-content-center gap-2">
+                <img src="assets/logo.png?v=3.0" alt="Webcom Logo" style="height: 35px; filter: brightness(0) invert(1);">
+                <span class="text-white fw-900" style="letter-spacing: -1px;">WEBCOM</span>
+                <span class="cms-text">CMS</span>
+            </h2>
             
             <button class="nav-btn active" data-target="overview-panel">
                 <i class="fa-solid fa-chart-pie"></i> Overview
@@ -701,8 +709,17 @@
         } else {
             document.getElementById('loader').style.display = 'none';
             document.getElementById('adminLayout').style.display = 'flex';
-            // Also show mobile header if screen is small (handled by CSS)
-            document.getElementById('mobileHeader').style.display = ''; 
+            
+            // Fix: Ensure mobile header is shown if needed
+            const mobileHeader = document.getElementById('mobileHeader');
+            if (mobileHeader) mobileHeader.style.display = window.innerWidth <= 991 ? 'flex' : 'none';
+
+            // Fix: Disable custom cursor in admin to prevent click interference
+            document.body.style.cursor = 'default';
+            setTimeout(() => {
+                const cursor = document.querySelector('.custom-cursor');
+                if (cursor) cursor.style.display = 'none';
+            }, 500);
         }
 
         // Sidebar Toggle Logic
@@ -719,14 +736,42 @@
         toggleBtn.addEventListener('click', toggleSidebar);
         overlay.addEventListener('click', toggleSidebar);
 
-        // Close sidebar on nav link click (mobile)
-        document.querySelectorAll('.nav-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                if (window.innerWidth <= 991) {
-                    toggleSidebar();
-                }
+        // Panel Navigation Logic
+        function showPanel(targetId) {
+            const panels = document.querySelectorAll('.panel');
+            const navBtns = document.querySelectorAll('.nav-btn[data-target]');
+            
+            panels.forEach(p => p.classList.remove('active'));
+            navBtns.forEach(b => b.classList.remove('active'));
+            
+            const fullTarget = targetId.endsWith('-panel') ? targetId : targetId + '-panel';
+            const targetPanel = document.getElementById(fullTarget);
+            if (targetPanel) targetPanel.classList.add('active');
+            
+            const targetBtn = Array.from(navBtns).find(b => b.getAttribute('data-target') === fullTarget);
+            if (targetBtn) targetBtn.classList.add('active');
+            
+            // Save state
+            sessionStorage.setItem('adminActiveTab', fullTarget);
+            
+            // Close mobile sidebar
+            if (window.innerWidth <= 991) {
+                sidebar.classList.remove('show');
+                overlay.classList.remove('show');
+                document.body.style.overflow = '';
+            }
+        }
+
+        // Initialize clicks
+        document.querySelectorAll('.nav-btn[data-target]').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const target = btn.getAttribute('data-target');
+                if (target) showPanel(target);
             });
         });
+
+        // Global exposing
+        window.showPanel = showPanel;
 
         // Toggle password visibility
         function togglePassVisibility(inputId, btn) {
@@ -793,26 +838,5 @@
     <script src="admin.js"></script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

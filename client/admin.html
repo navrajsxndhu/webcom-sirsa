@@ -705,13 +705,6 @@
             // Fix: Ensure mobile header is shown if needed
             const mobileHeader = document.getElementById('mobileHeader');
             if (mobileHeader) mobileHeader.style.display = window.innerWidth <= 991 ? 'flex' : 'none';
-
-            // Fix: Disable custom cursor in admin to prevent click interference
-            document.body.style.cursor = 'default';
-            setTimeout(() => {
-                const cursor = document.querySelector('.custom-cursor');
-                if (cursor) cursor.style.display = 'none';
-            }, 500);
         }
 
         // Sidebar Toggle Logic

@@ -251,13 +251,28 @@ async function migrateDataIfNeeded() {
     try {
         const count = await WebData.countDocuments();
         if (count === 0 || process.env.FORCE_SYNC === 'true') {
-            console.log("FORCE SYNC: Overwriting MongoDB with data.json...");
+            console.log("MIGRATION/SYNC: Syncing MongoDB with data.json...");
+            if (!fs.existsSync(dataFilePath)) return;
+            
             const localData = JSON.parse(fs.readFileSync(dataFilePath));
             const { inquiries, admin, ...publicData } = localData;
             
-            await WebData.deleteMany({}); // Clear existing data
+            // 1. Migrate Public Data
+            await WebData.deleteMany({}); // Clear existing public data
             await new WebData(publicData).save();
-            console.log("Force sync successful.");
+
+            // 2. Migrate Admin Credentials if none exist in DB
+            const adminCount = await Admin.countDocuments();
+            if (adminCount === 0 && admin && admin.username) {
+                console.log("Migrating Admin credentials from local data...");
+                await new Admin({
+                    username: admin.username,
+                    passwordHash: admin.passwordHash,
+                    recoveryKey: admin.recoveryKey || 'WEBCOM-RESET-2026'
+                }).save();
+            }
+
+            console.log("Migration/Sync successful.");
         }
     } catch (err) {
         console.error("Migration failed:", err);

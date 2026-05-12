@@ -10,27 +10,106 @@
     "youtube": "https://youtube.com/@shipramiglani_?si=L1jy2Nm3yGIeIItU"
   },
   "courses": [
-    { "id": 1, "title": "IELTS Coaching", "price": "12,000 / month", "duration": "3 Months", "icon": "fa-earth-americas" },
-    { "id": 2, "title": "PTE Coaching", "price": "10,000 / month", "duration": "2 Months", "icon": "fa-microphone" },
-    { "id": 3, "title": "Spoken English", "price": "5,000 / month", "duration": "3 Months", "icon": "fa-language" }
+    {
+      "id": 1,
+      "title": "IELTS Coaching",
+      "price": "12,000 / month",
+      "duration": "3 Months",
+      "icon": "fa-earth-americas"
+    },
+    {
+      "id": 2,
+      "title": "PTE Coaching",
+      "price": "10,000 / month",
+      "duration": "2 Months",
+      "icon": "fa-microphone"
+    },
+    {
+      "id": 3,
+      "title": "Spoken English",
+      "price": "5,000 / month",
+      "duration": "3 Months",
+      "icon": "fa-language"
+    }
   ],
   "gallery": [
-    { "id": 105, "url": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAFoG4B--ek4jSsb_6thRQCJAy-Qv0UB_hWCQOrtFvmKYfVyOdCvw1mJArmrJ1GGljISKp60M0brWvS6GxTspFJswWWeO8XQbulNJ9I0PeRnhPuObraLdvcWg8qHU71XPmkVO-ifkw=s0", "category": "building" },
-    { "id": 106, "url": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAGCUcbAhKnuwsC7vRRVpkNNqT-XsgJ8eMSuVMuZqgfEPsh_4Vi6t263yPyv4NOKNFgjpzpRT4T3tgIi8AxyFZyLV6ah54_nsqr4wN4UJ_EejFoAhPFXbuVD825HqpVcCnjsrd7o=s0", "category": "classroom" },
-    { "id": 107, "url": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAFGWGK8N8wrRWXxEstZiaH5DPB1zmGvu0QbST2SJ8GmdAWYQC3Rgzo5wcJxOmu0goPwne-8h-cMkNWMlZiUn0gpZ7frGxQmA_GqbqBO_jLXM3T33FMZ0B1kbGzFz_Kw_VOMrGQ5rw=s0", "category": "student" }
+    {
+      "id": 105,
+      "url": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAFoG4B--ek4jSsb_6thRQCJAy-Qv0UB_hWCQOrtFvmKYfVyOdCvw1mJArmrJ1GGljISKp60M0brWvS6GxTspFJswWWeO8XQbulNJ9I0PeRnhPuObraLdvcWg8qHU71XPmkVO-ifkw=s0",
+      "category": "building"
+    },
+    {
+      "id": 106,
+      "url": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAGCUcbAhKnuwsC7vRRVpkNNqT-XsgJ8eMSuVMuZqgfEPsh_4Vi6t263yPyv4NOKNFgjpzpRT4T3tgIi8AxyFZyLV6ah54_nsqr4wN4UJ_EejFoAhPFXbuVD825HqpVcCnjsrd7o=s0",
+      "category": "classroom"
+    },
+    {
+      "id": 107,
+      "url": "https://lh3.googleusercontent.com/gps-cs-s/APNQkAFGWGK8N8wrRWXxEstZiaH5DPB1zmGvu0QbST2SJ8GmdAWYQC3Rgzo5wcJxOmu0goPwne-8h-cMkNWMlZiUn0gpZ7frGxQmA_GqbqBO_jLXM3T33FMZ0B1kbGzFz_Kw_VOMrGQ5rw=s0",
+      "category": "student"
+    }
   ],
   "staff": [
-    { "id": 0, "name": "Shipra Miglani", "role": "Founder & Director", "bio": "A visionary educator dedicated to empowering students with world-class language training and personal mentorship.", "photo": "https://yt3.googleusercontent.com/rzYRjcNBOX1EVxYGyolcKjwiknQgnEXTeDaftq4CRi8L21E36d4IJ4PCV7nF99J8Cz5YZDaN-2s=s900-c-k-c0x00ffffff-no-rj" }
+    {
+      "id": 1778594470025,
+      "name": "Test User",
+      "role": "Tester"
+    }
   ],
   "testimonials": [
-    { "id": 1, "score": "8.5 Bands IELTS", "review": "The intensive training at Webcom helped me achieve my target score for Canada PR. Highly recommend!", "student": "Amanpreet Singh", "photo": "assets/students/student1.png" },
-    { "id": 2, "score": "82 Score PTE", "review": "AI mock tests were a game changer. I improved from 65 to 82 in just 4 weeks.", "student": "Priya Verma", "photo": "assets/students/student2.png" },
-    { "id": 3, "score": "Canada Visa Approved", "review": "Professional support from admission to visa. The team is very helpful and knowledgeable.", "student": "Gurleen Brar", "photo": "" },
-    { "id": 4, "score": "UK Study Visa Approved", "review": "Excellent guidance for university selection and visa interview preparation.", "student": "Karan Dhillon", "photo": "" },
-    { "id": 5, "score": "7.5 Bands IELTS", "review": "Spoken English classes boosted my confidence. The trainers are very supportive.", "student": "Ishani Verma", "photo": "" }
+    {
+      "id": 1,
+      "score": "8.5 Bands IELTS",
+      "review": "The intensive training at Webcom helped me achieve my target score for Canada PR. Highly recommend!",
+      "student": "Amanpreet Singh",
+      "photo": "assets/students/student1.png"
+    },
+    {
+      "id": 2,
+      "score": "82 Score PTE",
+      "review": "AI mock tests were a game changer. I improved from 65 to 82 in just 4 weeks.",
+      "student": "Priya Verma",
+      "photo": "assets/students/student2.png"
+    },
+    {
+      "id": 3,
+      "score": "Canada Visa Approved",
+      "review": "Professional support from admission to visa. The team is very helpful and knowledgeable.",
+      "student": "Gurleen Brar",
+      "photo": ""
+    },
+    {
+      "id": 4,
+      "score": "UK Study Visa Approved",
+      "review": "Excellent guidance for university selection and visa interview preparation.",
+      "student": "Karan Dhillon",
+      "photo": ""
+    },
+    {
+      "id": 5,
+      "score": "7.5 Bands IELTS",
+      "review": "Spoken English classes boosted my confidence. The trainers are very supportive.",
+      "student": "Ishani Verma",
+      "photo": ""
+    }
   ],
   "eventVideos": [
-    { "id": 1, "url": "assets/videos/event1.mp4" },
-    { "id": 2, "url": "assets/videos/event2.mp4" }
+    {
+      "id": 1,
+      "url": "assets/videos/event1.mp4"
+    },
+    {
+      "id": 2,
+      "url": "assets/videos/event2.mp4"
+    }
+  ],
+  "inquiries": [
+    {
+      "name": "Tester",
+      "phone": "9999999999",
+      "message": "System Test",
+      "date": "2026-05-12T14:01:10.020Z",
+      "id": 1778594470020
+    }
   ]
 }

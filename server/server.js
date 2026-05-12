@@ -56,7 +56,7 @@ const authenticateToken = (req, res, next) => {
 
 const app = express();
 
-app.use(helmet()); // Security Headers
+app.use(helmet({ contentSecurityPolicy: false })); // Security Headers
 app.use(xss());    // Data Sanitization against XSS
 app.use(cors({
     origin: [
@@ -69,7 +69,6 @@ app.use(cors({
         /webcomsirsa\.in$/,
         /www\.webcomsirsa\.in$/
     ],
-    methods: ['GET', 'POST', 'OPTIONS'],
     credentials: true,
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
@@ -334,26 +333,30 @@ const writeData = async (data) => {
 
 // Inquiries are now persisted to MongoDB if available
 app.post('/api/contact', contactLimiter, async (req, res) => {
-    const { name, email, phone, course, message } = req.body;
-    
-    if(!name || !phone) {
-        return res.status(400).json({ error: 'Name and Phone are required.' });
-    }
+    try {
+        const { name, email, phone, course, message } = req.body;
+        
+        if(!name || !phone) {
+            return res.status(400).json({ error: 'Name and Phone are required.' });
+        }
 
-    const newInquiry = { name, email, phone, course, message, date: new Date() };
-    
-    if (isMongoConnected) {
-        await new Inquiry(newInquiry).save();
-    } else {
-        const data = await readData();
-        if (!data.inquiries) data.inquiries = [];
-        data.inquiries.push({ ...newInquiry, id: Date.now() });
-        await writeData(data);
+        const newInquiry = { name, email, phone, course, message, date: new Date() };
+        
+        if (isMongoConnected) {
+            await new Inquiry(newInquiry).save();
+        } else {
+            const data = await readData();
+            if (!data.inquiries) data.inquiries = [];
+            data.inquiries.push({ ...newInquiry, id: Date.now() });
+            await writeData(data);
+        }
+        
+        console.log("New Inquiry Received:", name);
+        res.status(200).json({ success: true, message: 'Inquiry received successfully!' });
+    } catch (error) {
+        console.error("Contact API Error:", error);
+        res.status(500).json({ error: 'Failed to process inquiry.' });
     }
-    
-    console.log("New Inquiry Received:", name);
-
-    res.status(200).json({ success: true, message: 'Inquiry received successfully!' });
 });
 
 // Protected Route: Fetch Inquiries
@@ -568,3 +571,6 @@ app.listen(port, '0.0.0.0', () => {
     console.log(`Server running on port ${port}`);
     console.log(`Uploads path: ${uploadDir}`);
 });
+
+app.use((err, req, res, next) => { console.error('GLOBAL ERROR:', err); res.status(500).json({ error: err.message || 'Internal Server Error' }); });
+

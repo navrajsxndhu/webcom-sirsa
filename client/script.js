@@ -157,6 +157,25 @@ async function getWebcomData() {
     return await fetchData();
 }
 
+// --- GLOBAL IMAGE URL RESOLVER ---
+function resolveWebcomImageUrl(url) {
+    if (!url) return '';
+    if (url.startsWith('http') || url.startsWith('data:')) return url;
+    
+    const apiBase = window.WEBCOM_API || 'https://webcom-sirsa.onrender.com/api';
+    const backendOrigin = apiBase.replace(/\/api$/, '');
+    
+    let photoUrl = url;
+    // Handle localhost cleanup if needed
+    if (window.location.hostname !== 'localhost' && photoUrl.includes('localhost')) {
+        photoUrl = photoUrl.replace(/http:\/\/localhost:\d+/, backendOrigin);
+    }
+    
+    if (photoUrl.startsWith('http') || photoUrl.startsWith('data:')) return photoUrl;
+    return backendOrigin + (photoUrl.startsWith('/') ? photoUrl : '/' + photoUrl);
+}
+window.resolveWebcomImageUrl = resolveWebcomImageUrl;
+
 document.addEventListener('DOMContentLoaded', async () => {
     // 1. Initial fetch to warm up Render server & cache
     const data = await getWebcomData();

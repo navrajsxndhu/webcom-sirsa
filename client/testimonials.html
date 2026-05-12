@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -265,20 +265,7 @@
                 
                 resultsList.forEach((test, index) => {
                     const delay = (index % 4) + 1;
-                    const apiBase = window.WEBCOM_API || ``;
-                    const backendOrigin = apiBase.replace(/\/api$/, ``); 
-                    let photoUrl = test.photo;
-                    
-                    const isLocal = window.location.hostname === `localhost` || window.location.hostname === `127.0.0.1`;
-
-                    if (photoUrl) {
-                        if (!photoUrl.startsWith(`http`)) {
-                            photoUrl = backendOrigin + (photoUrl.startsWith(`/`) ? photoUrl : `/` + photoUrl);
-                        }
-                        if (!isLocal && photoUrl.includes(`localhost`)) {
-                            photoUrl = photoUrl.replace(/http:\/\/localhost:\d+/, backendOrigin);
-                        }
-                    }
+                    let photoUrl = resolveWebcomImageUrl(test.photo);
                     
                     let mediaHtml = ``;
                     if (photoUrl && !photoUrl.includes(`placehold.co`)) {

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -327,21 +327,7 @@
                 
                 container.innerHTML = ``;
                 staffList.forEach((member, index) => {
-                    const delay = (index % 4) + 1;
-                    const apiBase = window.WEBCOM_API || ``;
-                    const backendOrigin = apiBase.replace(/\/api$/, ``);
-                    const isLocal = window.location.hostname === `localhost` || window.location.hostname === `127.0.0.1`;
-                    let photoUrl = `https://ui-avatars.com/api/?name=` + encodeURIComponent(member.name) + `&background=1e293b&color=38bdf8&size=512`;
-                    
-                    if (member.photo) {
-                        photoUrl = member.photo;
-                        if (!photoUrl.startsWith(`http`)) {
-                            photoUrl = backendOrigin + (photoUrl.startsWith(`/`) ? photoUrl : `/` + photoUrl);
-                        }
-                        if (!isLocal && photoUrl.includes(`localhost`)) {
-                            photoUrl = photoUrl.replace(/http:\/\/localhost:\d+/, backendOrigin);
-                        }
-                    }
+                    let photoUrl = resolveWebcomImageUrl(member.photo) || `https://ui-avatars.com/api/?name=` + encodeURIComponent(member.name) + `&background=1e293b&color=38bdf8&size=512`;
                     const html = `
                     <div class="col-md-6 col-lg-4 d-flex align-items-stretch">
                         <div class="staff-card reveal reveal-delay-1 w-100">

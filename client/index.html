@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -647,15 +647,7 @@
                     const score = test.score || `Achiever`;
                     const review = test.review || `Excellent coaching and support.`;
 
-                    let photoUrl = test.photo;
-                    let mediaHtml = ``;
-
-                    if (photoUrl) {
-                        const backendOrigin = API_BASE.replace(/\/api$/, ``);
-                        if (!photoUrl.startsWith(`http`)) {
-                            photoUrl = backendOrigin + (photoUrl.startsWith(`/`) ? photoUrl : `/` + photoUrl);
-                        }
-                    }
+                    let photoUrl = resolveWebcomImageUrl(test.photo);
 
                     if (photoUrl && !photoUrl.includes(`placehold.co`)) {
                         mediaHtml = `<img loading="lazy" src="${photoUrl}" alt="${student}" class="testimonial-photo mb-3">`;

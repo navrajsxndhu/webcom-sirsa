@@ -210,13 +210,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const staffBody = document.getElementById('staffTableBody');
         staffBody.innerHTML = '';
         globalData.staff.forEach((member, index) => {
-            const apiBase = API_BASE || '';
-            const backendOrigin = apiBase.replace(/\/api$/, '');
-            let photoUrl = member.photo || '';
-            if (photoUrl && !photoUrl.startsWith('http')) {
-                if (!photoUrl.startsWith('/')) photoUrl = '/' + photoUrl;
-                photoUrl = backendOrigin + photoUrl;
-            }
+            let photoUrl = resolveWebcomImageUrl(member.photo);
 
             staffBody.innerHTML += `
                 <tr>
@@ -237,13 +231,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const testimonialsBody = document.getElementById('testimonialsTableBody');
         testimonialsBody.innerHTML = '';
         globalData.testimonials.forEach((testimonial, index) => {
-            const apiBase = API_BASE || '';
-            const backendOrigin = apiBase.replace(/\/api$/, '');
-            let photoUrl = testimonial.photo || '';
-            if (photoUrl && !photoUrl.startsWith('http')) {
-                if (!photoUrl.startsWith('/')) photoUrl = '/' + photoUrl;
-                photoUrl = backendOrigin + photoUrl;
-            }
+            let photoUrl = resolveWebcomImageUrl(testimonial.photo);
 
             testimonialsBody.innerHTML += `
                 <tr>

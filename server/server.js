@@ -146,14 +146,24 @@ app.post('/api/upload', authenticateToken, (req, res, next) => {
         if (!req.file) {
             return res.status(400).json({ error: 'No file uploaded' });
         }
-        const protocol = req.headers['x-forwarded-proto'] || req.protocol;
-        const host = req.get('host');
-        // Prefer RENDER_EXTERNAL_URL if set (provided by Render)
-        const fullOrigin = process.env.RENDER_EXTERNAL_URL || `${protocol}://${host}`;
-        const fileUrl = '/uploads/' + req.file.filename;
-        const absoluteUrl = fullOrigin + fileUrl;
-        
-        res.json({ success: true, message: 'File uploaded successfully', url: absoluteUrl });
+        try {
+            // Read file and convert to Base64
+            const base64Image = fs.readFileSync(req.file.path, { encoding: 'base64' });
+            const mimeType = req.file.mimetype;
+            const dataUrl = `data:${mimeType};base64,${base64Image}`;
+
+            // Delete the temporary file from the ephemeral disk
+            fs.unlinkSync(req.file.path);
+
+            res.json({ 
+                success: true, 
+                message: 'File uploaded securely to cloud storage (Base64)', 
+                url: dataUrl 
+            });
+        } catch (error) {
+            console.error('File conversion error:', error);
+            res.status(500).json({ error: 'Failed to process image for persistent storage' });
+        }
     });
 });
 

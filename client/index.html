@@ -475,45 +475,6 @@
 
     </section>
 
-    <!-- VIDEO SECTION -->
-
-    <section class="video-section">
-
-        <div class="container">
-
-            <div class="section-heading text-center reveal">
-
-                <h2>
-                    Event Videos
-                </h2>
-
-                <p>
-                    Workshops, student seminars and institute events.
-                </p>
-
-            </div>
-
-            <div class="row g-4" id="eventVideosContainer">
-                <div class="col-md-6">
-                    <div class="video-card">
-                        <video controls width="100%" id="eventVideo1">
-                            <source src="assets/videos/event1.mp4" type="video/mp4">
-                        </video>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="video-card">
-                        <video controls width="100%" id="eventVideo2">
-                            <source src="assets/videos/event2.mp4" type="video/mp4">
-                        </video>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-    </section>
-
     <!-- CTA -->
 
     <section class="cta-section">
@@ -611,11 +572,7 @@
                 const res = await fetch(`${API_BASE}/data`);
                 const data = await res.json();
 
-                // --- RENDER EVENT VIDEOS ---
-                if (data.eventVideos && data.eventVideos.length > 0) {
-                    const BACKEND_URL = API_BASE.replace(`/api`, ``);
-                    data.eventVideos.forEach(vid => {
-                        const videoEl = document.getElementById(`eventVideo${vid.id}`);
+                `);
                         const videoCol = videoEl ? videoEl.closest(`.col-md-6`) : null;
 
                         if (videoEl && vid.url) {
@@ -713,6 +670,8 @@
 </body>
 
 </html>
+
+
 
 
 

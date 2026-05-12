@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
     updateGreeting();
 
     // --- FETCH DATA ---
-    let globalData = { settings: {}, courses: [], gallery: [], staff: [], testimonials: [], eventVideos: [] };
+    let globalData = { settings: {}, courses: [], gallery: [], staff: [], testimonials: [] };
     let globalInquiries = [];
 
     async function fetchDashboardData() {
@@ -103,33 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- UTILS ---
 
 
-    // --- DELETE EVENT VIDEO ---
-    window.deleteEventVideo = async (videoId) => {
-        if (!confirm('Are you sure you want to remove this video from the homepage?')) return;
-
-        try {
-            const vidIdx = globalData.eventVideos.findIndex(v => v.id === videoId);
-            if (vidIdx !== -1) {
-                globalData.eventVideos[vidIdx].url = null; // Clear the URL
-            }
-
-            const saveRes = await fetch(`${API_BASE}/event-videos`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-                body: JSON.stringify({ eventVideos: globalData.eventVideos })
-            });
-
-            if (saveRes.ok) {
-                showToast('Success', 'Video removed successfully!', 'success');
-                renderDashboard();
-            } else {
-                throw new Error('Failed to remove video');
-            }
-        } catch (error) {
-            console.error(error);
-            showToast('Error', error.message, 'error');
-        }
-    };
+    
 
     window.deleteGalleryPhoto = async (index) => {
         if (!confirm('Are you sure you want to delete this photo from the gallery?')) return;
@@ -270,23 +244,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
         }
-        // 7. Event Videos Preview
-        [1, 2].forEach(id => {
-            const vid = globalData.eventVideos.find(v => v.id === id);
-            const previewContainer = document.getElementById(`video${id}Preview`);
-            if (previewContainer) {
-                if (vid && vid.url) {
-                    const videoUrl = resolveWebcomImageUrl(vid.url);
-                    previewContainer.innerHTML = `
-                        <video controls class="w-100 rounded mb-2" style="max-height: 150px; background: #000;">
-                            <source src="${videoUrl}">
-                        </video>
-                    `;
-                } else {
-                    previewContainer.innerHTML = '<div class="text-muted small mb-2"><i class="fa-solid fa-video-slash me-1"></i> No video uploaded</div>';
-                }
-            }
-        });
+        }
     }
 
     // --- UPDATE COURSES ---
@@ -742,96 +700,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     fetchAdminProfile();
-    async function handleVideoUpload(formId, inputId, videoId) {
-        const form = document.getElementById(formId);
-        if (!form) return;
+    
 
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const fileInput = document.getElementById(inputId);
-            if (!fileInput.files[0]) {
-                showToast('Error', 'Please select a video file first.', 'error');
-                return;
-            }
-
-            const btn = form.querySelector('button');
-            const originalHtml = btn.innerHTML;
-            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin me-2"></i>Uploading Video...';
-            btn.disabled = true;
-
-            const formData = new FormData();
-            formData.append('file', fileInput.files[0]);
-
-            try {
-                // 1. Upload file
-                const uploadRes = await fetch(`${API_BASE}/upload`, {
-                    method: 'POST',
-                    body: formData
-                });
-                const uploadData = await uploadRes.json();
-
-                if (!uploadRes.ok) throw new Error(uploadData.error || 'Upload failed');
-
-                // 2. Update data.json
-                const vidIdx = globalData.eventVideos.findIndex(v => v.id === videoId);
-                if (vidIdx !== -1) {
-                    globalData.eventVideos[vidIdx].url = uploadData.url;
-                } else {
-                    globalData.eventVideos.push({ id: videoId, url: uploadData.url });
-                }
-
-                const saveRes = await fetch(`${API_BASE}/event-videos`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-                    body: JSON.stringify({ eventVideos: globalData.eventVideos })
-                });
-
-                if (saveRes.ok) {
-                    showToast('Success', 'Video updated successfully!', 'success');
-                    fileInput.value = '';
-                    renderDashboard();
-                } else {
-                    throw new Error('Failed to save video settings');
-                }
-            } catch (error) {
-                console.error(error);
-                showToast('Error', error.message, 'error');
-            } finally {
-                btn.innerHTML = originalHtml;
-                btn.disabled = false;
-            }
-        });
-    }
-
-    handleVideoUpload('uploadVideo1Form', 'video1Input', 1);
-    handleVideoUpload('uploadVideo2Form', 'video2Input', 2);
-
-    window.deleteEventVideo = async function(videoId) {
-        if(!confirm('Are you sure you want to delete this video?')) return;
-        
-        const vidIdx = globalData.eventVideos.findIndex(v => v.id === videoId);
-        if (vidIdx !== -1) {
-            globalData.eventVideos[vidIdx].url = null;
-        }
-
-        try {
-            const saveRes = await fetch(`${API_BASE}/event-videos`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-                body: JSON.stringify({ eventVideos: globalData.eventVideos })
-            });
-
-            if (saveRes.ok) {
-                showToast('Success', 'Video removed successfully!', 'success');
-                renderDashboard();
-            } else {
-                throw new Error('Failed to remove video');
-            }
-        } catch (error) {
-            console.error(error);
-            showToast('Error', error.message, 'error');
-        }
-    };
+    
 
     async function fetchSystemStatus() {
         const badge = document.getElementById('dbStatusBadge');
@@ -873,3 +744,5 @@ document.addEventListener('DOMContentLoaded', () => {
     fetchDashboardData();
     fetchSystemStatus();
 });
+
+

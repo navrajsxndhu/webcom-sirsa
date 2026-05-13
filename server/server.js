@@ -167,7 +167,7 @@ app.post('/api/upload', authenticateToken, (req, res, next) => {
     });
 });
 
-const mongoose = require('mongoose');
+// --- AUTH & RECOVERY ---
 
 app.post('/api/recover-access', async (req, res) => {
     const { recoveryKey, newUsername, newPassword } = req.body;

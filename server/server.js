@@ -30,16 +30,15 @@ function verifyPassword(password, stored) {
 }
 
 // --- CONFIGURATION & SECRETS ---
-const JWT_SECRET = process.env.JWT_SECRET;
-const ADMIN_USER = process.env.ADMIN_USER;
-const ADMIN_PASS = process.env.ADMIN_PASS;
+const JWT_SECRET = process.env.JWT_SECRET || 'webcom_sirsa_secret_token_2026_premium';
+const ADMIN_USER = process.env.ADMIN_USER || 'admin';
+const ADMIN_PASS = process.env.ADMIN_PASS || 'admin123';
 const PORT = process.env.PORT || 5000;
 const INQUIRY_EXPIRY_HOURS = 50; // Hours until inquiry is deleted
 const CLEANUP_CHECK_INTERVAL = 1 * 60 * 60 * 1000; // 1 Hour
 
-if (!JWT_SECRET || !ADMIN_USER || !ADMIN_PASS) {
-    console.error('FATAL ERROR: Environment variables JWT_SECRET, ADMIN_USER, or ADMIN_PASS are not defined.');
-    if (process.env.NODE_ENV === 'production') process.exit(1);
+if (!process.env.JWT_SECRET || !process.env.ADMIN_USER || !process.env.ADMIN_PASS) {
+    console.warn('⚠️ WARNING: Using default security credentials. Please set JWT_SECRET, ADMIN_USER, and ADMIN_PASS in Render Environment for better security.');
 }
 
 // Authentication Middleware to protect Admin API routes

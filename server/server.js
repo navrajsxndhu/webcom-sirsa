@@ -8,6 +8,7 @@ const crypto = require('crypto');
 const helmet = require('helmet');
 const xss = require('xss-clean');
 const rateLimit = require('express-rate-limit');
+const mongoose = require('mongoose');
 
 // --- Password Hashing Helpers ---
 /**

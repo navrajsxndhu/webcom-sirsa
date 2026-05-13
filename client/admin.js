@@ -339,7 +339,10 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin me-2"></i>Publishing...';
         btn.disabled = true;
 
-        document.querySelectorAll('.staff-name').forEach(input => globalData.staff[input.getAttribute('data-index')].name = input.value);
+        document.querySelectorAll('.s-name').forEach(input => {
+            const idx = input.getAttribute('data-index');
+            if(globalData.staff[idx]) globalData.staff[idx].name = input.value;
+        });
         document.querySelectorAll('.staff-role').forEach(input => globalData.staff[input.getAttribute('data-index')].role = input.value);
         document.querySelectorAll('.staff-bio').forEach(input => globalData.staff[input.getAttribute('data-index')].bio = input.value);
 
@@ -360,6 +363,22 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.target.closest('.delete-gallery-btn')) {
             const index = e.target.closest('.delete-gallery-btn').getAttribute('data-index');
             window.deleteGalleryPhoto(index);
+        }
+        if (e.target.closest('.delete-staff-btn')) {
+            const index = e.target.closest('.delete-staff-btn').getAttribute('data-index');
+            if(confirm('Are you sure you want to remove this staff member?')) {
+                globalData.staff.splice(index, 1);
+                renderDashboard();
+                showToast('Action Required', 'Click "Publish Staff Changes" to make it permanent.', 'warning');
+            }
+        }
+        if (e.target.closest('.delete-test-btn')) {
+            const index = e.target.closest('.delete-test-btn').getAttribute('data-index');
+            if(confirm('Delete this testimonial/result?')) {
+                globalData.testimonials.splice(index, 1);
+                renderDashboard();
+                showToast('Action Required', 'Click "Publish Testimonials" to make it permanent.', 'warning');
+            }
         }
     });
 

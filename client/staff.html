@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -275,7 +275,7 @@
 <footer class="footer mt-5">
         <div class="container text-center">
             <div class="footer-logo mb-3"><span class="logo-web fs-2 fw-900">WEB</span><span class="logo-com fs-2 fw-900">COM</span></div>
-            <p>Premium IELTS &bull; PTE &bull; Spoken English Institute
+            <p>Premium IELTS &bull; PTE &bull; Spoken English Institute</p>
         </div>
     
         <div class="container mt-4 pt-4 pb-4 border-top" style="border-color: rgba(255,255,255,0.1) !important;">
@@ -306,7 +306,7 @@
     <script src="script.js"></script>
         <script>
         document.addEventListener(`DOMContentLoaded`, loadStaff);
-        async function loadStaff() {
+        function loadStaff() {
             const container = document.getElementById(`staffContainer`);
             if (!container) return;
             
@@ -316,15 +316,12 @@
                 <div class="col-md-6 col-lg-4"><div class="skeleton-card"><div class="skeleton skeleton-img"></div><div class="skeleton skeleton-text"></div><div class="skeleton skeleton-text-sm"></div></div></div>
                 <div class="col-md-6 col-lg-4"><div class="skeleton-card"><div class="skeleton skeleton-img"></div><div class="skeleton skeleton-text"></div><div class="skeleton skeleton-text-sm"></div></div></div>`;
 
-            // FALLBACK DATA
             const fallbackStaff = [
                 { "name": "Shipra Miglani", "role": "Founder & Director", "bio": "A visionary educator dedicated to empowering students with world-class language training and personal mentorship.", "photo": "https://yt3.googleusercontent.com/rzYRjcNBOX1EVxYGyolcKjwiknQgnEXTeDaftq4CRi8L21E36d4IJ4PCV7nF99J8Cz5YZDaN-2s=s900-c-k-c0x00ffffff-no-rj" }
             ];
 
-            try {
-                let data = await getWebcomData();
+            getWebcomData().then(data => {
                 let staffList = (data && data.staff && data.staff.length > 0) ? data.staff : fallbackStaff;
-                
                 container.innerHTML = ``;
                 staffList.forEach((member, index) => {
                     let photoUrl = resolveWebcomImageUrl(member.photo) || `https://ui-avatars.com/api/?name=` + encodeURIComponent(member.name) + `&background=1e293b&color=38bdf8&size=512`;
@@ -332,7 +329,7 @@
                     <div class="col-md-6 col-lg-4 d-flex align-items-stretch">
                         <div class="staff-card reveal reveal-delay-1 w-100">
                             <div class="staff-photo-container">
-                                <img loading="lazy" src="${photoUrl}" alt="${member.name}">
+                                <img loading="lazy" decoding="async" src="${photoUrl}" alt="${member.name}">
                                 <div class="staff-social">
                                     <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
                                     <a href="#"><i class="fa-brands fa-twitter"></i></a>
@@ -350,9 +347,10 @@
                     const newItem = container.lastElementChild.querySelector(`.reveal`);
                     if (window.revealObserver) window.revealObserver.observe(newItem);
                 });
-            } catch (error) {
+            }).catch(error => {
                 console.error("Staff load error:", error);
-            }
+                container.innerHTML = `<div class="col-12 text-center text-danger">Failed to load team data.</div>`;
+            });
         }
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

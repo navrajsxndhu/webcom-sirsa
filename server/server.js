@@ -208,18 +208,41 @@ const inquirySchema = new mongoose.Schema({
     date: { type: Date, default: Date.now }
 });
 
+const staffSchema = new mongoose.Schema({
+    name: String,
+    role: String,
+    bio: String,
+    photo: String, // Stores Base64 or URL
+    order: { type: Number, default: 0 }
+});
+
+const testimonialSchema = new mongoose.Schema({
+    student: String,
+    score: String,
+    review: String,
+    photo: String,
+    videoUrl: String,
+    date: { type: Date, default: Date.now }
+});
+
+const gallerySchema = new mongoose.Schema({
+    url: String,
+    category: String,
+    date: { type: Date, default: Date.now }
+});
+
 const webDataSchema = new mongoose.Schema({
-    settings: Object,
-    courses: Array,
-    gallery: Array,
-    staff: Array,
-    testimonials: Array,
-    eventVideos: Array
+    settings: { type: Object, default: {} },
+    courses: { type: Array, default: [] },
+    eventVideos: { type: Array, default: [] }
 });
 
 const Admin = mongoose.model('Admin', adminSchema);
 const Inquiry = mongoose.model('Inquiry', inquirySchema);
 const WebData = mongoose.model('WebData', webDataSchema);
+const Staff = mongoose.model('Staff', staffSchema);
+const Testimonial = mongoose.model('Testimonial', testimonialSchema);
+const GalleryItem = mongoose.model('GalleryItem', gallerySchema);
 
 let isMongoConnected = false;
 
@@ -254,16 +277,34 @@ async function migrateDataIfNeeded() {
             if (!fs.existsSync(dataFilePath)) return;
             
             const localData = JSON.parse(fs.readFileSync(dataFilePath));
-            const { inquiries, admin, ...publicData } = localData;
+            const { inquiries, admin, staff, testimonials, gallery, ...publicData } = localData;
             
-            // 1. Migrate Public Data
-            await WebData.deleteMany({}); // Clear existing public data
+            // 1. Migrate Public Data (Settings, Courses, Videos)
+            await WebData.deleteMany({});
             await new WebData(publicData).save();
 
-            // 2. Migrate Admin Credentials if none exist in DB
+            // 2. Migrate Staff to individual documents
+            if (staff && staff.length > 0) {
+                await Staff.deleteMany({});
+                await Staff.insertMany(staff);
+            }
+
+            // 3. Migrate Testimonials to individual documents
+            if (testimonials && testimonials.length > 0) {
+                await Testimonial.deleteMany({});
+                await Testimonial.insertMany(testimonials);
+            }
+
+            // 4. Migrate Gallery to individual documents
+            if (gallery && gallery.length > 0) {
+                await GalleryItem.deleteMany({});
+                await GalleryItem.insertMany(gallery);
+            }
+
+            // 5. Migrate Admin Credentials
             const adminCount = await Admin.countDocuments();
             if (adminCount === 0 && admin && admin.username) {
-                console.log("Migrating Admin credentials from local data...");
+                console.log("Migrating Admin credentials...");
                 await new Admin({
                     username: admin.username,
                     passwordHash: admin.passwordHash,
@@ -462,9 +503,24 @@ app.post('/api/change-credentials', authenticateToken, async (req, res) => {
 
 // Public Route: Fetch all dynamic data
 app.get('/api/data', async (req, res) => {
-    const data = await readData();
-    const { inquiries, admin, ...publicData } = data;
-    res.json(publicData);
+    try {
+        const data = await readData();
+        const staff = await Staff.find().sort({ order: 1 });
+        const testimonials = await Testimonial.find().sort({ date: -1 });
+        const gallery = await GalleryItem.find().sort({ date: -1 });
+
+        const { inquiries, admin, ...publicData } = data;
+        
+        // Merge individual collections into the public response
+        res.json({
+            ...publicData,
+            staff,
+            testimonials,
+            gallery
+        });
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to fetch data' });
+    }
 });
 
 // Protected Route: Update Settings
@@ -487,29 +543,56 @@ app.post('/api/courses', authenticateToken, async (req, res) => {
 
 // Protected Route: Update Staff
 app.post('/api/staff', authenticateToken, async (req, res) => {
-    const { staff } = req.body;
-    const data = await readData();
-    data.staff = staff;
-    await writeData(data);
-    res.json({ success: true, message: 'Staff updated successfully' });
+    try {
+        const { staff } = req.body;
+        if (isMongoConnected) {
+            await Staff.deleteMany({});
+            await Staff.insertMany(staff);
+        } else {
+            const data = await readData();
+            data.staff = staff;
+            await writeData(data);
+        }
+        res.json({ success: true, message: 'Staff updated successfully' });
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to update staff' });
+    }
 });
 
 // Protected Route: Update Testimonials
 app.post('/api/testimonials', authenticateToken, async (req, res) => {
-    const { testimonials } = req.body;
-    const data = await readData();
-    data.testimonials = testimonials;
-    await writeData(data);
-    res.json({ success: true, message: 'Testimonials updated successfully' });
+    try {
+        const { testimonials } = req.body;
+        if (isMongoConnected) {
+            await Testimonial.deleteMany({});
+            await Testimonial.insertMany(testimonials);
+        } else {
+            const data = await readData();
+            data.testimonials = testimonials;
+            await writeData(data);
+        }
+        res.json({ success: true, message: 'Testimonials updated successfully' });
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to update testimonials' });
+    }
 });
 
 // Protected Route: Update Gallery
 app.post('/api/gallery', authenticateToken, async (req, res) => {
-    const { gallery } = req.body;
-    const data = await readData();
-    data.gallery = gallery;
-    await writeData(data);
-    res.json({ success: true, message: 'Gallery updated successfully' });
+    try {
+        const { gallery } = req.body;
+        if (isMongoConnected) {
+            await GalleryItem.deleteMany({});
+            await GalleryItem.insertMany(gallery);
+        } else {
+            const data = await readData();
+            data.gallery = gallery;
+            await writeData(data);
+        }
+        res.json({ success: true, message: 'Gallery updated successfully' });
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to update gallery' });
+    }
 });
 
 // Protected Route: Update Event Videos

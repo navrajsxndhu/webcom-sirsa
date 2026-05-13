@@ -103,13 +103,21 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // 4. Scroll Progress Logic
+    // 4. Scroll Progress Logic with Throttling
+    let scrollTimeout;
     window.addEventListener('scroll', () => {
-        const scrollBar = document.getElementById('scrollProgress');
-        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-        const scrolled = (winScroll / height) * 100;
-        if (scrollBar) scrollBar.style.width = scrolled + "%";
+        if (!scrollTimeout) {
+            scrollTimeout = setTimeout(() => {
+                const scrollBar = document.getElementById('scrollProgress');
+                if (scrollBar) {
+                    const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+                    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                    const scrolled = (winScroll / height) * 100;
+                    scrollBar.style.width = scrolled + "%";
+                }
+                scrollTimeout = null;
+            }, 10);
+        }
     });
 });
 
@@ -176,22 +184,22 @@ function resolveWebcomImageUrl(url) {
 }
 window.resolveWebcomImageUrl = resolveWebcomImageUrl;
 
-document.addEventListener('DOMContentLoaded', async () => {
-    // 1. Initial fetch to warm up Render server & cache
-    const data = await getWebcomData();
-    
-    if (data && data.settings) {
-        document.querySelectorAll('.dyn-phone').forEach(el => el.innerText = data.settings.phone || '+91 90507 00577');
-        document.querySelectorAll('.dyn-address').forEach(el => el.innerText = data.settings.address || 'Opp. Town Park Road, Sirsa');
-        document.querySelectorAll('.dyn-whatsapp-btn').forEach(el => {
-            const waNumber = data.settings.whatsapp || '919050700577';
-            el.href = `https://wa.me/${waNumber.replace(/[^0-9]/g, '')}`;
-        });
-        document.querySelectorAll('.dyn-youtube').forEach(el => el.href = data.settings.youtube || '#');
-        document.querySelectorAll('.dyn-instagram').forEach(el => el.href = data.settings.instagram || '#');
-        document.querySelectorAll('.dyn-facebook').forEach(el => el.href = data.settings.facebook || '#');
-        document.querySelectorAll('.dyn-channel').forEach(el => el.href = data.settings.channel || '#');
-    }
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Initial fetch to warm up Render server & cache (Non-blocking)
+    getWebcomData().then(data => {
+        if (data && data.settings) {
+            document.querySelectorAll('.dyn-phone').forEach(el => el.innerText = data.settings.phone || '+91 90507 00577');
+            document.querySelectorAll('.dyn-address').forEach(el => el.innerText = data.settings.address || 'Opp. Town Park Road, Sirsa');
+            document.querySelectorAll('.dyn-whatsapp-btn').forEach(el => {
+                const waNumber = data.settings.whatsapp || '919050700577';
+                el.href = `https://wa.me/${waNumber.replace(/[^0-9]/g, '')}`;
+            });
+            document.querySelectorAll('.dyn-youtube').forEach(el => el.href = data.settings.youtube || '#');
+            document.querySelectorAll('.dyn-instagram').forEach(el => el.href = data.settings.instagram || '#');
+            document.querySelectorAll('.dyn-facebook').forEach(el => el.href = data.settings.facebook || '#');
+            document.querySelectorAll('.dyn-channel').forEach(el => el.href = data.settings.channel || '#');
+        }
+    });
 
     // Dynamic copyright year
     document.querySelectorAll('.dyn-year').forEach(el => el.textContent = new Date().getFullYear());

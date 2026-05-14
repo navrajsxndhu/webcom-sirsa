@@ -206,7 +206,11 @@ const inquirySchema = new mongoose.Schema({
     phone: String,
     course: String,
     message: String,
-    date: { type: Date, default: Date.now }
+    date: { 
+        type: Date, 
+        default: Date.now,
+        index: { expires: 180000 } // Automatically delete after 50 hours (50 * 3600 seconds)
+    }
 });
 
 const staffSchema = new mongoose.Schema({

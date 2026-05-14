@@ -272,8 +272,12 @@ if (MONGODB_URI) {
 // Migration Logic: Move data from JSON to MongoDB
 async function migrateDataIfNeeded() {
     try {
-        const count = await WebData.countDocuments();
-        if (count === 0 || process.env.FORCE_SYNC === 'true') {
+        const webDataCount = await WebData.countDocuments();
+        const staffCount = await Staff.countDocuments();
+        const galleryCount = await GalleryItem.countDocuments();
+
+        // Migrate if any core collection is empty, or if forced
+        if (webDataCount === 0 || staffCount === 0 || galleryCount === 0 || process.env.FORCE_SYNC === 'true') {
             console.log("MIGRATION/SYNC: Syncing MongoDB with data.json...");
             if (!fs.existsSync(dataFilePath)) return;
             

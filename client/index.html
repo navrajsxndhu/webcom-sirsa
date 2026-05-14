@@ -283,45 +283,34 @@
     <!-- JS -->
     <script src="script.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', async () => {
-            const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-                ? 'http://localhost:5000/api'
-                : (window.location.origin.includes('vercel.app')
-                    ? 'https://webcom-sirsa.onrender.com/api'
-                    : window.location.origin + '/api');
-
-            try {
-                const res = await fetch(`${API_BASE}/data`);
-                if (!res.ok) throw new Error('Network response was not ok');
-                const data = await res.json();
-
-                // TESTIMONIALS (RESULTS) SECTION
-                const container = document.getElementById('testimonialsContainer');
         // The Home Page now uses its high-end static Success Stories to maintain premium design.
         // Dynamic admin-added results are displayed exclusively on the Testimonials/Results page.
-        document.addEventListener('DOMContentLoaded', async () => {
+        document.addEventListener('DOMContentLoaded', () => {
             // Keep Video Modal Logic for static videos if any
             document.querySelectorAll('.play-video-btn').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     let videoUrl = e.currentTarget.getAttribute('data-video');
-                    if (videoUrl.includes('watch?v=')) videoUrl = videoUrl.replace('watch?v=', 'embed/');
+                    if (videoUrl && videoUrl.includes('watch?v=')) {
+                        videoUrl = videoUrl.replace('watch?v=', 'embed/');
+                    }
                     const iframe = document.getElementById('videoIframe');
                     if (iframe) {
                         iframe.src = videoUrl;
-                        new bootstrap.Modal(document.getElementById('videoModal')).show();
+                        const modal = new bootstrap.Modal(document.getElementById('videoModal'));
+                        modal.show();
                     }
                 });
             });
-        });
 
-        // Reset video modal on close
-        const videoModalEl = document.getElementById('videoModal');
-        if (videoModalEl) {
-            videoModalEl.addEventListener('hidden.bs.modal', () => {
-                const iframe = document.getElementById('videoIframe');
-                if (iframe) iframe.src = '';
-            });
-        }
+            // Reset video modal on close
+            const videoModalEl = document.getElementById('videoModal');
+            if (videoModalEl) {
+                videoModalEl.addEventListener('hidden.bs.modal', () => {
+                    const iframe = document.getElementById('videoIframe');
+                    if (iframe) iframe.src = '';
+                });
+            }
+        });
     </script>
 
     <!-- VIDEO MODAL -->

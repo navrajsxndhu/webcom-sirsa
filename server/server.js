@@ -437,10 +437,11 @@ app.post('/api/login', async (req, res) => {
         }
     }
 
-    // Fallback to environment variable defaults
-    if (username === ADMIN_USER && password === ADMIN_PASS) {
+    // Fallback to environment defaults ONLY if database is empty (First time setup)
+    const adminCount = await Admin.countDocuments();
+    if (adminCount === 0 && username === ADMIN_USER && password === ADMIN_PASS) {
         const token = jwt.sign({ role: 'admin' }, JWT_SECRET, { expiresIn: '24h' });
-        return res.status(200).json({ success: true, message: 'Login successful', token });
+        return res.status(200).json({ success: true, message: 'Initial login successful', token });
     }
 
     return res.status(401).json({ error: 'Invalid username or password' });

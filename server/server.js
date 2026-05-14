@@ -509,21 +509,31 @@ app.post('/api/change-credentials', authenticateToken, async (req, res) => {
 // Public Route: Fetch all dynamic data
 app.get('/api/data', async (req, res) => {
     try {
-        const data = await readData();
-        const staff = await Staff.find().sort({ order: 1 });
-        const testimonials = await Testimonial.find().sort({ date: -1 });
-        const gallery = await GalleryItem.find().sort({ date: -1 });
+        const localData = await readData();
+        const { inquiries, admin, ...publicData } = localData;
 
-        const { inquiries, admin, ...publicData } = data;
-        
-        // Merge individual collections into the public response
-        res.json({
-            ...publicData,
-            staff,
-            testimonials,
-            gallery
-        });
+        if (isMongoConnected) {
+            const dbDataDoc = await WebData.findOne();
+            const dbStaff = await Staff.find().sort({ order: 1 });
+            const dbTestimonials = await Testimonial.find().sort({ date: -1 });
+            const dbGallery = await GalleryItem.find().sort({ date: -1 });
+
+            // If MongoDB collections have data, use them. Otherwise, use local data.
+            const finalData = {
+                ...(dbDataDoc ? dbDataDoc.toObject() : publicData),
+                staff: dbStaff.length > 0 ? dbStaff : (publicData.staff || []),
+                testimonials: dbTestimonials.length > 0 ? dbTestimonials : (publicData.testimonials || []),
+                gallery: dbGallery.length > 0 ? dbGallery : (publicData.gallery || []),
+                eventVideos: dbDataDoc?.eventVideos?.length > 0 ? dbDataDoc.eventVideos : (publicData.eventVideos || [])
+            };
+
+            return res.json(finalData);
+        }
+
+        // Fallback to local data if Mongo is not connected
+        res.json(publicData);
     } catch (err) {
+        console.error("Fetch Data Error:", err);
         res.status(500).json({ error: 'Failed to fetch data' });
     }
 });

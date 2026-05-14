@@ -321,7 +321,19 @@
             ];
 
             getWebcomData().then(data => {
-                let staffList = (data && data.staff && data.staff.length > 0) ? data.staff : fallbackStaff;
+                let dbStaff = (data && data.staff && data.staff.length > 0) ? data.staff : [];
+                
+                // Always keep Shipra Mam at the top (Permanent)
+                const director = { 
+                    "name": "Shipra Miglani", 
+                    "role": "Founder & Director", 
+                    "bio": "A visionary educator dedicated to empowering students with world-class language training and personal mentorship.", 
+                    "photo": "https://yt3.googleusercontent.com/rzYRjcNBOX1EVxYGyolcKjwiknQgnEXTeDaftq4CRi8L21E36d4IJ4PCV7nF99J8Cz5YZDaN-2s=s900-c-k-c0x00ffffff-no-rj" 
+                };
+
+                // Filter out any accidental duplicates from DB and prepend the Director
+                let staffList = [director, ...dbStaff.filter(m => m.name !== director.name)];
+                
                 container.innerHTML = ``;
                 staffList.forEach((member, index) => {
                     let photoUrl = resolveWebcomImageUrl(member.photo) || `https://ui-avatars.com/api/?name=` + encodeURIComponent(member.name) + `&background=1e293b&color=38bdf8&size=512`;

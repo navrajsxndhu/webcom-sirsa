@@ -297,62 +297,21 @@
 
                 // TESTIMONIALS (RESULTS) SECTION
                 const container = document.getElementById('testimonialsContainer');
-                if (container && data.testimonials) {
-                    container.innerHTML = '';
-                    const testimonialsToShow = data.testimonials.slice(0, 6);
-                    testimonialsToShow.forEach((test, index) => {
-                        const student = test.student || 'Successful Student';
-                        const score = test.score || 'Achiever';
-                        const review = test.review || 'Excellent coaching and support.';
-                        let mediaHtml = '';
-
-                        let photoUrl = typeof resolveWebcomImageUrl === 'function' ? resolveWebcomImageUrl(test.photo) : test.photo;
-
-                        if (photoUrl && !photoUrl.includes('placehold.co')) {
-                            mediaHtml = `<img loading="lazy" src="${photoUrl}" alt="${student}" class="testimonial-photo mb-3">`;
-                        } else {
-                            let colorClass = 'score-gold';
-                            if (score.includes('90') || score.includes('8') || score.includes('7.5')) colorClass = 'score-pink';
-                            mediaHtml = `
-                                <div class="score-placeholder-wrapper" style="height: 180px;">
-                                    <div class="score-placeholder ${colorClass}">${score}</div>
-                                </div>`;
-                        }
-
-                        const videoBtnHtml = test.videoUrl ? `<br><button class="btn btn-sm btn-outline-info mt-3 fw-bold play-video-btn" data-video="${test.videoUrl}"><i class="fa-solid fa-play me-2"></i>Watch Video</button>` : '';
-                        
-                        const testimonialHtml = `
-                            <div class="col-md-4">
-                                <div class="testimonial-card reveal reveal-delay-1 text-center">
-                                    <div class="testimonial-badge">${score}</div>
-                                    ${mediaHtml}
-                                    <p class="mt-3">&ldquo;${review}&rdquo;</p>
-                                    <h5 class="fw-bold">&mdash; ${student}</h5>
-                                    ${videoBtnHtml}
-                                </div>
-                            </div>`;
-                        container.insertAdjacentHTML('beforeend', testimonialHtml);
-                        
-                        const newElement = container.lastElementChild.querySelector('.reveal');
-                        if (window.revealObserver && newElement) window.revealObserver.observe(newElement);
-                    });
-
-                    // Video Modal Triggers
-                    document.querySelectorAll('.play-video-btn').forEach(btn => {
-                        btn.addEventListener('click', (e) => {
-                            let videoUrl = e.currentTarget.getAttribute('data-video');
-                            if (videoUrl.includes('watch?v=')) videoUrl = videoUrl.replace('watch?v=', 'embed/');
-                            const iframe = document.getElementById('videoIframe');
-                            if (iframe) {
-                                iframe.src = videoUrl;
-                                new bootstrap.Modal(document.getElementById('videoModal')).show();
-                            }
-                        });
-                    });
-                }
-            } catch (e) { 
-                console.error("CMS Error:", e);
-            }
+        // The Home Page now uses its high-end static Success Stories to maintain premium design.
+        // Dynamic admin-added results are displayed exclusively on the Testimonials/Results page.
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Keep Video Modal Logic for static videos if any
+            document.querySelectorAll('.play-video-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    let videoUrl = e.currentTarget.getAttribute('data-video');
+                    if (videoUrl.includes('watch?v=')) videoUrl = videoUrl.replace('watch?v=', 'embed/');
+                    const iframe = document.getElementById('videoIframe');
+                    if (iframe) {
+                        iframe.src = videoUrl;
+                        new bootstrap.Modal(document.getElementById('videoModal')).show();
+                    }
+                });
+            });
         });
 
         // Reset video modal on close

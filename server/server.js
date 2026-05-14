@@ -178,7 +178,7 @@ app.post('/api/recover-access', async (req, res) => {
             return res.status(401).json({ error: 'Invalid master recovery key' });
         }
 
-        admin.username = newUsername;
+        admin.username = newUsername.trim().toLowerCase();
         admin.passwordHash = hashPassword(newPassword);
         await admin.save();
 

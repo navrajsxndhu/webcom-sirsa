@@ -294,9 +294,29 @@ async function migrateDataIfNeeded() {
 
             // 2. Migrate Staff to individual documents
             if (staff && staff.length > 0) {
-                await Staff.deleteMany({});
-                await Staff.insertMany(staff);
+                for (const member of staff) {
+                    await Staff.updateOne(
+                        { name: member.name },
+                        { $set: member },
+                        { upsert: true }
+                    );
+                }
             }
+            
+            // Always ensure Shipra Miglani exists as Director
+            await Staff.updateOne(
+                { name: "Shipra Miglani" },
+                { 
+                    $setOnInsert: { 
+                        name: "Shipra Miglani",
+                        role: "Founder & Director",
+                        bio: "A visionary educator dedicated to empowering students with world-class language training and personal mentorship.",
+                        photo: "https://yt3.googleusercontent.com/rzYRjcNBOX1EVxYGyolcKjwiknQgnEXTeDaftq4CRi8L21E36d4IJ4PCV7nF99J8Cz5YZDaN-2s=s900-c-k-c0x00ffffff-no-rj",
+                        order: -1 // Keep her at the very top
+                    } 
+                },
+                { upsert: true }
+            );
 
             // 3. Migrate Testimonials to individual documents
             if (testimonials && testimonials.length > 0) {

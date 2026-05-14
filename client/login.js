@@ -15,11 +15,9 @@ document.addEventListener('DOMContentLoaded', () => {
             loginBtn.disabled = true;
 
             try {
-                const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+                const API_BASE = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
                                 ? 'http://localhost:5000/api' 
-                                : (window.location.origin.includes('vercel.app') 
-                                    ? 'https://webcom-sirsa.onrender.com/api' 
-                                    : window.location.origin + '/api');
+                                : 'https://webcom-sirsa.onrender.com/api';
                 const apiUrl = API_BASE + '/login';
 
                 const response = await fetch(apiUrl, {
@@ -92,11 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
             };
 
             try {
-                const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
-                    ? 'http://localhost:5000/api' 
-                    : (window.location.origin.includes('vercel.app') 
-                        ? 'https://webcom-sirsa.onrender.com/api' 
-                        : window.location.origin + '/api');
+                const API_BASE = 'https://webcom-sirsa.onrender.com/api';
                 const apiUrl = API_BASE + '/recover-access';
 
                 const res = await fetch(apiUrl, {
